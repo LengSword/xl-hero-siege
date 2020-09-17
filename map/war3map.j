@@ -5299,7 +5299,7 @@ function Trig_Special2Stop_Actions takes nothing returns nothing
 	call ResumeMusic()
 	call DisableTrigger(GetTriggeringTrigger())
 	call TriggerSleepAction(3.)
-	if( (IsTriggerEnabled(udg_trigger59)) ) then // INLINED!!
+	if( (IsTriggerEnabled(udg_trigger59) or(IsTriggerEnabled(udg_trigger87))) ) then // INLINED!!
 		call CreateTimerDialogBJ(udg_timer02, "特殊事件:")
 		call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 		set udg_timerdialog02 = bj_lastCreatedTimerDialog
@@ -5646,7 +5646,7 @@ function Trig_Special3Stop_Actions takes nothing returns nothing
 	call ResumeMusic()
 	call DisableTrigger(GetTriggeringTrigger())
 	call TriggerSleepAction(2)
-	if( (IsTriggerEnabled(udg_trigger59)) ) then // INLINED!!
+	if( (IsTriggerEnabled(udg_trigger59) or(IsTriggerEnabled(udg_trigger87))) ) then // INLINED!!
 		call CreateTimerDialogBJ(udg_timer02, "特殊事件:")
 		call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 		set udg_timerdialog02 = bj_lastCreatedTimerDialog
