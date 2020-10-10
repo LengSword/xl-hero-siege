@@ -57,8 +57,8 @@ globals
 	constant boolean LIBRARY_YDWEGetUnitsOfPlayerAllNull = true
 	//endglobals from YDWEGetUnitsOfPlayerAllNull
 	// User-defined
-	integer array udg_integers01
-	integer array udg_integers02
+	integer array udg_DarkUnit
+	integer array udg_SpecialUnit
 	rect array udg_rects01
 	integer udg_integer01 = 0
 	boolean array udg_booleans01
@@ -83,14 +83,14 @@ globals
 	integer array udg_integers08
 	timer udg_timer04 = null
 	timerdialog udg_timerdialog03 = null
-	integer array udg_integers09
+	integer array udg_WaveUnit
 	integer udg_integer03 = 0
 	integer array udg_integers10
 	integer udg_integer04 = 0
 	quest array udg_quests01
 	integer udg_integer05 = 0
 	integer array udg_integers11
-	integer array udg_integers12
+	integer array udg_HeroesType
 	dialog udg_dialog01 = null
 	button udg_button01 = null
 	dialog udg_dialog02 = null
@@ -106,13 +106,13 @@ globals
 	effect array udg_effects01
 	integer array udg_integers13
 	timer udg_timer05 = null
-	integer array udg_integers14
-	integer array udg_integers15
+	integer array udg_DarkHero
+	integer array udg_DarkHeroAbility
 	timer udg_timer06 = null
 	group udg_group02 = null
 	group udg_group07 = null
 	integer udg_integer06 = 0
-	integer udg_integer07 = 0
+	integer udg_Difficulty = 0
 	group udg_group03 = null
 	group udg_group04 = null
 	dialog udg_dialog03 = null
@@ -125,7 +125,7 @@ globals
 	location array udg_locations02
 	boolean array udg_booleans04
 	boolean udg_boolean02 = false
-	location udg_location01 = null
+	location udg_TempPoint = null
 	group udg_group05 = null
 	location udg_location02 = null
 	location tempPoint = null
@@ -878,14 +878,14 @@ function InitGlobals takes nothing returns nothing
 	set i = 0
 	loop
 	exitwhen(i > 1)
-		set udg_integers01[i]= 0
+		set udg_DarkUnit[i]= 0
 		set i = i + 1
 	endloop
 	
 	set i = 0
 	loop
 	exitwhen(i > 1)
-		set udg_integers02[i]= 0
+		set udg_SpecialUnit[i]= 0
 		set i = i + 1
 	endloop
 	
@@ -961,7 +961,7 @@ function InitGlobals takes nothing returns nothing
 	set i = 0
 	loop
 	exitwhen(i > 1)
-		set udg_integers09[i]= 0
+		set udg_WaveUnit[i]= 0
 		set i = i + 1
 	endloop
 	
@@ -985,7 +985,7 @@ function InitGlobals takes nothing returns nothing
 	set i = 0
 	loop
 	exitwhen(i > 1)
-		set udg_integers12[i]= 0
+		set udg_HeroesType[i]= 0
 		set i = i + 1
 	endloop
 	
@@ -1018,14 +1018,14 @@ function InitGlobals takes nothing returns nothing
 	set i = 0
 	loop
 	exitwhen(i > 1)
-		set udg_integers14[i]= 0
+		set udg_DarkHero[i]= 0
 		set i = i + 1
 	endloop
 	
 	set i = 0
 	loop
 	exitwhen(i > 1)
-		set udg_integers15[i]= 0
+		set udg_DarkHeroAbility[i]= 0
 		set i = i + 1
 	endloop
 	
@@ -1033,7 +1033,7 @@ function InitGlobals takes nothing returns nothing
 	set udg_group02 = CreateGroup()
 	set udg_group07 = CreateGroup()
 	set udg_integer06 = 0
-	set udg_integer07 = 1
+	set udg_Difficulty = 1
 	set udg_group03 = CreateGroup()
 	set udg_group04 = CreateGroup()
 	set udg_dialog03 = DialogCreate()
@@ -1249,78 +1249,81 @@ function Unit000093_DropItems takes nothing returns nothing
 endfunction
 
 function Trig_Units_Actions takes nothing returns nothing
-	set udg_integers01[1]='ugho'
-	set udg_integers01[2]='ucry'
-	set udg_integers01[3]='unec'
-	set udg_integers01[4]='uabo'
-	set udg_integers01[5]='ufro'
-	set udg_integers01[6]='ogru'
-	set udg_integers01[7]='ohun'
-	set udg_integers01[8]='oshm'
-	set udg_integers01[9]='otau'
-	set udg_integers01[10]='okod'
-	set udg_integers01[11]='earc'
-	set udg_integers01[12]='esen'
-	set udg_integers01[13]='edoc'
-	set udg_integers01[14]='echm'
-	set udg_integers01[15]='emtg'
-	set udg_integers01[16]='hfoo'
-	set udg_integers01[17]='hrif'
-	set udg_integers01[18]='hmpr'
-	set udg_integers01[19]='hkni'
-	set udg_integers01[20]='hspt'
-	set udg_integers14[1]='Uear'
-	set udg_integers14[2]='Othr'
-	set udg_integers14[3]='Ekgg'
-	set udg_integers14[4]='Hlgr'
-	set udg_integers02[1]='nmmu'
-	set udg_integers02[2]='nowb'
-	set udg_integers02[3]='ngst'
-	set udg_integers02[4]='nfpu'
-	set udg_integers02[5]='ncnk'
-	set udg_integers02[6]='nrzg'
-	set udg_integers02[7]='nrvi'
-	set udg_integers02[8]='ntkc'
-	set udg_integers02[9]='nsth'
-	set udg_integers02[10]='nogl'
-	set udg_integers09[1]='uktn'
-	set udg_integers09[2]='nnsw'
-	set udg_integers09[3]='nwat'
-	set udg_integers09[4]='hcth'
-	set udg_integers09[5]='nmyr'
-	set udg_integers09[6]='nchr'
-	set udg_integers09[7]='ensh'
-	set udg_integers09[8]='zcso'
-	set udg_integers09[9]='uswb'
-	set udg_integers09[10]='odkt'
-	set udg_integers09[11]='nssn'
-	set udg_integers09[12]='nbel'
-	set udg_integers12[1]='Hpal'
-	set udg_integers12[2]='Obla'
-	set udg_integers12[3]='Oshd'
-	set udg_integers12[4]='Otch'
-	set udg_integers12[5]='Emoo'
-	set udg_integers12[6]='Harf'
-	set udg_integers12[7]='Nbst'
-	set udg_integers12[8]='Udre'
-	set udg_integers12[9]='Ulic'
-	set udg_integers12[10]='Ucrl'
-	set udg_integers12[11]='Nplh'
-	set udg_integers12[12]='N00W'
-	set udg_integers12[13]='Npbm'
-	set udg_integers12[14]='Nklj'
-	set udg_integers12[15]='Hamg'
-	set udg_integers12[16]='H002'
-	set udg_integers12[17]='Hblm'
-	set udg_integers12[18]='Hvwd'
-	set udg_integers12[19]='Ewar'
-	set udg_integers12[20]='Edem'
-	set udg_integers12[21]='H000'
-	set udg_integers12[22]='H007'
-	set udg_integers12[23]='Hjai'
-	set udg_integers12[24]='H009'
-	set udg_integers12[25]='Hmkg'
-	set udg_integers12[26]='H008'
+	set udg_DarkUnit[1]='ugho'
+	set udg_DarkUnit[2]='ucry'
+	set udg_DarkUnit[3]='unec'
+	set udg_DarkUnit[4]='uabo'
+	set udg_DarkUnit[5]='ufro'
+	set udg_DarkUnit[6]='ogru'
+	set udg_DarkUnit[7]='ohun'
+	set udg_DarkUnit[8]='oshm'
+	set udg_DarkUnit[9]='otau'
+	set udg_DarkUnit[10]='okod'
+	set udg_DarkUnit[11]='earc'
+	set udg_DarkUnit[12]='esen'
+	set udg_DarkUnit[13]='edoc'
+	set udg_DarkUnit[14]='echm'
+	set udg_DarkUnit[15]='emtg'
+	set udg_DarkUnit[16]='hfoo'
+	set udg_DarkUnit[17]='hrif'
+	set udg_DarkUnit[18]='hmpr'
+	set udg_DarkUnit[19]='hkni'
+	set udg_DarkUnit[20]='hspt'
+	set udg_DarkHero[1]='Uear'
+	set udg_DarkHero[2]='Othr'
+	set udg_DarkHero[3]='Ekgg'
+	set udg_DarkHero[4]='Hlgr'
+	set udg_SpecialUnit[1]='nmmu'
+	set udg_SpecialUnit[2]='nowb'
+	set udg_SpecialUnit[3]='ngst'
+	set udg_SpecialUnit[4]='nfpu'
+	set udg_SpecialUnit[5]='ncnk'
+	set udg_SpecialUnit[6]='nrzg'
+	set udg_SpecialUnit[7]='nrvi'
+	set udg_SpecialUnit[8]='ntkc'
+	set udg_SpecialUnit[9]='nsth'
+	set udg_SpecialUnit[10]='nogl'
+	set udg_WaveUnit[1]='uktn'
+	set udg_WaveUnit[2]='nnsw'
+	set udg_WaveUnit[3]='nwat'
+	set udg_WaveUnit[4]='hcth'
+	set udg_WaveUnit[5]='nmyr'
+	set udg_WaveUnit[6]='nchr'
+	set udg_WaveUnit[7]='ensh'
+	set udg_WaveUnit[8]='zcso'
+	set udg_WaveUnit[9]='uswb'
+	set udg_WaveUnit[10]='odkt'
+	set udg_WaveUnit[11]='nssn'
+	set udg_WaveUnit[12]='nbel'
+	set udg_HeroesType[1]='Hpal'
+	set udg_HeroesType[2]='Obla'
+	set udg_HeroesType[3]='Oshd'
+	set udg_HeroesType[4]='Oshe'
+	set udg_HeroesType[5]='Otch'
+	set udg_HeroesType[6]='Emoo'
+	set udg_HeroesType[7]='Harf'
+	set udg_HeroesType[8]='Nbst'
+	set udg_HeroesType[9]='Nbsb'
+	set udg_HeroesType[10]='Udre'
+	set udg_HeroesType[11]='Ulic'
+	set udg_HeroesType[12]='Ucrl'
+	set udg_HeroesType[13]='Nplh'
+	set udg_HeroesType[14]='N00W'
+	set udg_HeroesType[15]='Npbm'
+	set udg_HeroesType[16]='Nklj'
+	set udg_HeroesType[17]='Hamg'
+	set udg_HeroesType[18]='H002'
+	set udg_HeroesType[19]='O00B'
+	set udg_HeroesType[20]='Hblm'
+	set udg_HeroesType[21]='Hvwd'
+	set udg_HeroesType[22]='Ewar'
+	set udg_HeroesType[23]='Edem'
+	set udg_HeroesType[24]='H000'
+	set udg_HeroesType[25]='H007'
+	set udg_HeroesType[26]='Hjai'
+	set udg_HeroesType[27]='H009'
+	set udg_HeroesType[28]='Hmkg'
+	set udg_HeroesType[29]='H008'
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -1473,39 +1476,39 @@ function Trig_Heroes_Func014002 takes nothing returns nothing
 endfunction
 
 function Trig_Heroes_Actions takes nothing returns nothing
-	set udg_location01 = GetRectCenter(udg_rect22)
+	set udg_TempPoint = GetRectCenter(udg_rect22)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 20
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call CreateNUnitsAtLoc(1, udg_integers01[bj_forLoopAIndex], Player(11), udg_location01, .0)
+		call CreateNUnitsAtLoc(1, udg_DarkUnit[bj_forLoopAIndex], Player(11), udg_TempPoint, .0)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 4
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call CreateNUnitsAtLoc(1, udg_integers14[bj_forLoopAIndex], Player(11), udg_location01, .0)
+		call CreateNUnitsAtLoc(1, udg_DarkHero[bj_forLoopAIndex], Player(11), udg_TempPoint, .0)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	set udg_location01 = GetRectCenter(udg_rect14)
+	set udg_TempPoint = GetRectCenter(udg_rect14)
 	set bj_forLoopAIndex = 1
-	set bj_forLoopAIndexEnd = 16
+	set bj_forLoopAIndexEnd = 19
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call CreateNUnitsAtLocFacingLocBJ(1, 'e007', Player(8), PolarProjectionBJ(udg_location01, 705., ( -22.5 + (I2R(bj_forLoopAIndex) * 22.5) )), udg_location01)
-		call CreateNUnitsAtLocFacingLocBJ(1, udg_integers12[bj_forLoopAIndex], Player(8), PolarProjectionBJ(udg_location01, 705., ( -22.5 + (I2R(bj_forLoopAIndex) * 22.5) )), udg_location01)
+		call CreateNUnitsAtLocFacingLocBJ(1, 'e007', Player(8), PolarProjectionBJ(udg_TempPoint, 715., ( -18.95 + (I2R(bj_forLoopAIndex) * 18.95) )), udg_TempPoint)
+		call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[bj_forLoopAIndex], Player(8), PolarProjectionBJ(udg_TempPoint, 715., ( -18.95 + (I2R(bj_forLoopAIndex) * 18.95) )), udg_TempPoint)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 10
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call CreateNUnitsAtLocFacingLocBJ(1, 'e007', Player(8), PolarProjectionBJ(udg_location01, 410., ( -36. + (I2R(bj_forLoopAIndex) * 36.) )), udg_location01)
-		call CreateNUnitsAtLocFacingLocBJ(1, udg_integers12[(bj_forLoopAIndex + 16)], Player(8), PolarProjectionBJ(udg_location01, 410., ( -36. + (I2R(bj_forLoopAIndex) * 36.) )), udg_location01)
+		call CreateNUnitsAtLocFacingLocBJ(1, 'e007', Player(8), PolarProjectionBJ(udg_TempPoint, 410., ( -36. + (I2R(bj_forLoopAIndex) * 36.) )), udg_TempPoint)
+		call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[(bj_forLoopAIndex + 19)], Player(8), PolarProjectionBJ(udg_TempPoint, 410., ( -36. + (I2R(bj_forLoopAIndex) * 36.) )), udg_TempPoint)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	call RemoveLocation(udg_location01)
+	call RemoveLocation(udg_TempPoint)
 	set udg_group05 = YDWEGetUnitsInRectMatchingNull(udg_rect14 , Condition(function Trig_Heroes_Func008002002))
 	call ForGroupBJ(udg_group05, function Trig_Heroes_Func009002)
 	call ForGroupBJ(udg_group05, function Trig_Heroes_Func010002)
@@ -1690,7 +1693,7 @@ function Trig_OptionsGame_Func007Func002001001 takes nothing returns boolean
 endfunction
 
 function Trig_OptionsGame_Func007C takes nothing returns boolean
-	return(GetPlayerController(Player(0)) == MAP_CONTROL_USER) and(GetPlayerSlotState(Player(0)) == PLAYER_SLOT_STATE_PLAYING) and(CountUnitsInGroup((YDWEGetUnitsInRectMatchingNull((GetWorldBounds()) , null))) == 'x' ) // INLINED!!
+	return(GetPlayerController(Player(0)) == MAP_CONTROL_USER) and(GetPlayerSlotState(Player(0)) == PLAYER_SLOT_STATE_PLAYING) // INLINED!!
 endfunction
 
 function Trig_OptionsGame_Actions takes nothing returns nothing
@@ -1702,7 +1705,7 @@ function Trig_OptionsGame_Actions takes nothing returns nothing
 	call TriggerExecute(udg_trigger127)
 	set bj_wantDestroyGroup = true
 	call ForGroupBJ((YDWEGetUnitsOfPlayerMatchingNull((Player(11)) , null)), function Trig_OptionsGame_Func006002) // INLINED!!
-	if( ((GetPlayerController(Player(0)) == MAP_CONTROL_USER) and(GetPlayerSlotState(Player(0)) == PLAYER_SLOT_STATE_PLAYING) and(CountUnitsInGroup((YDWEGetUnitsInRectMatchingNull((GetWorldBounds()) , null))) == 'x' )) ) then // INLINED!!
+	if( ((GetPlayerController(Player(0)) == MAP_CONTROL_USER) and(GetPlayerSlotState(Player(0)) == PLAYER_SLOT_STATE_PLAYING)) ) then // INLINED!!
 		call EnableTrigger(udg_trigger10)
 		call DisplayTimedTextToForce(YDWEGetPlayersMatchingNull(Condition(function Trig_OptionsGame_Func007Func002001001)), 10., "主机在选择游戏模式，请耐心等待15秒左右")
 		call DialogSetMessage(udg_dialog03, "选择模式")
@@ -1777,16 +1780,16 @@ endfunction
 function Trig_OptionsHeroes_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
 	if( (GetClickedButton() == udg_buttons03[1]) ) then // INLINED!!
-		set udg_integer07 = 2
+		set udg_Difficulty = 2
 	endif
 	if( (GetClickedButton() == udg_buttons03[2]) ) then // INLINED!!
-		set udg_integer07 = 3
+		set udg_Difficulty = 3
 	endif
 	if( (GetClickedButton() == udg_buttons03[3]) ) then // INLINED!!
-		set udg_integer07 = 4
+		set udg_Difficulty = 4
 	endif
 	if( (GetClickedButton() == udg_buttons03[4]) ) then // INLINED!!
-		set udg_integer07 = 5
+		set udg_Difficulty = 5
 	endif
 	call DialogSetMessage(udg_dialog04, "英雄选择模式")
 	call DialogAddButtonBJ(udg_dialog04, "普通模式")
@@ -1836,7 +1839,7 @@ function Trig_ModeRandom_Func010Func001C takes nothing returns boolean
 endfunction
 
 function Trig_ModeRandom_Func010C takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_ModeRandom_Func012Func001Func003002002001 takes nothing returns boolean
@@ -1876,11 +1879,11 @@ function Trig_ModeRandom_Func012Func001C takes nothing returns boolean
 endfunction
 
 function Trig_ModeRandom_Func014001 takes nothing returns boolean
-	return(udg_integer07 == 1)
+	return(udg_Difficulty == 1)
 endfunction
 
 function Trig_ModeRandom_Func015001 takes nothing returns boolean
-	return(udg_integer07 == 5)
+	return(udg_Difficulty == 5)
 endfunction
 
 function Trig_ModeRandom_Actions takes nothing returns nothing
@@ -1895,8 +1898,8 @@ function Trig_ModeRandom_Actions takes nothing returns nothing
 	else
 		call TriggerAddCondition(udg_trigger139, Condition(function Trig_ModeRandom_Func009Func001002))
 	endif
-	if( (udg_integer07 > 1) ) then // INLINED!!
-		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限级别" + I2S((udg_integer07 - 1)) ))
+	if( (udg_Difficulty > 1) ) then // INLINED!!
+		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限级别" + I2S((udg_Difficulty - 1)) ))
 	else
 		if( (udg_boolean04) ) then // INLINED!!
 			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., "|c0061FFFF游戏模式|c00FFFFFF: 简易模式")
@@ -1937,10 +1940,10 @@ function Trig_ModeRandom_Actions takes nothing returns nothing
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	call DestroyGroup(udg_group05)
-	if( (udg_integer07 == 1) ) then // INLINED!!
+	if( (udg_Difficulty == 1) ) then // INLINED!!
 		call DestroyTrigger(udg_trigger15)
 	endif
-	if( (udg_integer07 == 5) ) then // INLINED!!
+	if( (udg_Difficulty == 5) ) then // INLINED!!
 	else
 		call DestroyTrigger(udg_trigger143)
 	endif
@@ -1994,7 +1997,7 @@ function Trig_ModeNormal_Func005Func001C takes nothing returns boolean
 endfunction
 
 function Trig_ModeNormal_Func005C takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_ModeNormal_Func006Func001C takes nothing returns boolean
@@ -2042,11 +2045,11 @@ function Trig_ModeNormal_Func014001 takes nothing returns boolean
 endfunction
 
 function Trig_ModeNormal_Func017001 takes nothing returns boolean
-	return(udg_integer07 == 1)
+	return(udg_Difficulty == 1)
 endfunction
 
 function Trig_ModeNormal_Func018001 takes nothing returns boolean
-	return(udg_integer07 == 5)
+	return(udg_Difficulty == 5)
 endfunction
 
 function Trig_ModeNormal_Actions takes nothing returns nothing
@@ -2057,8 +2060,8 @@ function Trig_ModeNormal_Actions takes nothing returns nothing
 	else
 		call TriggerAddCondition(udg_trigger139, Condition(function Trig_ModeNormal_Func004Func001002))
 	endif
-	if( (udg_integer07 > 1) ) then // INLINED!!
-		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限级别" + I2S((udg_integer07 - 1)) ))
+	if( (udg_Difficulty > 1) ) then // INLINED!!
+		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限级别" + I2S((udg_Difficulty - 1)) ))
 	else
 		if( (udg_boolean04) ) then // INLINED!!
 			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., "|c0061FFFF游戏模式|c00FFFFFF: 简易模式")
@@ -2118,10 +2121,10 @@ function Trig_ModeNormal_Actions takes nothing returns nothing
 	endif
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., "请您选择一名英雄去守护圣域")
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., "选择方式：双击英雄")
-	if( (udg_integer07 == 1) ) then // INLINED!!
+	if( (udg_Difficulty == 1) ) then // INLINED!!
 		call DestroyTrigger(udg_trigger15)
 	endif
-	if( (udg_integer07 == 5) ) then // INLINED!!
+	if( (udg_Difficulty == 5) ) then // INLINED!!
 	else
 		call DestroyTrigger(udg_trigger143)
 	endif
@@ -2132,153 +2135,152 @@ function Trig_ModeNormal_Actions takes nothing returns nothing
 endfunction
 
 function Trig_ModeExtreme_Conditions takes nothing returns boolean
-	return(udg_integer07 >= 2)
+	return(udg_Difficulty >= 2)
 endfunction
 
 function Trig_ModeExtreme_Func005001 takes nothing returns boolean
-	return(udg_integer07 == 2)
+	return(udg_Difficulty == 2)
 endfunction
 
 function Trig_ModeExtreme_Func006001 takes nothing returns boolean
-	return(udg_integer07 == 3)
+	return(udg_Difficulty == 3)
 endfunction
 
 function Trig_ModeExtreme_Func007001 takes nothing returns boolean
-	return(udg_integer07 == 4)
+	return(udg_Difficulty == 4)
 endfunction
 
 function Trig_ModeExtreme_Func008001 takes nothing returns boolean
-	return(udg_integer07 == 5)
+	return(udg_Difficulty == 5)
 endfunction
 
 function Trig_ModeExtreme_Func010001 takes nothing returns boolean
-	return(udg_integer07 == 2)
+	return(udg_Difficulty == 2)
 endfunction
 
 function Trig_ModeExtreme_Func011001 takes nothing returns boolean
-	return(udg_integer07 == 3)
+	return(udg_Difficulty == 3)
 endfunction
 
 function Trig_ModeExtreme_Func012001 takes nothing returns boolean
-	return(udg_integer07 == 4)
+	return(udg_Difficulty == 4)
 endfunction
 
 function Trig_ModeExtreme_Func013001 takes nothing returns boolean
-	return(udg_integer07 == 5)
+	return(udg_Difficulty == 5)
 endfunction
 
 function Trig_ModeExtreme_Func015001001 takes nothing returns boolean
-	return(udg_integer07 == 2)
+	return(udg_Difficulty == 2)
 endfunction
 
 function Trig_ModeExtreme_Func015001002 takes nothing returns boolean
-	return(udg_integer07 == 3)
+	return(udg_Difficulty == 3)
 endfunction
 
 function Trig_ModeExtreme_Func015001 takes nothing returns boolean
-	return GetBooleanOr((udg_integer07 == 2), (udg_integer07 == 3)) // INLINED!!
+	return GetBooleanOr((udg_Difficulty == 2), (udg_Difficulty == 3)) // INLINED!!
 endfunction
 
 function Trig_ModeExtreme_Func016001001 takes nothing returns boolean
-	return(udg_integer07 == 4)
+	return(udg_Difficulty == 4)
 endfunction
 
 function Trig_ModeExtreme_Func016001002 takes nothing returns boolean
-	return(udg_integer07 == 5)
+	return(udg_Difficulty == 5)
 endfunction
 
 function Trig_ModeExtreme_Func016001 takes nothing returns boolean
-	return GetBooleanOr((udg_integer07 == 4), (udg_integer07 == 5)) // INLINED!!
+	return GetBooleanOr((udg_Difficulty == 4), (udg_Difficulty == 5)) // INLINED!!
 endfunction
 
 function Trig_ModeExtreme_Func035002 takes nothing returns nothing
-	call ModifyHeroStat(0, GetEnumUnit(), 0, (udg_integer07 * 500))
+	call ModifyHeroStat(0, GetEnumUnit(), 0, (udg_Difficulty * 500))
 endfunction
 
 function Trig_ModeExtreme_Func036002 takes nothing returns nothing
-	call ModifyHeroStat(1, GetEnumUnit(), 0, (udg_integer07 * 500))
+	call ModifyHeroStat(1, GetEnumUnit(), 0, (udg_Difficulty * 500))
 endfunction
 
 function Trig_ModeExtreme_Func037002 takes nothing returns nothing
-	call ModifyHeroStat(2, GetEnumUnit(), 0, (udg_integer07 * 500))
+	call ModifyHeroStat(2, GetEnumUnit(), 0, (udg_Difficulty * 500))
 endfunction
 
 function Trig_ModeExtreme_Func055A takes nothing returns nothing
-	call ModifyHeroStat(0, GetEnumUnit(), 0, (udg_integer07 * 500))
-	call ModifyHeroStat(1, GetEnumUnit(), 0, (udg_integer07 * 500))
-	call ModifyHeroStat(2, GetEnumUnit(), 0, (udg_integer07 * 500))
+	call ModifyHeroStat(0, GetEnumUnit(), 0, (udg_Difficulty * 500))
+	call ModifyHeroStat(1, GetEnumUnit(), 0, (udg_Difficulty * 500))
+	call ModifyHeroStat(2, GetEnumUnit(), 0, (udg_Difficulty * 500))
 endfunction
 
 function Trig_ModeExtreme_Func059001 takes nothing returns boolean
-	return(udg_integer07 >= 3)
+	return(udg_Difficulty >= 3)
 endfunction
 
 function Trig_ModeExtreme_Func060001 takes nothing returns boolean
-	return(udg_integer07 >= 4)
+	return(udg_Difficulty >= 4)
 endfunction
 
 function Trig_ModeExtreme_Func061001 takes nothing returns boolean
-	return(udg_integer07 >= 5)
+	return(udg_Difficulty >= 5)
 endfunction
 
 function Trig_ModeExtreme_Func062001 takes nothing returns boolean
-	return(udg_integer07 >= 3)
+	return(udg_Difficulty >= 3)
 endfunction
 
 function Trig_ModeExtreme_Func063001 takes nothing returns boolean
-	return(udg_integer07 >= 4)
+	return(udg_Difficulty >= 4)
 endfunction
 
 function Trig_ModeExtreme_Func064001 takes nothing returns boolean
-	return(udg_integer07 >= 5)
+	return(udg_Difficulty >= 5)
 endfunction
 
 function Trig_ModeExtreme_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	if( (udg_integer07 == 2) ) then // INLINED!!
+	if( (udg_Difficulty == 2) ) then // INLINED!!
 		call TriggerRegisterTimerEventPeriodic(udg_trigger39, 15.)
 	endif
-	if( (udg_integer07 == 3) ) then // INLINED!!
+	if( (udg_Difficulty == 3) ) then // INLINED!!
 		call TriggerRegisterTimerEventPeriodic(udg_trigger39, 14.)
 	endif
-	if( (udg_integer07 == 4) ) then // INLINED!!
+	if( (udg_Difficulty == 4) ) then // INLINED!!
 		call TriggerRegisterTimerEventPeriodic(udg_trigger39, 13.)
 	endif
-	if( (udg_integer07 == 5) ) then // INLINED!!
+	if( (udg_Difficulty == 5) ) then // INLINED!!
 		call TriggerRegisterTimerEventPeriodic(udg_trigger39, 12.)
 	endif
-	if( (udg_integer07 == 2) ) then // INLINED!!
+	if( (udg_Difficulty == 2) ) then // INLINED!!
 		call TriggerRegisterTimerEventPeriodic(udg_trigger48, 75.)
 	endif
-	if( (udg_integer07 == 3) ) then // INLINED!!
+	if( (udg_Difficulty == 3) ) then // INLINED!!
 		call TriggerRegisterTimerEventPeriodic(udg_trigger48, 70.)
 	endif
-	if( (udg_integer07 == 4) ) then // INLINED!!
+	if( (udg_Difficulty == 4) ) then // INLINED!!
 		call TriggerRegisterTimerEventPeriodic(udg_trigger48, 65.)
 	endif
-	if( (udg_integer07 == 5) ) then // INLINED!!
+	if( (udg_Difficulty == 5) ) then // INLINED!!
 		call TriggerRegisterTimerEventPeriodic(udg_trigger48, 60.)
 	endif
-	if( (GetBooleanOr((udg_integer07 == 2), (udg_integer07 == 3))) ) then // INLINED!!
+	if( (GetBooleanOr((udg_Difficulty == 2), (udg_Difficulty == 3))) ) then // INLINED!!
 		set udg_integer08 = 2
 	endif
-	if( (GetBooleanOr((udg_integer07 == 4), (udg_integer07 == 5))) ) then // INLINED!!
+	if( (GetBooleanOr((udg_Difficulty == 4), (udg_Difficulty == 5))) ) then // INLINED!!
 		set udg_integer08 = 1
 	endif
-	set udg_integers15[1]='AUdc'
-	set udg_integers15[2]='AOhw'
-	set udg_integers15[3]='AEmb'
-	set udg_integers15[4]='A02R'
-	set udg_integers15[5]='A018'
-	set udg_integers15[6]='AOr2'
-	set udg_integers15[7]='A02Q'
-	set udg_integers15[8]='A02X'
-	set udg_integers15[9]='AUan'
-	set udg_integers15[10]='AOvd'
-	set udg_integers15[11]='AEtq'
-	set udg_integers15[12]='AHre'
-	call UnitAddAbility(udg_unit57, 'A026')
-	call SelectHeroSkill(udg_unit57, 'A026')
+	set udg_DarkHeroAbility[1]='AUdc'
+	set udg_DarkHeroAbility[2]='AOhw'
+	set udg_DarkHeroAbility[3]='AEmb'
+	set udg_DarkHeroAbility[4]='A02R'
+	set udg_DarkHeroAbility[5]='A018'
+	set udg_DarkHeroAbility[6]='AOr2'
+	set udg_DarkHeroAbility[7]='A02Q'
+	set udg_DarkHeroAbility[8]='A02X'
+	set udg_DarkHeroAbility[9]='AUan'
+	set udg_DarkHeroAbility[10]='AOvd'
+	set udg_DarkHeroAbility[11]='AEtq'
+	set udg_DarkHeroAbility[12]='AHre'
+	call UnitAddAbility(udg_unit57, 'A051')
 	set udg_group05 =(YDWEGetUnitsInRectMatchingNull((udg_rect01) , null)) // INLINED!!
 	call ForGroupBJ(udg_group05, function Trig_ModeExtreme_Func035002)
 	call ForGroupBJ(udg_group05, function Trig_ModeExtreme_Func036002)
@@ -2294,12 +2296,12 @@ function Trig_ModeExtreme_Actions takes nothing returns nothing
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	call SelectHeroSkill(udg_unit07, 'AOcr')
-	call ModifyHeroStat(0, udg_unit03, 0, ( (udg_integer07 - 1) * 500))
-	call ModifyHeroStat(1, udg_unit03, 0, ( (udg_integer07 - 1) * 500))
-	call ModifyHeroStat(2, udg_unit03, 0, ( (udg_integer07 - 1) * 500))
-	call ModifyHeroStat(0, udg_unit55, 0, ( (udg_integer07 - 1) * 500))
-	call ModifyHeroStat(1, udg_unit55, 0, ( (udg_integer07 - 1) * 500))
-	call ModifyHeroStat(2, udg_unit55, 0, ( (udg_integer07 - 1) * 500))
+	call ModifyHeroStat(0, udg_unit03, 0, ( (udg_Difficulty - 1) * 500))
+	call ModifyHeroStat(1, udg_unit03, 0, ( (udg_Difficulty - 1) * 500))
+	call ModifyHeroStat(2, udg_unit03, 0, ( (udg_Difficulty - 1) * 500))
+	call ModifyHeroStat(0, udg_unit55, 0, ( (udg_Difficulty - 1) * 500))
+	call ModifyHeroStat(1, udg_unit55, 0, ( (udg_Difficulty - 1) * 500))
+	call ModifyHeroStat(2, udg_unit55, 0, ( (udg_Difficulty - 1) * 500))
 	call GroupClear(udg_group02)
 	call GroupAddUnit(udg_group02, udg_unit49)
 	call GroupAddUnit(udg_group02, udg_unit52)
@@ -2307,22 +2309,22 @@ function Trig_ModeExtreme_Actions takes nothing returns nothing
 	call GroupAddUnit(udg_group02, udg_unit44)
 	call ForGroupBJ(udg_group02, function Trig_ModeExtreme_Func055A)
 	call UnitAddAbility(udg_unit43, 'A016')
-	if( (udg_integer07 >= 3) ) then // INLINED!!
+	if( (udg_Difficulty >= 3) ) then // INLINED!!
 		call SelectHeroSkill(udg_unit51, 'AHhb')
 	endif
-	if( (udg_integer07 >= 4) ) then // INLINED!!
+	if( (udg_Difficulty >= 4) ) then // INLINED!!
 		call SelectHeroSkill(udg_unit51, 'AHhb')
 	endif
-	if( (udg_integer07 >= 5) ) then // INLINED!!
+	if( (udg_Difficulty >= 5) ) then // INLINED!!
 		call SelectHeroSkill(udg_unit51, 'AHhb')
 	endif
-	if( (udg_integer07 >= 3) ) then // INLINED!!
+	if( (udg_Difficulty >= 3) ) then // INLINED!!
 		call SelectHeroSkill(udg_unit51, 'AHds')
 	endif
-	if( (udg_integer07 >= 4) ) then // INLINED!!
+	if( (udg_Difficulty >= 4) ) then // INLINED!!
 		call SelectHeroSkill(udg_unit51, 'AHds')
 	endif
-	if( (udg_integer07 >= 5) ) then // INLINED!!
+	if( (udg_Difficulty >= 5) ) then // INLINED!!
 		call SelectHeroSkill(udg_unit51, 'AHds')
 	endif
 	call DestroyTrigger(udg_trigger123)
@@ -2348,7 +2350,7 @@ function Trig_ModeEasy_Actions takes nothing returns nothing
 	call TriggerAddCondition(udg_trigger137, Condition(function Trig_ModeEasy_Func005002))
 	call SetItemCharges(GetItemOfTypeFromUnitBJ(udg_unit41, 'ankh'), 1)
 	call UnitRemoveAbility(udg_unit51, 'AHds')
-	set udg_integers02[3]='n00Y'
+	set udg_SpecialUnit[3]='n00Y'
 	if( (udg_integer06 == 1) ) then // INLINED!!
 		set udg_boolean02 = true
 		call RemoveUnit(udg_unit52)
@@ -3059,9 +3061,9 @@ function Trig_DualHeroDead_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_DualHeroDead_Actions takes nothing returns nothing
-	set udg_location01 = GetRectCenter(udg_rect14)
+	set udg_TempPoint = GetRectCenter(udg_rect14)
 	set udg_integer11 =(1 + GetPlayerId(GetTriggerPlayer()) )
-	call ReviveHeroLoc(udg_units01[(udg_integer11 + 8)], udg_location01, false)
+	call ReviveHeroLoc(udg_units01[(udg_integer11 + 8)], udg_TempPoint, false)
 	call PauseUnit(udg_units01[(udg_integer11 + 8)], true)
 endfunction
 
@@ -3070,11 +3072,11 @@ function Trig_AttackStart_Func003Func001001 takes nothing returns boolean
 endfunction
 
 function Trig_AttackStart_Func004001 takes nothing returns boolean
-	return(udg_integer07 > 12)
+	return(udg_Difficulty > 12)
 endfunction
 
 function Trig_AttackStart_Func005C takes nothing returns boolean
-	return(udg_integer07 >= 2)
+	return(udg_Difficulty >= 2)
 endfunction
 
 function Trig_AttackStart_Actions takes nothing returns nothing
@@ -3096,12 +3098,12 @@ function Trig_AttackStart_Actions takes nothing returns nothing
 		set udg_integers08[bj_forLoopAIndex]= 0
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_integer07 > 12) ) then // INLINED!!
+	if( (udg_Difficulty > 12) ) then // INLINED!!
 		set udg_integer10 = 12
 	else
-		set udg_integer10 = udg_integer07
+		set udg_integer10 = udg_Difficulty
 	endif
-	if( (udg_integer07 >= 2) ) then // INLINED!!
+	if( (udg_Difficulty >= 2) ) then // INLINED!!
 		call StartTimerBJ(udg_timer05, true, 320.)
 		call StartTimerBJ(udg_timer06, true, 350.)
 		call EnableTrigger(udg_trigger47)
@@ -3171,13 +3173,13 @@ function Trig_AttackCome_Actions takes nothing returns nothing
 		set udg_integers06[bj_forLoopAIndex]=(udg_integers06[bj_forLoopAIndex] + ( (udg_integers08[bj_forLoopAIndex] * 5) -5) )
 		set tempPoint = GetRectCenter(udg_rects01[bj_forLoopAIndex])
 		if( (udg_booleans01[bj_forLoopAIndex]) ) then // INLINED!!
-			call CreateNUnitsAtLocFacingLocBJ(udg_integers07[bj_forLoopAIndex], udg_integers01[udg_integers06[bj_forLoopAIndex]], Player(11), tempPoint, udg_location02)
+			call CreateNUnitsAtLocFacingLocBJ(udg_integers07[bj_forLoopAIndex], udg_DarkUnit[udg_integers06[bj_forLoopAIndex]], Player(11), tempPoint, udg_location02)
 			call GroupPointOrderByIdLoc(GetLastCreatedGroup(), 851983, udg_location02)
-			call CreateNUnitsAtLocFacingLocBJ(udg_integers07[bj_forLoopAIndex], udg_integers01[(udg_integers06[bj_forLoopAIndex] + 1)], Player(11), tempPoint, udg_location02)
+			call CreateNUnitsAtLocFacingLocBJ(udg_integers07[bj_forLoopAIndex], udg_DarkUnit[(udg_integers06[bj_forLoopAIndex] + 1)], Player(11), tempPoint, udg_location02)
 			call GroupPointOrderByIdLoc(GetLastCreatedGroup(), 851983, udg_location02)
 		endif
 		if( ((udg_integers05[bj_forLoopAIndex] > 1) and(udg_booleans01[bj_forLoopAIndex] )) ) then // INLINED!!
-			call CreateNUnitsAtLocFacingLocBJ(udg_integers07[bj_forLoopAIndex], udg_integers01[(udg_integers06[bj_forLoopAIndex] + 2)], Player(11), tempPoint, udg_location02)
+			call CreateNUnitsAtLocFacingLocBJ(udg_integers07[bj_forLoopAIndex], udg_DarkUnit[(udg_integers06[bj_forLoopAIndex] + 2)], Player(11), tempPoint, udg_location02)
 			call GroupPointOrderByIdLoc(GetLastCreatedGroup(), 851983, udg_location02)
 		endif
 		call RemoveLocation(tempPoint)
@@ -3232,7 +3234,7 @@ function Trig_AttackNecropolis_Func014Func006Func001002 takes nothing returns no
 endfunction
 
 function Trig_AttackNecropolis_Func014Func006C takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_AttackNecropolis_Func014C takes nothing returns boolean
@@ -3274,7 +3276,7 @@ function Trig_AttackNecropolis_Actions takes nothing returns nothing
 		call ModifyGateBJ(1, udg_destructable14)
 		call ModifyGateBJ(1, udg_destructable13)
 		call DestroyTimerDialog(udg_timerdialog01)
-		if( (udg_integer07 > 1) ) then // INLINED!!
+		if( (udg_Difficulty > 1) ) then // INLINED!!
 			call ForGroupBJ(udg_group06, function Trig_AttackNecropolis_Func014Func006Func001002)
 			call GroupClear(udg_group06)
 			call DestroyTrigger(udg_trigger51)
@@ -3664,11 +3666,11 @@ function Trig_WaveAttack_Actions takes nothing returns nothing
 		set tempPoint = GetRectCenter(udg_rects03[bj_forLoopAIndex])
 		set tempPoint2 = GetRectCenter(udg_rect11)
 		if( (GetBooleanOr((udg_integer03 == bj_forLoopAIndex), (GetBooleanOr((udg_integer03 == (bj_forLoopAIndex + 4)), (udg_integer03 == (bj_forLoopAIndex + 8)))))) ) then // INLINED!!
-			call CreateNUnitsAtLocFacingLocBJ((5 + udg_integer03), udg_integers09[udg_integer03], Player(10), tempPoint, tempPoint2)
+			call CreateNUnitsAtLocFacingLocBJ((5 + udg_integer03), udg_WaveUnit[udg_integer03], Player(10), tempPoint, tempPoint2)
 			call ForGroupBJ(GetLastCreatedGroup(), function Trig_WaveAttack_Func014Func001Func003002)
 		endif
 		if( ((udg_boolean02 == false) and(GetBooleanOr((udg_integer03 == bj_forLoopAIndex), (GetBooleanOr((udg_integer03 == (bj_forLoopAIndex + 4)), (udg_integer03 == (bj_forLoopAIndex + 8))))) )) ) then // INLINED!!
-			call CreateNUnitsAtLocFacingLocBJ((5 + udg_integer03), udg_integers09[udg_integer03], Player(10), tempPoint, tempPoint2)
+			call CreateNUnitsAtLocFacingLocBJ((5 + udg_integer03), udg_WaveUnit[udg_integer03], Player(10), tempPoint, tempPoint2)
 			call ForGroupBJ(GetLastCreatedGroup(), function Trig_WaveAttack_Func014Func002Func004002)
 		endif
 		call RemoveLocation(tempPoint)
@@ -4194,10 +4196,10 @@ endfunction
 
 function Trig_HeroAttack_Actions takes nothing returns nothing
 	if( (udg_booleans01[udg_integer09]) ) then // INLINED!!
-		call CreateNUnitsAtLocFacingLocBJ(1, udg_integers14[udg_integers08[udg_integer09]], Player(11), GetRectCenter(udg_rects01[udg_integer09]), GetUnitLoc(GetTriggerUnit()))
-		call ModifyHeroStat(0, bj_lastCreatedUnit, 2, (udg_integers05[udg_integer09] * (25 + (udg_integer07 * 25) ) ))
-		call ModifyHeroStat(1, bj_lastCreatedUnit, 2, (udg_integers05[udg_integer09] * (25 + (udg_integer07 * 25) ) ))
-		call ModifyHeroStat(2, bj_lastCreatedUnit, 2, (udg_integers05[udg_integer09] * (25 + (udg_integer07 * 25) ) ))
+		call CreateNUnitsAtLocFacingLocBJ(1, udg_DarkHero[udg_integers08[udg_integer09]], Player(11), GetRectCenter(udg_rects01[udg_integer09]), GetUnitLoc(GetTriggerUnit()))
+		call ModifyHeroStat(0, bj_lastCreatedUnit, 2, (udg_integers05[udg_integer09] * (25 + (udg_Difficulty * 25) ) ))
+		call ModifyHeroStat(1, bj_lastCreatedUnit, 2, (udg_integers05[udg_integer09] * (25 + (udg_Difficulty * 25) ) ))
+		call ModifyHeroStat(2, bj_lastCreatedUnit, 2, (udg_integers05[udg_integer09] * (25 + (udg_Difficulty * 25) ) ))
 		if( (udg_integers05[udg_integer09] == 2) ) then // INLINED!!
 			call SetHeroLevelBJ(bj_lastCreatedUnit, 2, false)
 		endif
@@ -4211,17 +4213,17 @@ function Trig_HeroAttack_Actions takes nothing returns nothing
 		set bj_forLoopAIndexEnd = udg_integers05[udg_integer09]
 		loop
 		exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-			call SelectHeroSkill(bj_lastCreatedUnit, udg_integers15[udg_integers08[udg_integer09]])
+			call SelectHeroSkill(bj_lastCreatedUnit, udg_DarkHeroAbility[udg_integers08[udg_integer09]])
 			set bj_forLoopAIndex = bj_forLoopAIndex + 1
 		endloop
 		set bj_forLoopAIndex = 1
 		set bj_forLoopAIndexEnd = udg_integers05[udg_integer09]
 		loop
 		exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-			call SelectHeroSkill(bj_lastCreatedUnit, udg_integers15[(udg_integers08[udg_integer09] + 4)])
+			call SelectHeroSkill(bj_lastCreatedUnit, udg_DarkHeroAbility[(udg_integers08[udg_integer09] + 4)])
 			set bj_forLoopAIndex = bj_forLoopAIndex + 1
 		endloop
-		call SelectHeroSkill(bj_lastCreatedUnit, udg_integers15[(udg_integers08[udg_integer09] + 8)])
+		call SelectHeroSkill(bj_lastCreatedUnit, udg_DarkHeroAbility[(udg_integers08[udg_integer09] + 8)])
 		call GroupPointOrderByIdLoc((YDWEGetUnitsInRectMatchingNull((udg_rects01[udg_integer09]) , null)), 851983, GetRectCenter(udg_rect11)) // INLINED!!
 	endif
 	call TriggerSleepAction(.1)
@@ -4246,27 +4248,27 @@ function Trig_LightningAttack_Func003001 takes nothing returns boolean
 endfunction
 
 function Trig_LightningAttack_Func008001 takes nothing returns boolean
-	return(udg_integer07 == 2)
+	return(udg_Difficulty == 2)
 endfunction
 
 function Trig_LightningAttack_Func009001 takes nothing returns boolean
-	return(udg_integer07 == 2)
+	return(udg_Difficulty == 2)
 endfunction
 
 function Trig_LightningAttack_Func017001 takes nothing returns boolean
-	return(udg_integer07 == 3)
+	return(udg_Difficulty == 3)
 endfunction
 
 function Trig_LightningAttack_Func018001 takes nothing returns boolean
-	return(udg_integer07 == 3)
+	return(udg_Difficulty == 3)
 endfunction
 
 function Trig_LightningAttack_Func026001 takes nothing returns boolean
-	return(udg_integer07 == 4)
+	return(udg_Difficulty == 4)
 endfunction
 
 function Trig_LightningAttack_Func027001 takes nothing returns boolean
-	return(udg_integer07 == 4)
+	return(udg_Difficulty == 4)
 endfunction
 
 function Trig_LightningAttack_Actions takes nothing returns nothing
@@ -4289,10 +4291,10 @@ function Trig_LightningAttack_Actions takes nothing returns nothing
 	call TriggerSleepAction(1.)
 	call IssueTargetOrderById(udg_unit57, 852119, GroupPickRandomUnit(udg_group07))
 	call AddSpecialEffectLocBJ(GetUnitLoc(udg_unit57), "Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl")
-	if( (udg_integer07 == 2) ) then // INLINED!!
+	if( (udg_Difficulty == 2) ) then // INLINED!!
 		call GroupClear(udg_group07)
 	endif
-	if( (udg_integer07 == 2) ) then // INLINED!!
+	if( (udg_Difficulty == 2) ) then // INLINED!!
 		return
 	endif
 	call TriggerSleepAction(1.)
@@ -4301,10 +4303,10 @@ function Trig_LightningAttack_Actions takes nothing returns nothing
 	call TriggerSleepAction(1.)
 	call IssueTargetOrderById(udg_unit57, 852119, GroupPickRandomUnit(udg_group07))
 	call AddSpecialEffectLocBJ(GetUnitLoc(udg_unit57), "Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl")
-	if( (udg_integer07 == 3) ) then // INLINED!!
+	if( (udg_Difficulty == 3) ) then // INLINED!!
 		call GroupClear(udg_group07)
 	endif
-	if( (udg_integer07 == 3) ) then // INLINED!!
+	if( (udg_Difficulty == 3) ) then // INLINED!!
 		return
 	endif
 	call TriggerSleepAction(1.)
@@ -4313,10 +4315,10 @@ function Trig_LightningAttack_Actions takes nothing returns nothing
 	call TriggerSleepAction(1.)
 	call IssueTargetOrderById(udg_unit57, 852119, GroupPickRandomUnit(udg_group07))
 	call AddSpecialEffectLocBJ(GetUnitLoc(udg_unit57), "Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl")
-	if( (udg_integer07 == 4) ) then // INLINED!!
+	if( (udg_Difficulty == 4) ) then // INLINED!!
 		call GroupClear(udg_group07)
 	endif
-	if( (udg_integer07 == 4) ) then // INLINED!!
+	if( (udg_Difficulty == 4) ) then // INLINED!!
 		return
 	endif
 	call TriggerSleepAction(1.)
@@ -4475,18 +4477,18 @@ function Trig_Survival1Start_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Survival1Attack_Func002Func003Func001001 takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Survival1Attack_Func002Func003Func002001 takes nothing returns boolean
-	return(udg_integer07 > 3)
+	return(udg_Difficulty > 3)
 endfunction
 
 function Trig_Survival1Attack_Func002Func003A takes nothing returns nothing
-	if( (udg_integer07 > 1) ) then // INLINED!!
+	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACac')
 	endif
-	if( (udg_integer07 > 3) ) then // INLINED!!
+	if( (udg_Difficulty > 3) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACvp')
 	endif
 	call IssuePointOrderByIdLoc(GetEnumUnit(), 851983, GetRectCenter(udg_rect11))
@@ -4505,18 +4507,18 @@ function Trig_Survival1Attack_Func003Func001002 takes nothing returns boolean
 endfunction
 
 function Trig_Survival1Attack_Func003Func004Func001001 takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Survival1Attack_Func003Func004Func002001 takes nothing returns boolean
-	return(udg_integer07 > 3)
+	return(udg_Difficulty > 3)
 endfunction
 
 function Trig_Survival1Attack_Func003Func004A takes nothing returns nothing
-	if( (udg_integer07 > 1) ) then // INLINED!!
+	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACac')
 	endif
-	if( (udg_integer07 > 3) ) then // INLINED!!
+	if( (udg_Difficulty > 3) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACvp')
 	endif
 	call IssuePointOrderByIdLoc(GetEnumUnit(), 851983, GetRectCenter(udg_rect11))
@@ -4587,38 +4589,38 @@ function Trig_Survival2Start_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Survival2Attack_Func002Func003Func002Func002001 takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Survival2Attack_Func002Func003Func002Func003001 takes nothing returns boolean
-	return(udg_integer07 > 3)
+	return(udg_Difficulty > 3)
 endfunction
 
 function Trig_Survival2Attack_Func002Func003Func002A takes nothing returns nothing
 	call UnitAddAbility(GetEnumUnit(), 'ACac')
-	if( (udg_integer07 > 1) ) then // INLINED!!
+	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'AItj')
 	endif
-	if( (udg_integer07 > 3) ) then // INLINED!!
+	if( (udg_Difficulty > 3) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACav')
 	endif
 	call IssuePointOrderByIdLoc(GetEnumUnit(), 851983, GetRectCenter(udg_rect38))
 endfunction
 
 function Trig_Survival2Attack_Func002Func006Func002Func002001 takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Survival2Attack_Func002Func006Func002Func003001 takes nothing returns boolean
-	return(udg_integer07 > 3)
+	return(udg_Difficulty > 3)
 endfunction
 
 function Trig_Survival2Attack_Func002Func006Func002A takes nothing returns nothing
 	call UnitAddAbility(GetEnumUnit(), 'ACac')
-	if( (udg_integer07 > 1) ) then // INLINED!!
+	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACvp')
 	endif
-	if( (udg_integer07 > 3) ) then // INLINED!!
+	if( (udg_Difficulty > 3) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACav')
 	endif
 	call IssuePointOrderByIdLoc(GetEnumUnit(), 851983, GetRectCenter(udg_rect38))
@@ -4644,9 +4646,9 @@ function Trig_Survival2Attack_Actions takes nothing returns nothing
 		call TriggerSleepAction(10.)
 		call ModifyGateBJ(1, udg_destructable10)
 		call ModifyGateBJ(1, udg_destructable11)
-		call ModifyHeroStat(0, udg_unit42, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
-		call ModifyHeroStat(1, udg_unit42, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
-		call ModifyHeroStat(2, udg_unit42, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
+		call ModifyHeroStat(0, udg_unit42, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
+		call ModifyHeroStat(1, udg_unit42, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
+		call ModifyHeroStat(2, udg_unit42, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
 		call EnableTrigger(udg_trigger96)
 		call EnableTrigger(udg_trigger97)
 		call EnableTrigger(udg_trigger98)
@@ -4727,38 +4729,38 @@ function Trig_Survival3Start_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Survival3Attack_Func002Func003Func002Func002001 takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Survival3Attack_Func002Func003Func002Func003001 takes nothing returns boolean
-	return(udg_integer07 > 3)
+	return(udg_Difficulty > 3)
 endfunction
 
 function Trig_Survival3Attack_Func002Func003Func002A takes nothing returns nothing
 	call UnitAddAbility(GetEnumUnit(), 'SCae')
-	if( (udg_integer07 > 1) ) then // INLINED!!
+	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACah')
 	endif
-	if( (udg_integer07 > 3) ) then // INLINED!!
+	if( (udg_Difficulty > 3) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACav')
 	endif
 	call IssuePointOrderByIdLoc(GetEnumUnit(), 851983, GetRectCenter(udg_rect38))
 endfunction
 
 function Trig_Survival3Attack_Func002Func006Func002Func002001 takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Survival3Attack_Func002Func006Func002Func003001 takes nothing returns boolean
-	return(udg_integer07 > 3)
+	return(udg_Difficulty > 3)
 endfunction
 
 function Trig_Survival3Attack_Func002Func006Func002A takes nothing returns nothing
 	call UnitAddAbility(GetEnumUnit(), 'ACac')
-	if( (udg_integer07 > 1) ) then // INLINED!!
+	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACvp')
 	endif
-	if( (udg_integer07 > 3) ) then // INLINED!!
+	if( (udg_Difficulty > 3) ) then // INLINED!!
 		call UnitAddAbility(GetEnumUnit(), 'ACav')
 	endif
 	call IssuePointOrderByIdLoc(GetEnumUnit(), 851983, GetRectCenter(udg_rect38))
@@ -4875,7 +4877,7 @@ function Trig_Special1Start_Actions takes nothing returns nothing
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
 		set tempPoint = GetRectCenter(udg_rects02[bj_forLoopAIndex])
-		call CreateNUnitsAtLocFacingLocBJ(10, udg_integers02[udg_integers04[bj_forLoopAIndex]], Player(9), tempPoint, GetUnitLoc(GetTriggerUnit()))
+		call CreateNUnitsAtLocFacingLocBJ(10, udg_SpecialUnit[udg_integers04[bj_forLoopAIndex]], Player(9), tempPoint, GetUnitLoc(GetTriggerUnit()))
 		call PauseUnit(udg_units01[bj_forLoopAIndex], false)
 		call RemoveLocation(tempPoint)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -4902,7 +4904,7 @@ function Trig_Special1Attack_Actions takes nothing returns nothing
 			set udg_integers04[udg_integer04]= 1
 		endif
 		set tempPoint = GetRectCenter(udg_rects02[udg_integer04])
-		call CreateNUnitsAtLocFacingLocBJ(10, udg_integers02[udg_integers04[udg_integer04]], Player(9), tempPoint, GetUnitLoc(GetTriggerUnit()))
+		call CreateNUnitsAtLocFacingLocBJ(10, udg_SpecialUnit[udg_integers04[udg_integer04]], Player(9), tempPoint, GetUnitLoc(GetTriggerUnit()))
 		call RemoveLocation(tempPoint)
 	endif
 endfunction
@@ -5906,10 +5908,10 @@ function Trig_SpecialXExit_Actions takes nothing returns nothing
 	else
 		call DestroyTrigger(udg_trigger38)
 	endif
-	if( (CountUnitsInGroup((YDWEGetUnitsInRectMatchingNull((GetWorldBounds()) , null))) == 144) ) then // INLINED!!
-	else
-		call DestroyTrigger(udg_trigger118)
-	endif
+	// if( (CountUnitsInGroup((YDWEGetUnitsInRectMatchingNull((GetWorldBounds()) , null))) == 144) ) then // INLINED!!
+	// else
+	// 	call DestroyTrigger(udg_trigger118)
+	// endif
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -5970,14 +5972,14 @@ function Trig_SpecialXRevive_Actions takes nothing returns nothing
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
 		if( ((IsUnitDeadBJ(udg_units01[bj_forLoopAIndex]) ) and(GetPlayerSlotState(Player(-1 + (bj_forLoopAIndex))) == PLAYER_SLOT_STATE_PLAYING)) ) then // INLINED!!
-			set udg_location01 = GetRectCenter(udg_rect33)
-			call ReviveHeroLoc(udg_units01[bj_forLoopAIndex], udg_location01, true)
+			set udg_TempPoint = GetRectCenter(udg_rect33)
+			call ReviveHeroLoc(udg_units01[bj_forLoopAIndex], udg_TempPoint, true)
 			call SelectUnitForPlayerSingle(udg_units01[bj_forLoopAIndex], Player(-1 + (bj_forLoopAIndex)))
 			if( (IsUnitAliveBJ(udg_units01[bj_forLoopAIndex])) ) then // INLINED!!
 				call AdjustPlayerStateBJ(-5000, Player(-1 + (bj_forLoopAIndex)), PLAYER_STATE_RESOURCE_GOLD)
 				call UnitAddItemByIdSwapped('ankh', udg_units01[bj_forLoopAIndex])
 			endif
-			call RemoveLocation(udg_location01)
+			call RemoveLocation(udg_TempPoint)
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
@@ -6010,7 +6012,7 @@ function Trig_Special4Agree_Func007Func003002 takes nothing returns nothing
 endfunction
 
 function Trig_Special4Agree_Func007Func015001 takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Special4Agree_Func007Func017001002 takes nothing returns boolean
@@ -6055,7 +6057,7 @@ function Trig_Special4Agree_Actions takes nothing returns nothing
 		call ModifyHeroStat(0, bj_lastCreatedUnit, 2, (4 * GetHeroStatBJ(0, udg_units01[(1 + GetPlayerId(GetTriggerPlayer()) )], true) ))
 		call ModifyHeroStat(1, bj_lastCreatedUnit, 2, (4 * GetHeroStatBJ(1, udg_units01[(1 + GetPlayerId(GetTriggerPlayer()) )], true) ))
 		call ModifyHeroStat(2, bj_lastCreatedUnit, 2, (4 * GetHeroStatBJ(2, udg_units01[(1 + GetPlayerId(GetTriggerPlayer()) )], true) ))
-		if( (udg_integer07 > 1) ) then // INLINED!!
+		if( (udg_Difficulty > 1) ) then // INLINED!!
 			call UnitAddAbility(bj_lastCreatedUnit, 'A01Y')
 		endif
 		call PauseUnit(bj_lastCreatedUnit, true)
@@ -6141,7 +6143,7 @@ function Trig_Special5Agree_Func007Func009Func001C takes nothing returns boolean
 endfunction
 
 function Trig_Special5Agree_Func007Func009Func002001 takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Special5Agree_Func007Func010001002 takes nothing returns boolean
@@ -6192,7 +6194,7 @@ function Trig_Special5Agree_Actions takes nothing returns nothing
 				call ModifyHeroStat(1, bj_lastCreatedUnit, 2, (2 * GetHeroStatBJ(1, udg_units01[bj_forLoopAIndex], true) ))
 				call ModifyHeroStat(2, bj_lastCreatedUnit, 2, (2 * GetHeroStatBJ(2, udg_units01[bj_forLoopAIndex], true) ))
 			else
-				call CreateNUnitsAtLocFacingLocBJ(1, udg_integers12[GetRandomInt(1, 26)], Player(9), PolarProjectionBJ(GetRectCenter(udg_rect25), 300., (45. * I2R(bj_forLoopAIndex) )), GetRectCenter(udg_rect25))
+				call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[GetRandomInt(1, 26)], Player(9), PolarProjectionBJ(GetRectCenter(udg_rect25), 300., (45. * I2R(bj_forLoopAIndex) )), GetRectCenter(udg_rect25))
 				call SetHeroLevelBJ(bj_lastCreatedUnit, GetHeroLevel(udg_units01[(1 + GetPlayerId(GetTriggerPlayer()) )]), false)
 				call ModifyHeroStat(0, bj_lastCreatedUnit, 2, (2 * GetHeroStatBJ(0, udg_units01[(1 + GetPlayerId(GetTriggerPlayer()) )], true) ))
 				call ModifyHeroStat(1, bj_lastCreatedUnit, 2, (2 * GetHeroStatBJ(1, udg_units01[(1 + GetPlayerId(GetTriggerPlayer()) )], true) ))
@@ -6201,7 +6203,7 @@ function Trig_Special5Agree_Actions takes nothing returns nothing
 			if( (GetUnitTypeId(bj_lastCreatedUnit) == 'Hamg') ) then // INLINED!!
 				call UnitRemoveAbility(bj_lastCreatedUnit, 'ACam')
 			endif
-			if( (udg_integer07 > 1) ) then // INLINED!!
+			if( (udg_Difficulty > 1) ) then // INLINED!!
 				call UnitAddAbility(bj_lastCreatedUnit, 'A01Y')
 			endif
 			call PauseUnit(bj_lastCreatedUnit, true)
@@ -6488,14 +6490,14 @@ endfunction
 
 function Trig_Special8Move_Actions takes nothing returns nothing
 	call GroupClear(udg_group01)
-	set udg_location01 = GetRectCenter(udg_rect31)
+	set udg_TempPoint = GetRectCenter(udg_rect31)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
 		set udg_locations01[bj_forLoopAIndex]= GetUnitLoc(udg_units01[bj_forLoopAIndex])
 		set udg_reals01[bj_forLoopAIndex]= GetUnitFacing(udg_units01[bj_forLoopAIndex])
-		call SetUnitPositionLocFacingLocBJ(udg_units01[bj_forLoopAIndex], PolarProjectionBJ(udg_location01, 400., (I2R(bj_forLoopAIndex) * 45.)), udg_location01)
+		call SetUnitPositionLocFacingLocBJ(udg_units01[bj_forLoopAIndex], PolarProjectionBJ(udg_TempPoint, 400., (I2R(bj_forLoopAIndex) * 45.)), udg_TempPoint)
 		call SetUnitLifePercentBJ(udg_units01[bj_forLoopAIndex], 'd')
 		call SetUnitManaPercentBJ(udg_units01[bj_forLoopAIndex], 'd')
 		call UnitRemoveBuffsBJ(2, udg_units01[bj_forLoopAIndex])
@@ -6503,7 +6505,7 @@ function Trig_Special8Move_Actions takes nothing returns nothing
 		call GroupAddUnit(udg_group01, udg_units01[bj_forLoopAIndex])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	call RemoveLocation(udg_location01)
+	call RemoveLocation(udg_TempPoint)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -6805,22 +6807,22 @@ function Trig_Boss1Teleport_Actions takes nothing returns nothing
 	call QuestSetCompleted(udg_quests01[1], true)
 	call EnumItemsInRectBJ(udg_rect02, function Trig_Boss1Teleport_Func006002)
 	call SetUnitPositionLocFacingBJ(udg_unit41, GetRectCenter(udg_rect02), 225.)
-	call ModifyHeroStat(0, udg_unit41, 2, (3000 + (udg_integer07 * (udg_integer06 * 250) ) ))
-	call ModifyHeroStat(1, udg_unit41, 2, (3000 + (udg_integer07 * (udg_integer06 * 250) ) ))
-	call ModifyHeroStat(2, udg_unit41, 2, (3000 + (udg_integer07 * (udg_integer06 * 250) ) ))
-	set udg_location01 = GetRectCenter(udg_rect02)
+	call ModifyHeroStat(0, udg_unit41, 2, (3000 + (udg_Difficulty * (udg_integer06 * 250) ) ))
+	call ModifyHeroStat(1, udg_unit41, 2, (3000 + (udg_Difficulty * (udg_integer06 * 250) ) ))
+	call ModifyHeroStat(2, udg_unit41, 2, (3000 + (udg_Difficulty * (udg_integer06 * 250) ) ))
+	set udg_TempPoint = GetRectCenter(udg_rect02)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call SetUnitPositionLocFacingLocBJ(udg_units01[bj_forLoopAIndex], PolarProjectionBJ(udg_location01, 500., (180. + (45. * I2R(bj_forLoopAIndex) ) )), udg_location01)
-		call CreateFogModifierRadiusLocBJ(true, Player(-1 + (bj_forLoopAIndex)), FOG_OF_WAR_VISIBLE, udg_location01, 1000.)
+		call SetUnitPositionLocFacingLocBJ(udg_units01[bj_forLoopAIndex], PolarProjectionBJ(udg_TempPoint, 500., (180. + (45. * I2R(bj_forLoopAIndex) ) )), udg_TempPoint)
+		call CreateFogModifierRadiusLocBJ(true, Player(-1 + (bj_forLoopAIndex)), FOG_OF_WAR_VISIBLE, udg_TempPoint, 1000.)
 		set udg_fogmodifiers01[bj_forLoopAIndex]= bj_lastCreatedFogModifier
-		call PanCameraToTimedLocForPlayer(Player(-1 + (bj_forLoopAIndex)), udg_location01, 0)
+		call PanCameraToTimedLocForPlayer(Player(-1 + (bj_forLoopAIndex)), udg_TempPoint, 0)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	call PlaySoundAtPointBJ(udg_sound02, 'd', GetRectCenter(udg_rect02), 0)
-	call RemoveLocation(udg_location01)
+	call RemoveLocation(udg_TempPoint)
 	call TriggerSleepAction(3.)
 	call PlaySoundAtPointBJ(udg_sound10, 'd', GetRectCenter(udg_rect02), 0)
 	call AddWeatherEffectSaveLast(udg_rect02, 'RAhr')
@@ -6854,7 +6856,7 @@ function Trig_Boss1Dead_Func004001 takes nothing returns boolean
 endfunction
 
 function Trig_Boss1Dead_Func012C takes nothing returns boolean
-	return(udg_integer07 >= 2)
+	return(udg_Difficulty >= 2)
 endfunction
 
 function Trig_Boss1Dead_Actions takes nothing returns nothing
@@ -6872,7 +6874,7 @@ function Trig_Boss1Dead_Actions takes nothing returns nothing
 	call ModifyGateBJ(1, udg_destructable10)
 	call QuestSetCompleted(udg_quests01[2], true)
 	call EnableTrigger(udg_trigger54)
-	if( (udg_integer07 >= 2) ) then // INLINED!!
+	if( (udg_Difficulty >= 2) ) then // INLINED!!
 		call DisableTrigger(udg_trigger49)
 		call DestroyTrigger(udg_trigger49)
 	endif
@@ -6884,9 +6886,9 @@ function Trig_Boss2Dead_Actions takes nothing returns nothing
 	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
 	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 500)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了将领：") + GetHeroProperName(GetTriggerUnit()) ))
-	call ModifyHeroStat(0, udg_unit43, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
-	call ModifyHeroStat(1, udg_unit43, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
-	call ModifyHeroStat(2, udg_unit43, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(0, udg_unit43, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(1, udg_unit43, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(2, udg_unit43, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
 	call ModifyGateBJ(1, udg_destructable17)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
@@ -6896,9 +6898,9 @@ function Trig_Boss3Dead_Actions takes nothing returns nothing
 	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
 	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 500)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了将领：") + GetHeroProperName(GetTriggerUnit()) ))
-	call ModifyHeroStat(0, udg_unit46, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
-	call ModifyHeroStat(1, udg_unit46, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
-	call ModifyHeroStat(2, udg_unit46, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(0, udg_unit46, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(1, udg_unit46, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(2, udg_unit46, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
 	call ModifyGateBJ(1, udg_destructable09)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
@@ -6908,9 +6910,9 @@ function Trig_Boss4Dead_Actions takes nothing returns nothing
 	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
 	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 500)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了将领：") + GetHeroProperName(GetTriggerUnit()) ))
-	call ModifyHeroStat(0, udg_unit45, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
-	call ModifyHeroStat(1, udg_unit45, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
-	call ModifyHeroStat(2, udg_unit45, 2, (2500 + (udg_integer07 * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(0, udg_unit45, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(1, udg_unit45, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
+	call ModifyHeroStat(2, udg_unit45, 2, (2500 + (udg_Difficulty * (udg_integer06 * 200) ) ))
 	call ModifyGateBJ(1, udg_destructable16)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
@@ -6931,9 +6933,9 @@ endfunction
 
 function Trig_Boss6Music_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	call ModifyHeroStat(0, udg_unit51, 2, (3000 + (udg_integer07 * (udg_integer06 * 250) ) ))
-	call ModifyHeroStat(1, udg_unit51, 2, (3000 + (udg_integer07 * (udg_integer06 * 250) ) ))
-	call ModifyHeroStat(2, udg_unit51, 2, (3000 + (udg_integer07 * (udg_integer06 * 250) ) ))
+	call ModifyHeroStat(0, udg_unit51, 2, (3000 + (udg_Difficulty * (udg_integer06 * 250) ) ))
+	call ModifyHeroStat(1, udg_unit51, 2, (3000 + (udg_Difficulty * (udg_integer06 * 250) ) ))
+	call ModifyHeroStat(2, udg_unit51, 2, (3000 + (udg_Difficulty * (udg_integer06 * 250) ) ))
 	set udg_integer05 = 8
 	call TriggerExecute(udg_trigger127)
 	call AddWeatherEffectSaveLast(udg_rect12, 'SNls')
@@ -6967,7 +6969,7 @@ function Trig_Boss6Teleport_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Boss6Dead_Func012003002 takes nothing returns nothing
-	call SetUnitPositionLoc(GetEnumUnit(), udg_location01)
+	call SetUnitPositionLoc(GetEnumUnit(), udg_TempPoint)
 endfunction
 
 function Trig_Boss6Dead_Func029002 takes nothing returns nothing
@@ -6979,7 +6981,7 @@ function Trig_Boss6Dead_Func031002 takes nothing returns nothing
 endfunction
 
 function Trig_Boss6Dead_Func033002 takes nothing returns nothing
-	call PanCameraToTimedLocForPlayer(GetEnumPlayer(), udg_location01, 1.)
+	call PanCameraToTimedLocForPlayer(GetEnumPlayer(), udg_TempPoint, 1.)
 endfunction
 
 function Trig_Boss6Dead_Func038002 takes nothing returns nothing
@@ -6987,7 +6989,7 @@ function Trig_Boss6Dead_Func038002 takes nothing returns nothing
 endfunction
 
 function Trig_Boss6Dead_Func039002 takes nothing returns nothing
-	call RotateCameraAroundLocBJ(360., udg_location01, GetEnumPlayer(), 12.)
+	call RotateCameraAroundLocBJ(360., udg_TempPoint, GetEnumPlayer(), 12.)
 endfunction
 
 function Trig_Boss6Dead_Func041002 takes nothing returns nothing
@@ -6995,7 +6997,7 @@ function Trig_Boss6Dead_Func041002 takes nothing returns nothing
 endfunction
 
 function Trig_Boss6Dead_Func042002 takes nothing returns nothing
-	call RotateCameraAroundLocBJ(360., udg_location01, GetEnumPlayer(), 12.)
+	call RotateCameraAroundLocBJ(360., udg_TempPoint, GetEnumPlayer(), 12.)
 endfunction
 
 function Trig_Boss6Dead_Func044002 takes nothing returns nothing
@@ -7011,7 +7013,7 @@ function Trig_Boss6Dead_Func051002 takes nothing returns nothing
 endfunction
 
 function Trig_Boss6Dead_Func059002 takes nothing returns nothing
-	call RotateCameraAroundLocBJ(360., udg_location01, GetEnumPlayer(), 12.)
+	call RotateCameraAroundLocBJ(360., udg_TempPoint, GetEnumPlayer(), 12.)
 endfunction
 
 function Trig_Boss6Dead_Func061002 takes nothing returns nothing
@@ -7028,7 +7030,7 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	call TriggerSleepAction(5.)
 	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
 	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 750)
-	set udg_location01 = GetRectCenter(udg_rect38)
+	set udg_TempPoint = GetRectCenter(udg_rect38)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
 	loop
@@ -7037,13 +7039,13 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	call TriggerSleepAction(1.)
-	set udg_location01 = GetRectCenter(udg_rect12)
-	call CreateNUnitsAtLocFacingLocBJ(1, 'H00B', Player(9), OffsetLocation(udg_location01, 800., 800.), udg_location01)
+	set udg_TempPoint = GetRectCenter(udg_rect12)
+	call CreateNUnitsAtLocFacingLocBJ(1, 'H00B', Player(9), OffsetLocation(udg_TempPoint, 800., 800.), udg_TempPoint)
 	set udg_unit01 = bj_lastCreatedUnit
 	call TriggerSleepAction(1.)
-	set udg_location01 = GetRectCenter(udg_rect12)
+	set udg_TempPoint = GetRectCenter(udg_rect12)
 	call IssueImmediateOrderById(udg_units01[udg_integer04], 851972)
-	call SetUnitPositionLocFacingLocBJ(udg_units01[udg_integer04], OffsetLocation(udg_location01, -800., -800.), udg_location01)
+	call SetUnitPositionLocFacingLocBJ(udg_units01[udg_integer04], OffsetLocation(udg_TempPoint, -800., -800.), udg_TempPoint)
 	call SetUnitLifePercentBJ(udg_units01[udg_integer04], 'd')
 	call SetUnitManaPercentBJ(udg_units01[udg_integer04], 'd')
 	call PauseUnit(udg_units01[udg_integer04], false)
@@ -7052,9 +7054,9 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	set bj_forLoopAIndexEnd = 8
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call CreateFogModifierRadiusLocBJ(true, Player(-1 + (bj_forLoopAIndex)), FOG_OF_WAR_VISIBLE, udg_location01, 1750.)
+		call CreateFogModifierRadiusLocBJ(true, Player(-1 + (bj_forLoopAIndex)), FOG_OF_WAR_VISIBLE, udg_TempPoint, 1750.)
 		set udg_fogmodifiers01[bj_forLoopAIndex]= bj_lastCreatedFogModifier
-		call PanCameraToTimedLocForPlayer(Player(-1 + (bj_forLoopAIndex)), udg_location01, 0)
+		call PanCameraToTimedLocForPlayer(Player(-1 + (bj_forLoopAIndex)), udg_TempPoint, 0)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	call TriggerSleepAction(1.)
@@ -7066,8 +7068,8 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	call TriggerSleepAction(3.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func033002)
 	call TriggerSleepAction(2)
-	call IssuePointOrderByIdLoc(udg_unit01, 851986, OffsetLocation(udg_location01, 50., 50.))
-	call IssuePointOrderByIdLoc(udg_units01[udg_integer04], 851986, OffsetLocation(udg_location01, -50., -50.))
+	call IssuePointOrderByIdLoc(udg_unit01, 851986, OffsetLocation(udg_TempPoint, 50., 50.))
+	call IssuePointOrderByIdLoc(udg_units01[udg_integer04], 851986, OffsetLocation(udg_TempPoint, -50., -50.))
 	call TriggerSleepAction(2)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func038002)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func039002)
@@ -7083,7 +7085,7 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	call SetSoundOffsetBJ(36.5, bj_lastPlayedSound)
 	call TriggerSleepAction(2.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func051002)
-	call SetUnitPositionLocFacingBJ(udg_units01[udg_integer04], udg_location01, 270.)
+	call SetUnitPositionLocFacingBJ(udg_units01[udg_integer04], udg_TempPoint, 270.)
 	call SetUnitAnimation(udg_units01[udg_integer04], "ready")
 	call SetUnitLifePercentBJ(udg_units01[udg_integer04], 'd')
 	call SetUnitManaPercentBJ(udg_units01[udg_integer04], 'd')
@@ -7097,7 +7099,7 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	call StopMusic(false)
 	call VolumeGroupResetBJ()
 	call SetUserControlForceOn(bj_FORCE_ALL_PLAYERS)
-	call RemoveLocation(udg_location01)
+	call RemoveLocation(udg_TempPoint)
 	set udg_unit01 = null
 	call YDWEPauseAllUnitsBJNull(false)
 	call TriggerSleepAction(2)
@@ -7112,7 +7114,7 @@ function Trig_Boss7Come_Func006002 takes nothing returns nothing
 endfunction
 
 function Trig_Boss7Come_Func030001 takes nothing returns boolean
-	return(udg_integer07 >= 4)
+	return(udg_Difficulty >= 4)
 endfunction
 
 function Trig_Boss7Come_Func039C takes nothing returns boolean
@@ -7191,10 +7193,10 @@ function Trig_Boss7Come_Actions takes nothing returns nothing
 	endloop
 	call SelectHeroSkill(bj_lastCreatedUnit, 'ANst')
 	call SelectHeroSkill(bj_lastCreatedUnit, 'A01D')
-	call ModifyHeroStat(0, bj_lastCreatedUnit, 2, (4500 + (udg_integer07 * (udg_integer06 * 250) ) ))
-	call ModifyHeroStat(1, bj_lastCreatedUnit, 2, (4500 + (udg_integer07 * (udg_integer06 * 250) ) ))
-	call ModifyHeroStat(2, bj_lastCreatedUnit, 2, (4500 + (udg_integer07 * (udg_integer06 * 250) ) ))
-	if( (udg_integer07 >= 4) ) then // INLINED!!
+	call ModifyHeroStat(0, bj_lastCreatedUnit, 2, (4500 + (udg_Difficulty * (udg_integer06 * 250) ) ))
+	call ModifyHeroStat(1, bj_lastCreatedUnit, 2, (4500 + (udg_Difficulty * (udg_integer06 * 250) ) ))
+	call ModifyHeroStat(2, bj_lastCreatedUnit, 2, (4500 + (udg_Difficulty * (udg_integer06 * 250) ) ))
+	if( (udg_Difficulty >= 4) ) then // INLINED!!
 		call UnitAddItemByIdSwapped('nspi', bj_lastCreatedUnit)
 	endif
 	call PauseUnit(bj_lastCreatedUnit, true)
@@ -7568,7 +7570,7 @@ function Trig_GameLevel2_Func015Func001C takes nothing returns boolean
 endfunction
 
 function Trig_GameLevel2_Func016001 takes nothing returns boolean
-	return(udg_integer07 >= 2)
+	return(udg_Difficulty >= 2)
 endfunction
 
 function Trig_GameLevel2_Actions takes nothing returns nothing
@@ -7603,8 +7605,9 @@ function Trig_GameLevel2_Actions takes nothing returns nothing
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_integer07 >= 2) ) then // INLINED!!
-		call SelectHeroSkill(udg_unit57, 'A026')
+	if( (udg_Difficulty >= 2) ) then // INLINED!!
+		call UnitRemoveAbilityBJ('A051', udg_unit57)
+		call UnitAddAbilityBJ('A052', udg_unit57)
 	endif
 	call UnitAddItemByIdSwapped('rspd', udg_unit57)
 	call TriggerSleepAction(2.)
@@ -7641,7 +7644,7 @@ function Trig_GameLevel3_Func015Func001C takes nothing returns boolean
 endfunction
 
 function Trig_GameLevel3_Func016001 takes nothing returns boolean
-	return(udg_integer07 >= 2)
+	return(udg_Difficulty >= 2)
 endfunction
 
 function Trig_GameLevel3_Actions takes nothing returns nothing
@@ -7676,8 +7679,9 @@ function Trig_GameLevel3_Actions takes nothing returns nothing
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_integer07 >= 2) ) then // INLINED!!
-		call SelectHeroSkill(udg_unit57, 'A026')
+	if( (udg_Difficulty >= 2) ) then // INLINED!!
+		call UnitRemoveAbilityBJ('A052', udg_unit57)
+		call UnitAddAbilityBJ('A053', udg_unit57)
 	endif
 	call UnitAddItemByIdSwapped('rspd', udg_unit57)
 	call TriggerSleepAction(1.)
@@ -7689,11 +7693,11 @@ function Trig_GameLevel4_Func008Func001C takes nothing returns boolean
 endfunction
 
 function Trig_GameLevel4_Func009001 takes nothing returns boolean
-	return(udg_integer07 >= 2)
+	return(udg_Difficulty >= 2)
 endfunction
 
 function Trig_GameLevel4_Func012C takes nothing returns boolean
-	return(udg_integer07 > 1) and(IsTriggerEnabled(udg_trigger41) )
+	return(udg_Difficulty > 1) and(IsTriggerEnabled(udg_trigger41) )
 endfunction
 
 function Trig_GameLevel4_Actions takes nothing returns nothing
@@ -7720,12 +7724,13 @@ function Trig_GameLevel4_Actions takes nothing returns nothing
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_integer07 >= 2) ) then // INLINED!!
-		call SelectHeroSkill(udg_unit57, 'A026')
+	if( (udg_Difficulty >= 2) ) then // INLINED!!
+		call UnitRemoveAbilityBJ('A053', udg_unit57)
+		call UnitAddAbilityBJ('A054', udg_unit57)
 	endif
 	call UnitAddItemByIdSwapped('rspd', udg_unit57)
 	call TriggerSleepAction(.1)
-	if( ((udg_integer07 > 1) and(IsTriggerEnabled(udg_trigger41) )) ) then // INLINED!!
+	if( ((udg_Difficulty > 1) and(IsTriggerEnabled(udg_trigger41) )) ) then // INLINED!!
 		call EnableTrigger(udg_trigger51)
 		call StartTimerBJ(udg_timer01, false, 300.)
 		call CreateTimerDialogBJ(udg_timer01, "实力提升")
@@ -7788,13 +7793,13 @@ function Trig_HeroDead_Actions takes nothing returns nothing
 	call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 10., "|c00FFFFFF您的英雄已阵亡并失去|c0061FFFF10000|c00FFFFFF金币，圣域女神正在为您的英雄进行复活仪式，需要|c0061FFFF2|c00FFFFFF分钟时间")
 	call TriggerSleepAction(120.)
 	if( (IsTriggerEnabled(GetTriggeringTrigger())) ) then // INLINED!!
-		set udg_location01 = GetRectCenter(udg_rect33)
+		set udg_TempPoint = GetRectCenter(udg_rect33)
 		set udg_integer11 =(1 + GetPlayerId(GetTriggerPlayer()) )
 		call DestroyTimerDialog(udg_timerdialogs01[udg_integer11])
-		call ReviveHeroLoc(GetTriggerUnit(), udg_location01, true)
-		call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), udg_location01, 0)
+		call ReviveHeroLoc(GetTriggerUnit(), udg_TempPoint, true)
+		call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), udg_TempPoint, 0)
 		call SelectUnitForPlayerSingle(GetTriggerUnit(), GetTriggerPlayer())
-		call RemoveLocation(udg_location01)
+		call RemoveLocation(udg_TempPoint)
 	endif
 endfunction
 
@@ -8280,6 +8285,9 @@ function Trig_Victory_Func021A takes nothing returns nothing
 	if( (GetUnitTypeId(GetEnumUnit()) == 'Oshd') ) then // INLINED!!
 		call SetUnitAnimation(GetEnumUnit(), "stand victory")
 	endif
+	if( (GetUnitTypeId(GetEnumUnit()) == 'Oshe') ) then // INLINED!!
+		call SetUnitAnimation(GetEnumUnit(), "stand victory")
+	endif
 	if( (GetUnitTypeId(GetEnumUnit()) == 'Ulic') ) then // INLINED!!
 		call SetUnitAnimation(GetEnumUnit(), "stand channel")
 	endif
@@ -8296,6 +8304,9 @@ function Trig_Victory_Func021A takes nothing returns nothing
 		call SetUnitAnimation(GetEnumUnit(), "stand channel")
 	endif
 	if( (GetUnitTypeId(GetEnumUnit()) == 'Nbst') ) then // INLINED!!
+		call SetUnitAnimation(GetEnumUnit(), "stand ready")
+	endif
+	if( (GetUnitTypeId(GetEnumUnit()) == 'Nbsb') ) then // INLINED!!
 		call SetUnitAnimation(GetEnumUnit(), "stand ready")
 	endif
 	if( (GetUnitTypeId(GetEnumUnit()) == 'Nplh') ) then // INLINED!!
@@ -8465,7 +8476,7 @@ function Trig_Repick_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_Repick_Func003003001 takes nothing returns boolean
-	return(GetUnitTypeId(udg_units01[udg_integer04]) == udg_integers12[bj_forLoopAIndex] )
+	return(GetUnitTypeId(udg_units01[udg_integer04]) == udg_HeroesType[bj_forLoopAIndex] )
 endfunction
 
 function Trig_Repick_Func004Func001C takes nothing returns boolean
@@ -8473,7 +8484,7 @@ function Trig_Repick_Func004Func001C takes nothing returns boolean
 endfunction
 
 function Trig_Repick_Func004Func005001001002 takes nothing returns boolean
-	return(GetUnitTypeId(GetFilterUnit()) == udg_integers12[udg_integer11] )
+	return(GetUnitTypeId(GetFilterUnit()) == udg_HeroesType[udg_integer11] )
 endfunction
 
 function Trig_Repick_Func004C takes nothing returns boolean
@@ -8517,13 +8528,13 @@ function Trig_Repick_Func014002 takes nothing returns nothing
 endfunction
 
 function Trig_Repick_Actions takes nothing returns nothing
-	set udg_location01 = GetRectCenter(udg_rect14)
+	set udg_TempPoint = GetRectCenter(udg_rect14)
 	set udg_integer04 =(1 + GetPlayerId(GetTriggerPlayer()) )
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 26
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		if( (GetUnitTypeId(udg_units01[udg_integer04]) == udg_integers12[bj_forLoopAIndex]) ) then // INLINED!!
+		if( (GetUnitTypeId(udg_units01[udg_integer04]) == udg_HeroesType[bj_forLoopAIndex]) ) then // INLINED!!
 			set udg_integer11 = bj_forLoopAIndex
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -8531,10 +8542,10 @@ function Trig_Repick_Actions takes nothing returns nothing
 	if( (IsUnitGroupEmptyBJ(YDWEGetUnitsInRectMatchingNull(udg_rect14 , Condition(function Trig_Repick_Func004Func005001001002)))) ) then // INLINED!!
 		if( (udg_integer11 > 16) ) then // INLINED!!
 			set udg_real01 =( -36. + (I2R((udg_integer11 - 16)) * 36.) )
-			call CreateNUnitsAtLocFacingLocBJ(1, udg_integers12[udg_integer11], Player(8), PolarProjectionBJ(udg_location01, 410., udg_real01), udg_location01)
+			call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[udg_integer11], Player(8), PolarProjectionBJ(udg_TempPoint, 410., udg_real01), udg_TempPoint)
 		else
 			set udg_real01 =( -22.5 + (I2R(udg_integer11) * 22.5) )
-			call CreateNUnitsAtLocFacingLocBJ(1, udg_integers12[udg_integer11], Player(8), PolarProjectionBJ(udg_location01, 705., udg_real01), udg_location01)
+			call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[udg_integer11], Player(8), PolarProjectionBJ(udg_TempPoint, 705., udg_real01), udg_TempPoint)
 		endif
 		call SetUnitInvulnerable(bj_lastCreatedUnit, true)
 		call SetUnitColor(bj_lastCreatedUnit, PLAYER_COLOR_RED)
@@ -8565,8 +8576,8 @@ function Trig_Repick_Actions takes nothing returns nothing
 	endif
 	set udg_group05 =(YDWEGetUnitsOfPlayerMatchingNull((GetTriggerPlayer()) , null)) // INLINED!!
 	call ForGroupBJ(udg_group05, function Trig_Repick_Func014002)
-	call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), udg_location01, 0)
-	call RemoveLocation(udg_location01)
+	call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), udg_TempPoint, 0)
+	call RemoveLocation(udg_TempPoint)
 	call DestroyGroup(udg_group05)
 endfunction
 
@@ -8654,16 +8665,16 @@ function Trig_Random_Actions takes nothing returns nothing
 	set udg_integer11 =(1 + GetPlayerId(GetTriggerPlayer()) )
 	set udg_integers16[udg_integer11]= 1
 	set udg_group05 = YDWEGetUnitsInRectMatchingNull(udg_rect14 , Condition(function Trig_Random_Func004002002))
-	set udg_location01 = GetRectCenter(udg_rect33)
-	call CreateNUnitsAtLoc(1, GetUnitTypeId(GroupPickRandomUnit(udg_group05)), GetTriggerPlayer(), udg_location01, 225.)
+	set udg_TempPoint = GetRectCenter(udg_rect33)
+	call CreateNUnitsAtLoc(1, GetUnitTypeId(GroupPickRandomUnit(udg_group05)), GetTriggerPlayer(), udg_TempPoint, 225.)
 	call ForGroupBJ(YDWEGetUnitsOfPlayerMatchingNull(GetTriggerPlayer() , Condition(function Trig_Random_Func007001002)), function Trig_Random_Func007002)
-	call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), udg_location01, 0)
+	call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), udg_TempPoint, 0)
 	set udg_group05 = YDWEGetUnitsInRectMatchingNull(udg_rect14 , Condition(function Trig_Random_Func009002002))
 	if( (udg_boolean01) ) then // INLINED!!
 	else
 		call ForGroupBJ(udg_group05, function Trig_Random_Func010003002)
 	endif
-	call RemoveLocation(udg_location01)
+	call RemoveLocation(udg_TempPoint)
 	call DestroyGroup(udg_group05)
 	call SelectUnitForPlayerSingle(udg_units01[udg_integer11], GetTriggerPlayer())
 	call UnitAddItemByIdSwapped('stwp', udg_units01[udg_integer11])
@@ -8723,7 +8734,7 @@ function Trig_RepickRandom_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_RepickRandom_Func004003001 takes nothing returns boolean
-	return(GetUnitTypeId(udg_units01[udg_integer04]) == udg_integers12[bj_forLoopAIndex] )
+	return(GetUnitTypeId(udg_units01[udg_integer04]) == udg_HeroesType[bj_forLoopAIndex] )
 endfunction
 
 function Trig_RepickRandom_Func005Func001C takes nothing returns boolean
@@ -8731,7 +8742,7 @@ function Trig_RepickRandom_Func005Func001C takes nothing returns boolean
 endfunction
 
 function Trig_RepickRandom_Func005Func005001001002 takes nothing returns boolean
-	return(GetUnitTypeId(GetFilterUnit()) == udg_integers12[udg_integer11] )
+	return(GetUnitTypeId(GetFilterUnit()) == udg_HeroesType[udg_integer11] )
 endfunction
 
 function Trig_RepickRandom_Func005C takes nothing returns boolean
@@ -8789,12 +8800,12 @@ endfunction
 function Trig_RepickRandom_Actions takes nothing returns nothing
 	set udg_integer04 =(1 + GetPlayerId(GetTriggerPlayer()) )
 	set udg_integers16[udg_integer04]= 2
-	set udg_location01 = GetRectCenter(udg_rect14)
+	set udg_TempPoint = GetRectCenter(udg_rect14)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 26
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		if( (GetUnitTypeId(udg_units01[udg_integer04]) == udg_integers12[bj_forLoopAIndex]) ) then // INLINED!!
+		if( (GetUnitTypeId(udg_units01[udg_integer04]) == udg_HeroesType[bj_forLoopAIndex]) ) then // INLINED!!
 			set udg_integer11 = bj_forLoopAIndex
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -8802,27 +8813,27 @@ function Trig_RepickRandom_Actions takes nothing returns nothing
 	if( (IsUnitGroupEmptyBJ(YDWEGetUnitsInRectMatchingNull(udg_rect14 , Condition(function Trig_RepickRandom_Func005Func005001001002)))) ) then // INLINED!!
 		if( (udg_integer11 > 16) ) then // INLINED!!
 			set udg_real01 =( -36. + (I2R((udg_integer11 - 16)) * 36.) )
-			call CreateNUnitsAtLocFacingLocBJ(1, udg_integers12[udg_integer11], Player(8), PolarProjectionBJ(udg_location01, 410., udg_real01), udg_location01)
+			call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[udg_integer11], Player(8), PolarProjectionBJ(udg_TempPoint, 410., udg_real01), udg_TempPoint)
 		else
 			set udg_real01 =( -22.5 + (I2R(udg_integer11) * 22.5) )
-			call CreateNUnitsAtLocFacingLocBJ(1, udg_integers12[udg_integer11], Player(8), PolarProjectionBJ(udg_location01, 705., udg_real01), udg_location01)
+			call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[udg_integer11], Player(8), PolarProjectionBJ(udg_TempPoint, 705., udg_real01), udg_TempPoint)
 		endif
 		call SetUnitInvulnerable(bj_lastCreatedUnit, true)
 		call SetUnitColor(bj_lastCreatedUnit, PLAYER_COLOR_RED)
 	endif
 	set udg_group05 =(YDWEGetUnitsOfPlayerMatchingNull((GetTriggerPlayer()) , null)) // INLINED!!
 	call ForGroupBJ(udg_group05, function Trig_RepickRandom_Func007002)
-	set udg_location01 = GetRectCenter(udg_rect33)
+	set udg_TempPoint = GetRectCenter(udg_rect33)
 	set udg_group05 = YDWEGetUnitsInRectMatchingNull(udg_rect14 , Condition(function Trig_RepickRandom_Func009002002))
-	call CreateNUnitsAtLoc(1, GetUnitTypeId(GroupPickRandomUnit(udg_group05)), GetTriggerPlayer(), udg_location01, 225.)
+	call CreateNUnitsAtLoc(1, GetUnitTypeId(GroupPickRandomUnit(udg_group05)), GetTriggerPlayer(), udg_TempPoint, 225.)
 	call ForGroupBJ(YDWEGetUnitsOfPlayerMatchingNull(GetTriggerPlayer() , Condition(function Trig_RepickRandom_Func011001002)), function Trig_RepickRandom_Func011002)
-	call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), udg_location01, 0)
+	call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), udg_TempPoint, 0)
 	set udg_group05 = YDWEGetUnitsInRectMatchingNull(udg_rect14 , Condition(function Trig_RepickRandom_Func013002002))
 	if( (udg_boolean01) ) then // INLINED!!
 	else
 		call ForGroupBJ(udg_group05, function Trig_RepickRandom_Func014003002)
 	endif
-	call RemoveLocation(udg_location01)
+	call RemoveLocation(udg_TempPoint)
 	call DestroyGroup(udg_group05)
 	call SelectUnitForPlayerSingle(udg_units01[udg_integer04], GetTriggerPlayer())
 	call UnitAddItemByIdSwapped('stwp', udg_units01[udg_integer04])
@@ -9053,19 +9064,19 @@ function Trig_ExtremeLevel_Func010C takes nothing returns boolean
 endfunction
 
 function Trig_ExtremeLevel_Conditions takes nothing returns boolean
-	return(udg_integer07 == 5) and(GetTriggerPlayer() == Player(0) ) and(SubStringBJ(GetEventPlayerChatString(), 1, 9) == "-extreme ") and(S2I(SubStringBJ(GetEventPlayerChatString(), 10, 12)) <= 999) and(S2I(SubStringBJ(GetEventPlayerChatString(), 10, 12)) >= 5) and( ((StringLength(GetEventPlayerChatString()) == 10) or(StringLength(GetEventPlayerChatString()) == 11) or(StringLength(GetEventPlayerChatString()) == 12)) ) // INLINED!!
+	return(udg_Difficulty == 5) and(GetTriggerPlayer() == Player(0) ) and(SubStringBJ(GetEventPlayerChatString(), 1, 9) == "-extreme ") and(S2I(SubStringBJ(GetEventPlayerChatString(), 10, 12)) <= 999) and(S2I(SubStringBJ(GetEventPlayerChatString(), 10, 12)) >= 5) and( ((StringLength(GetEventPlayerChatString()) == 10) or(StringLength(GetEventPlayerChatString()) == 11) or(StringLength(GetEventPlayerChatString()) == 12)) ) // INLINED!!
 endfunction
 
 function Trig_ExtremeLevel_Func002001 takes nothing returns boolean
-	return(udg_integer07 > 12)
+	return(udg_Difficulty > 12)
 endfunction
 
 function Trig_ExtremeLevel_Actions takes nothing returns nothing
-	set udg_integer07 =(S2I(SubStringBJ(GetEventPlayerChatString(), 10, 12)) + 1)
-	if( (udg_integer07 > 12) ) then // INLINED!!
+	set udg_Difficulty =(S2I(SubStringBJ(GetEventPlayerChatString(), 10, 12)) + 1)
+	if( (udg_Difficulty > 12) ) then // INLINED!!
 		set udg_integer10 = 12
 	else
-		set udg_integer10 = udg_integer07
+		set udg_integer10 = udg_Difficulty
 	endif
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., ("极限模式已更改为 |c0061FFFF级别 " + SubStringBJ(GetEventPlayerChatString(), 10, 12) ))
 	call DestroyTrigger(GetTriggeringTrigger())
@@ -9076,7 +9087,7 @@ function Trig_Info_Func001Func001C takes nothing returns boolean
 endfunction
 
 function Trig_Info_Func001C takes nothing returns boolean
-	return(udg_integer07 > 1)
+	return(udg_Difficulty > 1)
 endfunction
 
 function Trig_Info_Func002Func002Func001C takes nothing returns boolean
@@ -9104,8 +9115,8 @@ function Trig_Info_Func003C takes nothing returns boolean
 endfunction
 
 function Trig_Info_Actions takes nothing returns nothing
-	if( (udg_integer07 > 1) ) then // INLINED!!
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限等级 " + I2S((udg_integer07 - 1)) ))
+	if( (udg_Difficulty > 1) ) then // INLINED!!
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限等级 " + I2S((udg_Difficulty - 1)) ))
 	else
 		if( (udg_boolean04) ) then // INLINED!!
 			call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 20., "|c0061FFFF游戏模式|c00FFFFFF: 简易模式")
@@ -9415,6 +9426,9 @@ function Trig_Level20Abilities_Actions takes nothing returns nothing
 		call UnitAddAbility(GetTriggerUnit(), 'A013')
 	endif
 	if( (GetUnitTypeId(GetTriggerUnit()) == 'Nbst') ) then // INLINED!!
+		call UnitAddAbility(GetTriggerUnit(), 'A02W')
+	endif
+	if( (GetUnitTypeId(GetTriggerUnit()) == 'Nbsb') ) then // INLINED!!
 		call UnitAddAbility(GetTriggerUnit(), 'ACce')
 	endif
 	if( (GetUnitTypeId(GetTriggerUnit()) == 'Hamg') ) then // INLINED!!
@@ -9508,8 +9522,15 @@ function Trig_Level20Abilities_Actions takes nothing returns nothing
 		call EnableTrigger(udg_trigger151)
 	endif
 	if( (GetUnitTypeId(GetTriggerUnit()) == 'Oshd') ) then // INLINED!!
-		call UnitAddAbility(GetTriggerUnit(), 'AHmt')
+		call UnitAddAbility(GetTriggerUnit(), 'A03F')
 		call EnableTrigger(udg_trigger154)
+	endif
+	if( (GetUnitTypeId(GetTriggerUnit()) == 'O00B') or(GetUnitTypeId(GetTriggerUnit()) == 'O00A') or(GetUnitTypeId(GetTriggerUnit()) == 'O009') ) then
+		call UnitAddAbilityBJ('A04Y', GetTriggerUnit())
+		call UnitMakeAbilityPermanent(GetTriggerUnit(), true, 'A04Y')
+	endif
+	if( (GetUnitTypeId(GetTriggerUnit()) == 'Oshe') ) then // INLINED!!
+		call UnitAddAbility(GetTriggerUnit(), 'AHmt')
 	endif
 	if( (GetUnitTypeId(GetTriggerUnit()) == 'H008') ) then // INLINED!!
 		call TriggerSleepAction(.02)
@@ -9699,17 +9720,17 @@ endfunction
 
 function Trig_Hex_Actions takes nothing returns nothing
 	set udg_unit01 = GetSpellTargetUnit()
-	set udg_location01 = GetUnitLoc(udg_unit01)
+	set udg_TempPoint = GetUnitLoc(udg_unit01)
 	set udg_player01 = GetOwningPlayer(GetTriggerUnit())
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 6
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call CreateNUnitsAtLocFacingLocBJ(1, 'o000', udg_player01, PolarProjectionBJ(udg_location01, 200., (60. * I2R(bj_forLoopAIndex) )), udg_location01)
+		call CreateNUnitsAtLocFacingLocBJ(1, 'o000', udg_player01, PolarProjectionBJ(udg_TempPoint, 200., (60. * I2R(bj_forLoopAIndex) )), udg_TempPoint)
 		call UnitApplyTimedLifeBJ(8., 'Bhwd', bj_lastCreatedUnit)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	call RemoveLocation(udg_location01)
+	call RemoveLocation(udg_TempPoint)
 	set udg_unit01 = null
 endfunction
 
@@ -9805,9 +9826,9 @@ endfunction
 
 function Trig_HolyLight_Actions takes nothing returns nothing
 	call TriggerSleepAction(.8)
-	set udg_location01 = GetUnitLoc(GetTriggerUnit())
-	set udg_group05 = YDWEGetUnitsInRangeOfLocMatchingNull(500. , udg_location01 , Condition(function Trig_HolyLight_Func003002003))
-	call RemoveLocation(udg_location01)
+	set udg_TempPoint = GetUnitLoc(GetTriggerUnit())
+	set udg_group05 = YDWEGetUnitsInRangeOfLocMatchingNull(500. , udg_TempPoint , Condition(function Trig_HolyLight_Func003002003))
+	call RemoveLocation(udg_TempPoint)
 	call ForGroupBJ(udg_group05, function Trig_HolyLight_Func005A)
 	call DestroyGroup(udg_group05)
 endfunction

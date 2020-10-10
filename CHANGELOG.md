@@ -1,6 +1,18 @@
 未发布版本:
 - [ ] 支持 -random 双英雄
 =======
+Changes 3.39:
+[新增]
+- 添加回原版被替换的原版本英雄(兽王以及幻影猎手), 并补上原汉化者未翻译完的技能描述
+- 添加原版3.32中的新英雄: 德鲁伊
+[更改]
+- 再次调整了下读取界面里的帮助文本
+- 删除了原作者遗留下的某几处的憨批检测, 避免可能会导致无法初始化和强度无法提升的问题
+[修复]
+- 修复了石头人的嘲讽技能描述错误的问题
+===========
+QQ讨论群: 247044926
+=======
 Changes 3.38:
 [新增]
 [更改]
@@ -80,7 +92,7 @@ Changes 3.32:
 - Added the commands -random and -repick for "Dual Hero Mode".
 - New hero "Druid of the Claw".
 - [x] Own "Wave Kills" and "Wave Kills" of current leadder are displayed in "food counter".
-- Significantly improved map loading.
+- [x] Significantly improved map loading.
 - Added the command "-random 100".
 - Retriggerd hero selection system.
 - Improved the abilities of some dark heroes.
