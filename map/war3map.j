@@ -9543,6 +9543,7 @@ function Trig_Level20Abilities_Actions takes nothing returns nothing
 		call ModifyHeroStat(0, bj_lastReplacedUnit, 2, GetHeroStatBJ(0, udg_units01[udg_integer04], false))
 		call ModifyHeroStat(1, bj_lastReplacedUnit, 2, GetHeroStatBJ(1, udg_units01[udg_integer04], false))
 		call ModifyHeroStat(2, bj_lastReplacedUnit, 2, GetHeroStatBJ(2, udg_units01[udg_integer04], false))
+		call SetHeroLevel(bj_lastReplacedUnit, 20, false)
 		set udg_units01[udg_integer04]= bj_lastReplacedUnit
 		call TriggerSleepAction(.02)
 		call SelectHeroSkill(bj_lastReplacedUnit, 'A03B')
