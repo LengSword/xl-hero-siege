@@ -2,6 +2,25 @@
 - [ ] 支持 -random 双英雄
 - [ ] 解决堵怪问题 => Trig_AttackCheck_Actions
 =======
+Changes 3.44:
+[新增]
+[更改]
+- 开局基地物品购买间隔从 60s => 10s, 加快开局节奏
+- BOSS平衡性调整
+  - 深渊魔王
+    - 取消重生物品
+  - 阿尔萨斯[BOSS技能等级与极限难度相关,N4时为最高]
+    - 神圣护甲(无敌)
+      - CD 30s/35s/40s/45s => 50s/55s/60s/65s
+- 优化了极限模式下结束闪电袭击的时机(打死深渊魔王后 => 开始打深渊魔王的时候)[此为同步原版3.33的更改]
+- 优化了打死深渊魔王后开门较慢的问题
+- 后期BOSS(深渊魔王, 四角的将领, 阿尔萨斯)开局无敌, 防止被提前打死, 导致无法触发后面的事件
+[修复]
+- 修复了阿尔萨斯BOSS传送技能的触发问题, 避免双英雄模式下出bug
+- 修正了机枪的『克隆』技能描述
+===========
+QQ讨论群: 247044926
+=======
 Changes 3.43:
 [新增]
 [更改]
@@ -163,7 +182,7 @@ Changes 3.32:
 - Improved the abilities of some dark heroes.
 - Removed "Blink" from "Boots of Speed" because of abuse.
 - Removed the pausing of player units that attacks castle.
-- Fixed bug: Arthas teleport bug in "Dual Hero Mode".
+- [x] Fixed bug: Arthas teleport bug in "Dual Hero Mode".
 - [x] Fixed bug: Invulnerable units after "Final Wave" in "Extreme Mode".
 - [x] Fixed bug: Player without a hero cannot select a hero after game level 1.
 - [x] Fixed bug: Used "Tome of Knowledge" are not removed from game (tiny item model visible on map).

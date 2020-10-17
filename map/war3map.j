@@ -140,7 +140,7 @@ globals
 	button array udg_buttons03
 	force udg_TempForce = null
 	integer udg_TempNumber = 0
-	boolean udg_boolean04 = false
+	boolean udg_ModeEasy = false
 	fogmodifier array udg_fogmodifiers01
 	real udg_real01 = 0
 	integer udg_integer12 = 0
@@ -277,7 +277,7 @@ globals
 	trigger udg_trigger46 = null
 	trigger udg_trigger47 = null
 	trigger gg_trg_HeroAttack = null
-	trigger udg_trigger49 = null
+	trigger gg_trg_LightningAttack = null
 	trigger udg_trigger50 = null
 	trigger udg_trigger51 = null
 	trigger udg_trigger52 = null
@@ -323,11 +323,11 @@ globals
 	trigger udg_trigger92 = null
 	trigger udg_trigger93 = null
 	trigger udg_trigger94 = null
-	trigger udg_trigger95 = null
-	trigger udg_trigger96 = null
-	trigger udg_trigger97 = null
-	trigger udg_trigger98 = null
-	trigger udg_trigger99 = null
+	trigger gg_trg_Boss1Dead = null
+	trigger gg_trg_Boss2Dead = null
+	trigger gg_trg_Boss3Dead = null
+	trigger gg_trg_Boss4Dead = null
+	trigger gg_trg_Boss5Dead = null
 	trigger udg_trigger100 = null
 	trigger udg_trigger101 = null
 	trigger udg_trigger102 = null
@@ -349,7 +349,7 @@ globals
 	trigger udg_trigger118 = null
 	trigger udg_trigger119 = null
 	trigger udg_trigger120 = null
-	trigger udg_trigger121 = null
+	trigger gg_trg_EasyPowerUp = null
 	trigger udg_trigger122 = null
 	trigger udg_trigger123 = null
 	trigger udg_trigger124 = null
@@ -1061,7 +1061,7 @@ function InitGlobals takes nothing returns nothing
 	set udg_group06 = CreateGroup()
 	set udg_TempForce = CreateForce()
 	set udg_TempNumber = 0
-	set udg_boolean04 = false
+	set udg_ModeEasy = false
 	set udg_real01 = 0
 	set udg_integer12 = 0
 	set udg_string01 = "Sound\\\\Music\\\\mp3Music\\\\Doom.mp3"
@@ -1374,6 +1374,12 @@ function Trig_Invulnerables_Actions takes nothing returns nothing
 	call SetUnitInvulnerable(udg_unit05, true)
 	call SetUnitInvulnerable(udg_unit04, true)
 	call SetUnitInvulnerable(udg_unit06, true)
+	call SetUnitInvulnerable(udg_unit41, true)
+	call SetUnitInvulnerable(udg_unit42, true)
+	call SetUnitInvulnerable(udg_unit43, true)
+	call SetUnitInvulnerable(udg_unit46, true)
+	call SetUnitInvulnerable(udg_unit45, true)
+	call SetUnitInvulnerable(udg_unit51, true)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -1831,11 +1837,11 @@ function Trig_ModeRandom_Func009Func002002 takes nothing returns boolean
 endfunction
 
 function Trig_ModeRandom_Func009C takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_ModeRandom_Func010Func001C takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_ModeRandom_Func010C takes nothing returns boolean
@@ -1871,7 +1877,7 @@ function Trig_ModeRandom_Func012Func001Func009002 takes nothing returns nothing
 endfunction
 
 function Trig_ModeRandom_Func012Func001Func015001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_ModeRandom_Func012Func001C takes nothing returns boolean
@@ -1893,7 +1899,7 @@ function Trig_ModeRandom_Actions takes nothing returns nothing
 	call DisableTrigger(udg_trigger12)
 	call TriggerExecute(udg_trigger38)
 	set udg_boolean03 = true
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call TriggerAddCondition(udg_trigger139, Condition(function Trig_ModeRandom_Func009Func002002))
 	else
 		call TriggerAddCondition(udg_trigger139, Condition(function Trig_ModeRandom_Func009Func001002))
@@ -1901,7 +1907,7 @@ function Trig_ModeRandom_Actions takes nothing returns nothing
 	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限级别" + I2S((udg_Difficulty - 1)) ))
 	else
-		if( (udg_boolean04) ) then // INLINED!!
+		if( (udg_ModeEasy) ) then // INLINED!!
 			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., "|c0061FFFF游戏模式|c00FFFFFF: 简易模式")
 		else
 			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., "|c0061FFFF游戏模式|c00FFFFFF: 经典模式（初级玩家）")
@@ -1931,7 +1937,7 @@ function Trig_ModeRandom_Actions takes nothing returns nothing
 				call UnitAddItemByIdSwapped('tpow', udg_Heroes[bj_forLoopAIndex])
 				set bj_forLoopBIndex = bj_forLoopBIndex + 1
 			endloop
-			if( (udg_boolean04) ) then // INLINED!!
+			if( (udg_ModeEasy) ) then // INLINED!!
 				call SetPlayerStateBJ(Player(-1 + (bj_forLoopAIndex)), PLAYER_STATE_RESOURCE_GOLD, 125000)
 			else
 				call SetPlayerStateBJ(Player(-1 + (bj_forLoopAIndex)), PLAYER_STATE_RESOURCE_GOLD, 5000)
@@ -1989,11 +1995,11 @@ function Trig_ModeNormal_Func004Func002002 takes nothing returns boolean
 endfunction
 
 function Trig_ModeNormal_Func004C takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_ModeNormal_Func005Func001C takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_ModeNormal_Func005C takes nothing returns boolean
@@ -2055,7 +2061,7 @@ endfunction
 function Trig_ModeNormal_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
 	call TriggerExecute(udg_trigger38)
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call TriggerAddCondition(udg_trigger139, Condition(function Trig_ModeNormal_Func004Func002002))
 	else
 		call TriggerAddCondition(udg_trigger139, Condition(function Trig_ModeNormal_Func004Func001002))
@@ -2063,7 +2069,7 @@ function Trig_ModeNormal_Actions takes nothing returns nothing
 	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限级别" + I2S((udg_Difficulty - 1)) ))
 	else
-		if( (udg_boolean04) ) then // INLINED!!
+		if( (udg_ModeEasy) ) then // INLINED!!
 			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., "|c0061FFFF游戏模式|c00FFFFFF: 简易模式")
 		else
 			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20., "|c0061FFFF游戏模式|c00FFFFFF: 经典模式（初级玩家）")
@@ -2345,10 +2351,10 @@ function Trig_ModeEasy_Func009C takes nothing returns boolean
 endfunction
 
 function Trig_ModeEasy_Actions takes nothing returns nothing
-	set udg_boolean04 = true
+	set udg_ModeEasy = true
 	set udg_TomesCount = 5
 	call TriggerAddCondition(udg_trigger137, Condition(function Trig_ModeEasy_Func005002))
-	call SetItemCharges(GetItemOfTypeFromUnitBJ(udg_unit41, 'ankh'), 1)
+	// call SetItemCharges(GetItemOfTypeFromUnitBJ(udg_unit41, 'ankh'), 1)
 	call UnitRemoveAbility(udg_unit51, 'AHds')
 	set udg_SpecialUnit[3]='n00Y'
 	if( (udg_PlayerCount == 1) ) then // INLINED!!
@@ -2401,7 +2407,7 @@ function Trig_HeroSelect1b_Func005001 takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect1b_Func010001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_HeroSelect1b_Actions takes nothing returns nothing
@@ -2430,7 +2436,7 @@ function Trig_HeroSelect1b_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[1])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(Player(0), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(Player(0), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -2474,7 +2480,7 @@ function Trig_HeroSelect2b_Func005001 takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect2b_Func010001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_HeroSelect2b_Actions takes nothing returns nothing
@@ -2503,7 +2509,7 @@ function Trig_HeroSelect2b_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[2])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(Player(1), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(Player(1), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -2547,7 +2553,7 @@ function Trig_HeroSelect3b_Func005001 takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect3b_Func010001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_HeroSelect3b_Actions takes nothing returns nothing
@@ -2576,7 +2582,7 @@ function Trig_HeroSelect3b_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[3])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(Player(2), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(Player(2), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -2620,7 +2626,7 @@ function Trig_HeroSelect4b_Func005001 takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect4b_Func010001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_HeroSelect4b_Actions takes nothing returns nothing
@@ -2649,7 +2655,7 @@ function Trig_HeroSelect4b_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[4])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(Player(3), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(Player(3), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -2693,7 +2699,7 @@ function Trig_HeroSelect5b_Func005001 takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect5b_Func010001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_HeroSelect5b_Actions takes nothing returns nothing
@@ -2722,7 +2728,7 @@ function Trig_HeroSelect5b_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[5])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(Player(4), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(Player(4), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -2766,7 +2772,7 @@ function Trig_HeroSelect6b_Func005001 takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect6b_Func010001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_HeroSelect6b_Actions takes nothing returns nothing
@@ -2795,7 +2801,7 @@ function Trig_HeroSelect6b_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[6])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(Player(5), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(Player(5), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -2839,7 +2845,7 @@ function Trig_HeroSelect7b_Func005001 takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect7b_Func010001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_HeroSelect7b_Actions takes nothing returns nothing
@@ -2868,7 +2874,7 @@ function Trig_HeroSelect7b_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[7])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(Player(6), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(Player(6), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -2912,7 +2918,7 @@ function Trig_HeroSelect8b_Func005001 takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect8b_Func010001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_HeroSelect8b_Actions takes nothing returns nothing
@@ -2941,7 +2947,7 @@ function Trig_HeroSelect8b_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[8])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(Player(7), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(Player(7), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -3114,7 +3120,7 @@ function Trig_AttackStart_Actions takes nothing returns nothing
 		call EnableTrigger(udg_trigger47)
 		call EnableTrigger(udg_trigger50)
 		call EnableTrigger(gg_trg_HeroAttack)
-		call EnableTrigger(udg_trigger49)
+		call EnableTrigger(gg_trg_LightningAttack)
 	else
 		call TriggerRegisterTimerEventPeriodic(gg_trg_AttackCome, 15.)
 		call DestroyTrigger(udg_trigger15)
@@ -3122,7 +3128,7 @@ function Trig_AttackStart_Actions takes nothing returns nothing
 		call DestroyTrigger(udg_trigger51)
 		call DestroyTrigger(udg_trigger50)
 		call DestroyTrigger(gg_trg_HeroAttack)
-		call DestroyTrigger(udg_trigger49)
+		call DestroyTrigger(gg_trg_LightningAttack)
 		call TriggerSleepAction(20.)
 	endif
 	call EnableTrigger(udg_trigger41)
@@ -4663,10 +4669,11 @@ function Trig_Survival2Attack_Actions takes nothing returns nothing
 		call ModifyHeroStat(0, udg_unit42, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 		call ModifyHeroStat(1, udg_unit42, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 		call ModifyHeroStat(2, udg_unit42, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
-		call EnableTrigger(udg_trigger96)
-		call EnableTrigger(udg_trigger97)
-		call EnableTrigger(udg_trigger98)
-		call EnableTrigger(udg_trigger99)
+		call SetUnitInvulnerable(udg_unit42, false)
+		call EnableTrigger(gg_trg_Boss2Dead)
+		call EnableTrigger(gg_trg_Boss3Dead)
+		call EnableTrigger(gg_trg_Boss4Dead)
+		call EnableTrigger(gg_trg_Boss5Dead)
 		call TriggerSleepAction(2)
 		call DestroyTrigger(GetTriggeringTrigger())
 	else
@@ -4798,6 +4805,7 @@ function Trig_Survival3Attack_Actions takes nothing returns nothing
 			set bj_forLoopAIndex = bj_forLoopAIndex + 1
 		endloop
 		call TriggerSleepAction(10.)
+		call SetUnitInvulnerable(udg_unit51, false)
 		call ModifyGateBJ(1, udg_destructable10)
 		call ModifyGateBJ(1, udg_destructable11)
 		call ModifyGateBJ(1, udg_destructable12)
@@ -6806,7 +6814,7 @@ function Trig_Boss1Teleport_Func006002 takes nothing returns nothing
 endfunction
 
 function Trig_Boss1Teleport_Func027001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_Boss1Teleport_Func031002 takes nothing returns nothing
@@ -6815,6 +6823,10 @@ endfunction
 
 function Trig_Boss1Teleport_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
+	if( (udg_Difficulty >= 2) ) then // INLINED!!
+		call DisableTrigger(gg_trg_LightningAttack)
+		call DestroyTrigger(gg_trg_LightningAttack)
+	endif
 	call YDWEPauseAllUnitsBJNull(true)
 	call EndThematicMusicBJ()
 	call StopMusic(false)
@@ -6824,6 +6836,7 @@ function Trig_Boss1Teleport_Actions takes nothing returns nothing
 	call ModifyHeroStat(0, udg_unit41, 2, (3000 + (udg_Difficulty * (udg_PlayerCount * 250) ) ))
 	call ModifyHeroStat(1, udg_unit41, 2, (3000 + (udg_Difficulty * (udg_PlayerCount * 250) ) ))
 	call ModifyHeroStat(2, udg_unit41, 2, (3000 + (udg_Difficulty * (udg_PlayerCount * 250) ) ))
+	call SetUnitInvulnerable(udg_unit41, false)
 	set udg_TempPoint = GetRectCenter(udg_rect02)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
@@ -6844,13 +6857,13 @@ function Trig_Boss1Teleport_Actions takes nothing returns nothing
 	call TriggerSleepAction(4.)
 	set udg_integer05 = 5
 	call TriggerExecute(udg_trigger127)
-	call EnableTrigger(udg_trigger95)
+	call EnableTrigger(gg_trg_Boss1Dead)
 	call DisableTrigger(udg_trigger71)
 	call TriggerSleepAction(7.)
 	call YDWEPauseAllUnitsBJNull(false)
 	call TriggerSleepAction(1.)
-	if( (udg_boolean04) ) then // INLINED!!
-		call EnableTrigger(udg_trigger121)
+	if( (udg_ModeEasy) ) then // INLINED!!
+		call EnableTrigger(gg_trg_EasyPowerUp)
 	endif
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
@@ -6879,7 +6892,7 @@ function Trig_Boss1Dead_Actions takes nothing returns nothing
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了黑暗领主：") + GetHeroProperName(GetTriggerUnit()) ))
 	loop
 	exitwhen( (IsUnitGroupEmptyBJ(YDWEGetUnitsInRectOfPlayerNull(udg_rect02 , Player(9)))) ) // INLINED!!
-		call TriggerSleepAction(RMaxBJ(bj_WAIT_FOR_COND_MIN_INTERVAL, 3.))
+		call TriggerSleepAction(RMaxBJ(bj_WAIT_FOR_COND_MIN_INTERVAL, 1.))
 	endloop
 	call EndThematicMusicBJ()
 	call StopMusic(false)
@@ -6888,10 +6901,6 @@ function Trig_Boss1Dead_Actions takes nothing returns nothing
 	call ModifyGateBJ(1, udg_destructable10)
 	call QuestSetCompleted(udg_quests01[2], true)
 	call EnableTrigger(udg_trigger54)
-	if( (udg_Difficulty >= 2) ) then // INLINED!!
-		call DisableTrigger(udg_trigger49)
-		call DestroyTrigger(udg_trigger49)
-	endif
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -6903,6 +6912,10 @@ function Trig_Boss2Dead_Actions takes nothing returns nothing
 	call ModifyHeroStat(0, udg_unit43, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(1, udg_unit43, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(2, udg_unit43, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
+	call SetUnitInvulnerable(udg_unit43, false)
+	if(not(udg_ModeEasy)) then
+		call IssueImmediateOrderBJ(udg_unit43, "immolation")
+	endif
 	call ModifyGateBJ(1, udg_destructable17)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
@@ -6915,6 +6928,10 @@ function Trig_Boss3Dead_Actions takes nothing returns nothing
 	call ModifyHeroStat(0, udg_unit46, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(1, udg_unit46, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(2, udg_unit46, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
+	call SetUnitInvulnerable(udg_unit46, false)
+	if(not(udg_ModeEasy)) then
+		call UnitAddAbilityBJ('A04O', udg_unit46)
+	endif
 	call ModifyGateBJ(1, udg_destructable09)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
@@ -6927,6 +6944,7 @@ function Trig_Boss4Dead_Actions takes nothing returns nothing
 	call ModifyHeroStat(0, udg_unit45, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(1, udg_unit45, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(2, udg_unit45, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
+	call SetUnitInvulnerable(udg_unit45, false)
 	call ModifyGateBJ(1, udg_destructable16)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
@@ -6972,10 +6990,10 @@ endfunction
 function Trig_Boss6Teleport_Actions takes nothing returns nothing
 	call SetUnitAnimation(udg_unit51, "spell")
 	call AddSpecialEffectTargetUnitBJ("origin", udg_unit51, "Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl")
-	set udg_unit01 = GroupPickRandomUnit(YDWEGetUnitsInRectMatchingNull(udg_rect12 , Condition(function Trig_Boss6Teleport_Func003002001002)))
 	call TriggerSleepAction(.2)
 	call DestroyEffect(bj_lastCreatedEffect)
 	call TriggerSleepAction(.8)
+	set udg_unit01 = GroupPickRandomUnit(YDWEGetUnitsInRectMatchingNull(udg_rect12 , Condition(function Trig_Boss6Teleport_Func003002001002)))
 	call SetUnitPositionLocFacingLocBJ(udg_unit51, GetUnitLoc(udg_unit01), GetUnitLoc(udg_unit01))
 	call AddSpecialEffectTargetUnitBJ("origin", udg_unit51, "Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl")
 	call TriggerSleepAction(.2)
@@ -7132,7 +7150,7 @@ function Trig_Boss7Come_Func030001 takes nothing returns boolean
 endfunction
 
 function Trig_Boss7Come_Func039C takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_Boss7Come_Func051001002 takes nothing returns boolean
@@ -7228,7 +7246,7 @@ function Trig_Boss7Come_Actions takes nothing returns nothing
 		call PauseUnit(bj_lastCreatedUnit, true)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 	else
 		call CreateNUnitsAtLoc(1, 'n00N', Player(9), GetRectCenter(udg_rect12), bj_UNIT_FACING)
 	endif
@@ -8130,11 +8148,11 @@ function Trig_Teleport_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_Teleport_Func001C takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger95) != true) and(IsUnitDeadBJ(udg_unit41) ) and(IsUnitGroupEmptyBJ(YDWEGetUnitsInRectOfPlayerNull(udg_rect02 , Player(9))) )
+	return(IsTriggerEnabled(gg_trg_Boss1Dead) != true) and(IsUnitDeadBJ(udg_unit41) ) and(IsUnitGroupEmptyBJ(YDWEGetUnitsInRectOfPlayerNull(udg_rect02 , Player(9))) )
 endfunction
 
 function Trig_Teleport_Actions takes nothing returns nothing
-	if( ((IsTriggerEnabled(udg_trigger95) != true) and(IsUnitDeadBJ(udg_unit41) ) and(IsUnitGroupEmptyBJ(YDWEGetUnitsInRectOfPlayerNull(udg_rect02 , Player(9))) )) ) then // INLINED!!
+	if( ((IsTriggerEnabled(gg_trg_Boss1Dead) != true) and(IsUnitDeadBJ(udg_unit41) ) and(IsUnitGroupEmptyBJ(YDWEGetUnitsInRectOfPlayerNull(udg_rect02 , Player(9))) )) ) then // INLINED!!
 		call SetUnitPositionLoc(GetTriggerUnit(), GetRectCenter(udg_rect38))
 		call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), GetRectCenter(udg_rect38), 0)
 	else
@@ -8643,7 +8661,7 @@ function Trig_Random_Func010003002 takes nothing returns nothing
 endfunction
 
 function Trig_Random_Func018001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_Random_Func019001 takes nothing returns boolean
@@ -8704,7 +8722,7 @@ function Trig_Random_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[udg_TempNumber])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_GOLD, 125000)
 	else
 		call SetPlayerStateBJ(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_GOLD, 5000)
@@ -8811,7 +8829,7 @@ function Trig_RepickRandom_Func014003002 takes nothing returns nothing
 endfunction
 
 function Trig_RepickRandom_Func022001 takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_RepickRandom_Actions takes nothing returns nothing
@@ -8863,7 +8881,7 @@ function Trig_RepickRandom_Actions takes nothing returns nothing
 		call UnitAddItemByIdSwapped('tpow', udg_Heroes[udg_integer04])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (udg_boolean04) ) then // INLINED!!
+	if( (udg_ModeEasy) ) then // INLINED!!
 		call SetPlayerStateBJ(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_GOLD, 100000)
 	else
 		call SetPlayerStateBJ(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_GOLD, 1000)
@@ -9100,7 +9118,7 @@ function Trig_ExtremeLevel_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Info_Func001Func001C takes nothing returns boolean
-	return(udg_boolean04)
+	return(udg_ModeEasy)
 endfunction
 
 function Trig_Info_Func001C takes nothing returns boolean
@@ -9135,7 +9153,7 @@ function Trig_Info_Actions takes nothing returns nothing
 	if( (udg_Difficulty > 1) ) then // INLINED!!
 		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 20., ("|c0061FFFF游戏模式|c00FFFFFF: 极限等级 " + I2S((udg_Difficulty - 1)) ))
 	else
-		if( (udg_boolean04) ) then // INLINED!!
+		if( (udg_ModeEasy) ) then // INLINED!!
 			call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 20., "|c0061FFFF游戏模式|c00FFFFFF: 简易模式")
 		else
 			call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 20., "|c0061FFFF游戏模式|c00FFFFFF: 经典模式")
@@ -11793,7 +11811,7 @@ function main2 takes nothing returns nothing
 	call IssueImmediateOrder(udg_unit41, "")
 	call IssueImmediateOrder(udg_unit41, "")
 	call IssueImmediateOrder(udg_unit41, "")
-	call UnitAddItemToSlotById(udg_unit41, 'ankh', 0)
+	//call UnitAddItemToSlotById(udg_unit41, 'ankh', 0)
 	set udg_unit42 = CreateUnit(p, 'Nbbc', -4031.1, 4031.6, 315.)
 	call SetHeroLevel(udg_unit42, 20, false)
 	call SetHeroStr(udg_unit42, 3000, true)
@@ -12244,9 +12262,9 @@ function main2 takes nothing returns nothing
 	call DisableTrigger(gg_trg_HeroAttack)
 	call TriggerAddCondition(gg_trg_HeroAttack, Condition(function Trig_HeroAttack_Conditions))
 	call TriggerAddAction(gg_trg_HeroAttack, function Trig_HeroAttack_Actions)
-	call DisableTrigger(udg_trigger49)
-	call TriggerRegisterTimerEventPeriodic(udg_trigger49, 240.)
-	call TriggerAddAction(udg_trigger49, function Trig_LightningAttack_Actions)
+	call DisableTrigger(gg_trg_LightningAttack)
+	call TriggerRegisterTimerEventPeriodic(gg_trg_LightningAttack, 240.)
+	call TriggerAddAction(gg_trg_LightningAttack, function Trig_LightningAttack_Actions)
 	call DisableTrigger(udg_trigger50)
 	call TriggerRegisterTimerExpireEvent(udg_trigger50, udg_AssassinTimer)
 	call TriggerAddAction(udg_trigger50, function Trig_SilentAssassin_Actions)
@@ -12417,21 +12435,21 @@ function main2 takes nothing returns nothing
 	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger94 , udg_rect44)
 	call TriggerAddCondition(udg_trigger94, Condition(function Trig_Boss1Teleport_Conditions))
 	call TriggerAddAction(udg_trigger94, function Trig_Boss1Teleport_Actions)
-	call DisableTrigger(udg_trigger95)
-	call TriggerRegisterUnitEvent(udg_trigger95, udg_unit41, EVENT_UNIT_DEATH)
-	call TriggerAddAction(udg_trigger95, function Trig_Boss1Dead_Actions)
-	call DisableTrigger(udg_trigger96)
-	call TriggerRegisterUnitEvent(udg_trigger96, udg_unit42, EVENT_UNIT_DEATH)
-	call TriggerAddAction(udg_trigger96, function Trig_Boss2Dead_Actions)
-	call DisableTrigger(udg_trigger97)
-	call TriggerRegisterUnitEvent(udg_trigger97, udg_unit43, EVENT_UNIT_DEATH)
-	call TriggerAddAction(udg_trigger97, function Trig_Boss3Dead_Actions)
-	call DisableTrigger(udg_trigger98)
-	call TriggerRegisterUnitEvent(udg_trigger98, udg_unit46, EVENT_UNIT_DEATH)
-	call TriggerAddAction(udg_trigger98, function Trig_Boss4Dead_Actions)
-	call DisableTrigger(udg_trigger99)
-	call TriggerRegisterUnitEvent(udg_trigger99, udg_unit45, EVENT_UNIT_DEATH)
-	call TriggerAddAction(udg_trigger99, function Trig_Boss5Dead_Actions)
+	call DisableTrigger(gg_trg_Boss1Dead)
+	call TriggerRegisterUnitEvent(gg_trg_Boss1Dead, udg_unit41, EVENT_UNIT_DEATH)
+	call TriggerAddAction(gg_trg_Boss1Dead, function Trig_Boss1Dead_Actions)
+	call DisableTrigger(gg_trg_Boss2Dead)
+	call TriggerRegisterUnitEvent(gg_trg_Boss2Dead, udg_unit42, EVENT_UNIT_DEATH)
+	call TriggerAddAction(gg_trg_Boss2Dead, function Trig_Boss2Dead_Actions)
+	call DisableTrigger(gg_trg_Boss3Dead)
+	call TriggerRegisterUnitEvent(gg_trg_Boss3Dead, udg_unit43, EVENT_UNIT_DEATH)
+	call TriggerAddAction(gg_trg_Boss3Dead, function Trig_Boss3Dead_Actions)
+	call DisableTrigger(gg_trg_Boss4Dead)
+	call TriggerRegisterUnitEvent(gg_trg_Boss4Dead, udg_unit46, EVENT_UNIT_DEATH)
+	call TriggerAddAction(gg_trg_Boss4Dead, function Trig_Boss4Dead_Actions)
+	call DisableTrigger(gg_trg_Boss5Dead)
+	call TriggerRegisterUnitEvent(gg_trg_Boss5Dead, udg_unit45, EVENT_UNIT_DEATH)
+	call TriggerAddAction(gg_trg_Boss5Dead, function Trig_Boss5Dead_Actions)
 	call DisableTrigger(udg_trigger100)
 	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger100 , udg_rect12)
 	call TriggerAddCondition(udg_trigger100, Condition(function Trig_Boss6Music_Conditions))
@@ -12505,9 +12523,9 @@ function main2 takes nothing returns nothing
 	call TriggerAddAction(udg_trigger119, function Trig_GameLevel3_Actions)
 	call DisableTrigger(udg_trigger120)
 	call TriggerAddAction(udg_trigger120, function Trig_GameLevel4_Actions)
-	call DisableTrigger(udg_trigger121)
-	call TriggerRegisterTimerEventPeriodic(udg_trigger121, 240.)
-	call TriggerAddAction(udg_trigger121, function Trig_EasyPowerUp_Actions)
+	call DisableTrigger(gg_trg_EasyPowerUp)
+	call TriggerRegisterTimerEventPeriodic(gg_trg_EasyPowerUp, 240.)
+	call TriggerAddAction(gg_trg_EasyPowerUp, function Trig_EasyPowerUp_Actions)
 	call TriggerRegisterPlayerUnitEventSimple(udg_trigger122, Player(0), EVENT_PLAYER_UNIT_DEATH)
 	call TriggerRegisterPlayerUnitEventSimple(udg_trigger122, Player(1), EVENT_PLAYER_UNIT_DEATH)
 	call TriggerRegisterPlayerUnitEventSimple(udg_trigger122, Player(2), EVENT_PLAYER_UNIT_DEATH)
@@ -12834,7 +12852,7 @@ function InitTrig_init takes nothing returns nothing
 	set udg_trigger46 = CreateTrigger()
 	set udg_trigger47 = CreateTrigger()
 	set gg_trg_HeroAttack = CreateTrigger()
-	set udg_trigger49 = CreateTrigger()
+	set gg_trg_LightningAttack = CreateTrigger()
 	set udg_trigger50 = CreateTrigger()
 	set udg_trigger51 = CreateTrigger()
 	set udg_trigger52 = CreateTrigger()
@@ -12880,11 +12898,11 @@ function InitTrig_init takes nothing returns nothing
 	set udg_trigger92 = CreateTrigger()
 	set udg_trigger93 = CreateTrigger()
 	set udg_trigger94 = CreateTrigger()
-	set udg_trigger95 = CreateTrigger()
-	set udg_trigger96 = CreateTrigger()
-	set udg_trigger97 = CreateTrigger()
-	set udg_trigger98 = CreateTrigger()
-	set udg_trigger99 = CreateTrigger()
+	set gg_trg_Boss1Dead = CreateTrigger()
+	set gg_trg_Boss2Dead = CreateTrigger()
+	set gg_trg_Boss3Dead = CreateTrigger()
+	set gg_trg_Boss4Dead = CreateTrigger()
+	set gg_trg_Boss5Dead = CreateTrigger()
 	set udg_trigger100 = CreateTrigger()
 	set udg_trigger101 = CreateTrigger()
 	set udg_trigger102 = CreateTrigger()
@@ -12906,7 +12924,7 @@ function InitTrig_init takes nothing returns nothing
 	set udg_trigger118 = CreateTrigger()
 	set udg_trigger119 = CreateTrigger()
 	set udg_trigger120 = CreateTrigger()
-	set udg_trigger121 = CreateTrigger()
+	set gg_trg_EasyPowerUp = CreateTrigger()
 	set udg_trigger122 = CreateTrigger()
 	set udg_trigger123 = CreateTrigger()
 	set udg_trigger124 = CreateTrigger()
