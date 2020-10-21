@@ -72,7 +72,7 @@ globals
 	timerdialog udg_timerdialog02 = null
 	location array udg_locations01
 	real array udg_reals01
-	timer udg_timer03 = null
+	timer udg_CountdownTimer = null
 	rect array udg_rects02
 	integer array udg_integers04
 	integer array udg_integers05
@@ -86,7 +86,7 @@ globals
 	integer array udg_WaveUnit
 	integer udg_integer03 = 0
 	integer array udg_integers10
-	integer udg_integer04 = 0
+	integer udg_PlayerNumber = 0
 	quest array udg_quests01
 	integer udg_integer05 = 0
 	integer array udg_Kills
@@ -920,7 +920,7 @@ function InitGlobals takes nothing returns nothing
 		set i = i + 1
 	endloop
 	
-	set udg_timer03 = CreateTimer()
+	set udg_CountdownTimer = CreateTimer()
 	set i = 0
 	loop
 	exitwhen(i > 1)
@@ -973,7 +973,7 @@ function InitGlobals takes nothing returns nothing
 		set i = i + 1
 	endloop
 	
-	set udg_integer04 = 0
+	set udg_PlayerNumber = 0
 	set udg_integer05 = 0
 	set i = 0
 	loop
@@ -1470,7 +1470,7 @@ function Trig_Heroes_Func010002 takes nothing returns nothing
 endfunction
 
 function Trig_Heroes_Func011002002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Heroes_Func012002 takes nothing returns nothing
@@ -1853,11 +1853,11 @@ function Trig_ModeRandom_Func012Func001Func003002002001 takes nothing returns bo
 endfunction
 
 function Trig_ModeRandom_Func012Func001Func003002002002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_ModeRandom_Func012Func001Func003002002 takes nothing returns boolean
-	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(8)), (IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)) // INLINED!!
+	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(8)), (IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))) // INLINED!!
 endfunction
 
 function Trig_ModeRandom_Func012Func001Func008002002001 takes nothing returns boolean
@@ -2391,7 +2391,7 @@ function Trig_HeroSelect1b_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect1b_Func003001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_HeroSelect1b_Func003002 takes nothing returns nothing
@@ -2464,7 +2464,7 @@ function Trig_HeroSelect2b_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect2b_Func003001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_HeroSelect2b_Func003002 takes nothing returns nothing
@@ -2537,7 +2537,7 @@ function Trig_HeroSelect3b_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect3b_Func003001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_HeroSelect3b_Func003002 takes nothing returns nothing
@@ -2610,7 +2610,7 @@ function Trig_HeroSelect4b_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect4b_Func003001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_HeroSelect4b_Func003002 takes nothing returns nothing
@@ -2683,7 +2683,7 @@ function Trig_HeroSelect5b_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect5b_Func003001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_HeroSelect5b_Func003002 takes nothing returns nothing
@@ -2756,7 +2756,7 @@ function Trig_HeroSelect6b_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect6b_Func003001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_HeroSelect6b_Func003002 takes nothing returns nothing
@@ -2829,7 +2829,7 @@ function Trig_HeroSelect7b_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect7b_Func003001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_HeroSelect7b_Func003002 takes nothing returns nothing
@@ -2902,7 +2902,7 @@ function Trig_HeroSelect8b_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_HeroSelect8b_Func003001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_HeroSelect8b_Func003002 takes nothing returns nothing
@@ -2957,7 +2957,7 @@ function Trig_HeroSelect8b_Actions takes nothing returns nothing
 endfunction
 
 function Trig_DualHeroSelect_Func014001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_DualHeroSelect_Conditions takes nothing returns boolean
@@ -2965,7 +2965,7 @@ function Trig_DualHeroSelect_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_DualHeroSelect_Func009Func001Func004001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_DualHeroSelect_Func009Func001C takes nothing returns boolean
@@ -4884,8 +4884,8 @@ function Trig_Special1Start_Actions takes nothing returns nothing
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c00FFFFFF限时3分钟")
 	call TriggerSleepAction(6.)
 	call TriggerAddCondition(udg_trigger136, Condition(function Trig_Special1Start_BuyTomes))
-	call StartTimerBJ(udg_timer03, false, 180.)
-	call CreateTimerDialogBJ(udg_timer03, "倒计时:")
+	call StartTimerBJ(udg_CountdownTimer, false, 180.)
+	call CreateTimerDialogBJ(udg_CountdownTimer, "倒计时:")
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	set udg_timerdialog02 = bj_lastCreatedTimerDialog
 	call TriggerSleepAction(.1)
@@ -4907,26 +4907,26 @@ function Trig_Special1Start_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special1Attack_Func006Func003001 takes nothing returns boolean
-	return(udg_integers04[udg_integer04] >= 10)
+	return(udg_integers04[udg_PlayerNumber] >= 10)
 endfunction
 
 function Trig_Special1Attack_Func006C takes nothing returns boolean
-	return(CountUnitsInGroup(YDWEGetUnitsInRectOfPlayerNull(udg_rects02[udg_integer04] , Player(9))) <= 1)
+	return(CountUnitsInGroup(YDWEGetUnitsInRectOfPlayerNull(udg_rects02[udg_PlayerNumber] , Player(9))) <= 1)
 endfunction
 
 function Trig_Special1Attack_Actions takes nothing returns nothing
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
 	call RemoveUnit(GetTriggerUnit())
-	call AdjustPlayerStateBJ(1, Player(-1 + (udg_integer04)), PLAYER_STATE_RESOURCE_LUMBER)
-	call LeaderboardSetPlayerItemValueBJ(Player(-1 + (udg_integer04)), bj_lastCreatedLeaderboard, GetPlayerState(Player(-1 + (udg_integer04)), PLAYER_STATE_RESOURCE_LUMBER))
+	call AdjustPlayerStateBJ(1, Player(-1 + (udg_PlayerNumber)), PLAYER_STATE_RESOURCE_LUMBER)
+	call LeaderboardSetPlayerItemValueBJ(Player(-1 + (udg_PlayerNumber)), bj_lastCreatedLeaderboard, GetPlayerState(Player(-1 + (udg_PlayerNumber)), PLAYER_STATE_RESOURCE_LUMBER))
 	call LeaderboardSortItemsBJ(bj_lastCreatedLeaderboard, 0, false)
-	if( (CountUnitsInGroup(YDWEGetUnitsInRectOfPlayerNull(udg_rects02[udg_integer04] , Player(9))) <= 1) ) then // INLINED!!
-		set udg_integers04[udg_integer04]=(udg_integers04[udg_integer04] + 1)
-		if( (udg_integers04[udg_integer04] >= 10) ) then // INLINED!!
-			set udg_integers04[udg_integer04]= 1
+	if( (CountUnitsInGroup(YDWEGetUnitsInRectOfPlayerNull(udg_rects02[udg_PlayerNumber] , Player(9))) <= 1) ) then // INLINED!!
+		set udg_integers04[udg_PlayerNumber]=(udg_integers04[udg_PlayerNumber] + 1)
+		if( (udg_integers04[udg_PlayerNumber] >= 10) ) then // INLINED!!
+			set udg_integers04[udg_PlayerNumber]= 1
 		endif
-		set tempPoint = GetRectCenter(udg_rects02[udg_integer04])
-		call CreateNUnitsAtLocFacingLocBJ(10, udg_SpecialUnit[udg_integers04[udg_integer04]], Player(9), tempPoint, GetUnitLoc(GetTriggerUnit()))
+		set tempPoint = GetRectCenter(udg_rects02[udg_PlayerNumber])
+		call CreateNUnitsAtLocFacingLocBJ(10, udg_SpecialUnit[udg_integers04[udg_PlayerNumber]], Player(9), tempPoint, GetUnitLoc(GetTriggerUnit()))
 		call RemoveLocation(tempPoint)
 	endif
 endfunction
@@ -5151,7 +5151,7 @@ function Trig_Special2Start_Func045002 takes nothing returns nothing
 endfunction
 
 function Trig_Special2Start_Actions takes nothing returns nothing
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
 	call YDWEPauseAllUnitsBJNull(true)
 	call DisableTrigger(gg_trg_AttackCome)
 	call DisableTrigger(udg_trigger40)
@@ -5180,26 +5180,26 @@ function Trig_Special2Start_Actions takes nothing returns nothing
 	call DestroyTimerDialog(udg_timerdialog02)
 	call DestroyTimerDialog(udg_timerdialog03)
 	call StopMusic(true)
-	set udg_locations01[udg_integer04]= GetUnitLoc(udg_Heroes[udg_integer04])
-	set udg_reals01[udg_integer04]= GetUnitFacing(udg_Heroes[udg_integer04])
+	set udg_locations01[udg_PlayerNumber]= GetUnitLoc(udg_Heroes[udg_PlayerNumber])
+	set udg_reals01[udg_PlayerNumber]= GetUnitFacing(udg_Heroes[udg_PlayerNumber])
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c0061FFFF圣域精英进入竞技场")
 	call TriggerSleepAction(3.)
 	call SetUnitPositionLocFacingLocBJ(udg_unit08, OffsetLocation(GetRectCenter(udg_rect31), .0, 200.), GetRectCenter(udg_rect31))
 	call SetUnitInvulnerable(udg_unit08, false)
-	call SetUnitPositionLocFacingLocBJ(udg_Heroes[udg_integer04], OffsetLocation(GetRectCenter(udg_rect31), 0, -200.), GetRectCenter(udg_rect31))
+	call SetUnitPositionLocFacingLocBJ(udg_Heroes[udg_PlayerNumber], OffsetLocation(GetRectCenter(udg_rect31), 0, -200.), GetRectCenter(udg_rect31))
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Special2Start_Func025002)
-	call SetUnitLifePercentBJ(udg_Heroes[udg_integer04], 'd')
-	call SetUnitManaPercentBJ(udg_Heroes[udg_integer04], 'd')
-	call UnitRemoveBuffsBJ(2, udg_Heroes[udg_integer04])
-	call UnitResetCooldown(udg_Heroes[udg_integer04])
+	call SetUnitLifePercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call SetUnitManaPercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call UnitRemoveBuffsBJ(2, udg_Heroes[udg_PlayerNumber])
+	call UnitResetCooldown(udg_Heroes[udg_PlayerNumber])
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c00FFFFFF时间为3分钟")
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c00FFFFFF挑战胜利的勇者能得到至宝：|c00FFFF33优越之戒")
 	call TriggerSleepAction(1.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Special2Start_Func032002)
 	call TriggerSleepAction(8.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Special2Start_Func034002)
-	call StartTimerBJ(udg_timer03, false, 180.)
-	call CreateTimerDialogBJ(udg_timer03, "倒计时:")
+	call StartTimerBJ(udg_CountdownTimer, false, 180.)
+	call CreateTimerDialogBJ(udg_CountdownTimer, "倒计时:")
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	set udg_timerdialog02 = bj_lastCreatedTimerDialog
 	call TriggerSleepAction(1.)
@@ -5213,7 +5213,7 @@ function Trig_Special2Start_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special2Stop_Conditions takes nothing returns boolean
-	return(GetTriggerUnit() == udg_Heroes[udg_integer04] ) and(IsUnitDeadBJ(GetTriggerUnit()) == false)
+	return(GetTriggerUnit() == udg_Heroes[udg_PlayerNumber] ) and(IsUnitDeadBJ(GetTriggerUnit()) == false)
 endfunction
 
 function Trig_Special2Stop_Func006C takes nothing returns boolean
@@ -5359,33 +5359,33 @@ function Trig_Special2Stop_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special2Dead_Conditions takes nothing returns boolean
-	return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO)) and(GetTriggerUnit() == udg_Heroes[udg_PlayerNumber])
 endfunction
 
 function Trig_Special2Dead_Func004Func008001 takes nothing returns boolean
-	return(GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Nbst' )
+	return(GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Nbst' )
 endfunction
 
 function Trig_Special2Dead_Func004Func008002 takes nothing returns boolean
-	return(GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Obla' )
+	return(GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Obla' )
 endfunction
 
 function Trig_Special2Dead_Func004C takes nothing returns boolean
-	return(GetTriggerUnit() == udg_unit08) and(GetBooleanOr((GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Nbst'), (GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Obla')) ) // INLINED!!
+	return(GetTriggerUnit() == udg_unit08) and(GetBooleanOr((GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Nbst'), (GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Obla')) ) // INLINED!!
 endfunction
 
 function Trig_Special2Dead_Func005Func001001 takes nothing returns boolean
-	return(udg_integer04 != bj_forLoopAIndex)
+	return(udg_PlayerNumber != bj_forLoopAIndex)
 endfunction
 
 function Trig_Special2Dead_Actions takes nothing returns nothing
 	call DisableTrigger(udg_trigger65)
 	call DisableTrigger(udg_trigger67)
-	if( ((GetTriggerUnit() == udg_unit08) and(GetBooleanOr((GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Nbst'), (GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Obla')) )) ) then // INLINED!!
+	if( ((GetTriggerUnit() == udg_unit08) and(GetBooleanOr((GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Nbst'), (GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Obla')) )) ) then // INLINED!!
 		call TriggerSleepAction(1.)
-		call PauseUnit(udg_Heroes[udg_integer04], true)
+		call PauseUnit(udg_Heroes[udg_PlayerNumber], true)
 		call TriggerSleepAction(1.)
-		call PauseUnit(udg_Heroes[udg_integer04], false)
+		call PauseUnit(udg_Heroes[udg_PlayerNumber], false)
 		call TriggerSleepAction(1.)
 	else
 		call TriggerSleepAction(3.)
@@ -5394,7 +5394,7 @@ function Trig_Special2Dead_Actions takes nothing returns nothing
 	set bj_forLoopAIndexEnd = 8
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		if( (udg_integer04 != bj_forLoopAIndex) ) then // INLINED!!
+		if( (udg_PlayerNumber != bj_forLoopAIndex) ) then // INLINED!!
 			call PanCameraToTimedLocForPlayer(Player(-1 + (bj_forLoopAIndex)), GetUnitLoc(udg_Heroes[bj_forLoopAIndex]), 0)
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -5409,9 +5409,9 @@ function Trig_Special2TimeOut_Actions takes nothing returns nothing
 	call YDWEPauseAllUnitsBJNull(true)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c0061FFFF时间结束")
 	call TriggerSleepAction(3.)
-	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_integer04], udg_locations01[udg_integer04], udg_reals01[udg_integer04])
-	call SetUnitLifePercentBJ(udg_Heroes[udg_integer04], 'd')
-	call SetUnitManaPercentBJ(udg_Heroes[udg_integer04], 'd')
+	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_PlayerNumber], udg_locations01[udg_PlayerNumber], udg_reals01[udg_PlayerNumber])
+	call SetUnitLifePercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call SetUnitManaPercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
 	loop
@@ -5428,22 +5428,22 @@ function Trig_Special2Teleport_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_Special2Teleport_Actions takes nothing returns nothing
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )
-	call PauseUnit(udg_Heroes[udg_integer04], true)
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )
+	call PauseUnit(udg_Heroes[udg_PlayerNumber], true)
 	call TriggerSleepAction(1.)
-	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_integer04], udg_locations01[udg_integer04], udg_reals01[udg_integer04])
-	call PanCameraToTimedLocForPlayer(Player(-1 + (udg_integer04)), udg_locations01[udg_integer04], 0)
-	call SetUnitLifePercentBJ(udg_Heroes[udg_integer04], 'd')
-	call SetUnitManaPercentBJ(udg_Heroes[udg_integer04], 'd')
-	call UnitResetCooldown(udg_Heroes[udg_integer04])
-	call UnitRemoveBuffsBJ(2, udg_Heroes[udg_integer04])
+	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_PlayerNumber], udg_locations01[udg_PlayerNumber], udg_reals01[udg_PlayerNumber])
+	call PanCameraToTimedLocForPlayer(Player(-1 + (udg_PlayerNumber)), udg_locations01[udg_PlayerNumber], 0)
+	call SetUnitLifePercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call SetUnitManaPercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call UnitResetCooldown(udg_Heroes[udg_PlayerNumber])
+	call UnitRemoveBuffsBJ(2, udg_Heroes[udg_PlayerNumber])
 	call TriggerSleepAction(1.)
-	call PauseUnit(udg_Heroes[udg_integer04], false)
+	call PauseUnit(udg_Heroes[udg_PlayerNumber], false)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
 function Trig_Special3Start_Conditions takes nothing returns boolean
-	return(IsUnitDeadBJ(udg_unit07) != true) and(udg_integers13[udg_integer04] >= 80)
+	return(IsUnitDeadBJ(udg_unit07) != true) and(udg_integers13[udg_PlayerNumber] >= 80)
 endfunction
 
 function Trig_Special3Start_Func009001 takes nothing returns boolean
@@ -5514,8 +5514,8 @@ function Trig_Special3Start_Actions takes nothing returns nothing
 	endif
 	call DestroyTimerDialog(udg_timerdialog02)
 	call DestroyTimerDialog(udg_timerdialog03)
-	set udg_locations01[udg_integer04]= GetUnitLoc(udg_Heroes[udg_integer04])
-	set udg_reals01[udg_integer04]= GetUnitFacing(udg_Heroes[udg_integer04])
+	set udg_locations01[udg_PlayerNumber]= GetUnitLoc(udg_Heroes[udg_PlayerNumber])
+	set udg_reals01[udg_PlayerNumber]= GetUnitFacing(udg_Heroes[udg_PlayerNumber])
 	call StopMusic(true)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c0061FFFF圣域精英进入竞技场")
 	call TriggerSleepAction(3.)
@@ -5523,20 +5523,20 @@ function Trig_Special3Start_Actions takes nothing returns nothing
 	call SetUnitInvulnerable(udg_unit07, false)
 	call SetUnitPositionLocFacingLocBJ(udg_unit54, OffsetLocation(GetRectCenter(udg_rect31), 250., 250.), GetRectCenter(udg_rect31))
 	call SetUnitInvulnerable(udg_unit54, false)
-	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_integer04], GetRectCenter(udg_rect31), 225.)
+	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_PlayerNumber], GetRectCenter(udg_rect31), 225.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Special3Start_Func027002)
-	call SetUnitLifePercentBJ(udg_Heroes[udg_integer04], 'd')
-	call SetUnitManaPercentBJ(udg_Heroes[udg_integer04], 'd')
-	call UnitRemoveBuffsBJ(2, udg_Heroes[udg_integer04])
-	call UnitResetCooldown(udg_Heroes[udg_integer04])
+	call SetUnitLifePercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call SetUnitManaPercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call UnitRemoveBuffsBJ(2, udg_Heroes[udg_PlayerNumber])
+	call UnitResetCooldown(udg_Heroes[udg_PlayerNumber])
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c00FFFFFF时间为3分钟")
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c00FFFFFF挑战胜利的勇者能得到至宝：|c00FFFF33怒雷剑")
 	call TriggerSleepAction(1.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Special3Start_Func034002)
 	call TriggerSleepAction(8.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Special3Start_Func036002)
-	call StartTimerBJ(udg_timer03, false, 180.)
-	call CreateTimerDialogBJ(udg_timer03, "倒计时:")
+	call StartTimerBJ(udg_CountdownTimer, false, 180.)
+	call CreateTimerDialogBJ(udg_CountdownTimer, "倒计时:")
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	set udg_timerdialog02 = bj_lastCreatedTimerDialog
 	call TriggerSleepAction(1.)
@@ -5550,7 +5550,7 @@ function Trig_Special3Start_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special3Stop_Conditions takes nothing returns boolean
-	return(GetTriggerUnit() == udg_Heroes[udg_integer04] ) and(IsUnitDeadBJ(GetTriggerUnit()) == false)
+	return(GetTriggerUnit() == udg_Heroes[udg_PlayerNumber] ) and(IsUnitDeadBJ(GetTriggerUnit()) == false)
 endfunction
 
 function Trig_Special3Stop_Func006C takes nothing returns boolean
@@ -5716,7 +5716,7 @@ function Trig_Special3Count_Actions takes nothing returns nothing
 	set udg_TempNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
 	set udg_integers13[udg_TempNumber]= udg_integers13[udg_TempNumber] + 1
 	if( (udg_integers13[udg_TempNumber] == 80) ) then // INLINED!!
-		set udg_integer04 = udg_TempNumber
+		set udg_PlayerNumber = udg_TempNumber
 		call ConditionalTriggerExecute(udg_trigger69)
 	endif
 	call SetPlayerStateBJ(GetOwningPlayer(GetKillingUnitBJ()), PLAYER_STATE_RESOURCE_FOOD_USED, udg_integers13[udg_TempNumber])
@@ -5732,23 +5732,23 @@ function Trig_Special3Count_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special3Dead_Conditions takes nothing returns boolean
-	return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO)) and(GetTriggerUnit() == udg_Heroes[udg_PlayerNumber])
 endfunction
 
 function Trig_Special3Dead_Func002Func003Func007001 takes nothing returns boolean
-	return(GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Nbst' )
+	return(GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Nbst' )
 endfunction
 
 function Trig_Special3Dead_Func002Func003Func007002 takes nothing returns boolean
-	return(GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Obla' )
+	return(GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Obla' )
 endfunction
 
 function Trig_Special3Dead_Func002Func003C takes nothing returns boolean
-	return(GetBooleanOr((GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Nbst'), (GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Obla')) ) // INLINED!!
+	return(GetBooleanOr((GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Nbst'), (GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Obla')) ) // INLINED!!
 endfunction
 
 function Trig_Special3Dead_Func002Func004001 takes nothing returns boolean
-	return(GetTriggerUnit() == udg_Heroes[udg_integer04] )
+	return(GetTriggerUnit() == udg_Heroes[udg_PlayerNumber] )
 endfunction
 
 function Trig_Special3Dead_Func002Func005001 takes nothing returns boolean
@@ -5760,7 +5760,7 @@ function Trig_Special3Dead_Func002Func005002 takes nothing returns boolean
 endfunction
 
 function Trig_Special3Dead_Func002Func007Func001001 takes nothing returns boolean
-	return(udg_integer04 != bj_forLoopAIndex)
+	return(udg_PlayerNumber != bj_forLoopAIndex)
 endfunction
 
 function Trig_Special3Dead_Func002C takes nothing returns boolean
@@ -5771,11 +5771,11 @@ function Trig_Special3Dead_Actions takes nothing returns nothing
 	if( ((GetBooleanOr((GetTriggerUnit() == udg_unit07), (GetTriggerUnit() == udg_unit54)) ) and(IsUnitGroupDeadBJ(YDWEGetUnitsInRectOfPlayerNull(udg_rect31 , Player(9))) )) ) then // INLINED!!
 		call DisableTrigger(udg_trigger70)
 		call DisableTrigger(udg_trigger73)
-		if( (GetBooleanOr((GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Nbst'), (GetUnitTypeId(udg_Heroes[udg_integer04]) == 'Obla'))) ) then // INLINED!!
+		if( (GetBooleanOr((GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Nbst'), (GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == 'Obla'))) ) then // INLINED!!
 			call TriggerSleepAction(1.)
-			call PauseUnit(udg_Heroes[udg_integer04], true)
+			call PauseUnit(udg_Heroes[udg_PlayerNumber], true)
 			call TriggerSleepAction(1.)
-			call PauseUnit(udg_Heroes[udg_integer04], false)
+			call PauseUnit(udg_Heroes[udg_PlayerNumber], false)
 			call TriggerSleepAction(1.)
 		else
 			call TriggerSleepAction(3.)
@@ -5784,14 +5784,14 @@ function Trig_Special3Dead_Actions takes nothing returns nothing
 		set bj_forLoopAIndexEnd = 8
 		loop
 		exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-			if( (udg_integer04 != bj_forLoopAIndex) ) then // INLINED!!
+			if( (udg_PlayerNumber != bj_forLoopAIndex) ) then // INLINED!!
 				call PanCameraToTimedLocForPlayer(Player(-1 + (bj_forLoopAIndex)), GetUnitLoc(udg_Heroes[bj_forLoopAIndex]), 0)
 			endif
 			set bj_forLoopAIndex = bj_forLoopAIndex + 1
 		endloop
 		call TriggerExecute(udg_trigger70)
 	else
-		if( (GetTriggerUnit() == udg_Heroes[udg_integer04]) ) then // INLINED!!
+		if( (GetTriggerUnit() == udg_Heroes[udg_PlayerNumber]) ) then // INLINED!!
 			call TriggerExecute(udg_trigger70)
 		endif
 	endif
@@ -5803,9 +5803,9 @@ function Trig_Special3TimeOut_Actions takes nothing returns nothing
 	call YDWEPauseAllUnitsBJNull(true)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c0061FFFF时间结束")
 	call TriggerSleepAction(3.)
-	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_integer04], udg_locations01[udg_integer04], udg_reals01[udg_integer04])
-	call SetUnitLifePercentBJ(udg_Heroes[udg_integer04], 'd')
-	call SetUnitManaPercentBJ(udg_Heroes[udg_integer04], 'd')
+	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_PlayerNumber], udg_locations01[udg_PlayerNumber], udg_reals01[udg_PlayerNumber])
+	call SetUnitLifePercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call SetUnitManaPercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
 	loop
@@ -5822,17 +5822,17 @@ function Trig_Special3Teleport_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_Special3Teleport_Actions takes nothing returns nothing
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )
-	call PauseUnit(udg_Heroes[udg_integer04], true)
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )
+	call PauseUnit(udg_Heroes[udg_PlayerNumber], true)
 	call TriggerSleepAction(1.)
-	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_integer04], udg_locations01[udg_integer04], udg_reals01[udg_integer04])
-	call PanCameraToTimedLocForPlayer(Player(-1 + (udg_integer04)), udg_locations01[udg_integer04], 0)
-	call SetUnitLifePercentBJ(udg_Heroes[udg_integer04], 'd')
-	call SetUnitManaPercentBJ(udg_Heroes[udg_integer04], 'd')
-	call UnitResetCooldown(udg_Heroes[udg_integer04])
-	call UnitRemoveBuffsBJ(2, udg_Heroes[udg_integer04])
+	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_PlayerNumber], udg_locations01[udg_PlayerNumber], udg_reals01[udg_PlayerNumber])
+	call PanCameraToTimedLocForPlayer(Player(-1 + (udg_PlayerNumber)), udg_locations01[udg_PlayerNumber], 0)
+	call SetUnitLifePercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call SetUnitManaPercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call UnitResetCooldown(udg_Heroes[udg_PlayerNumber])
+	call UnitRemoveBuffsBJ(2, udg_Heroes[udg_PlayerNumber])
 	call TriggerSleepAction(1.)
-	call PauseUnit(udg_Heroes[udg_integer04], false)
+	call PauseUnit(udg_Heroes[udg_PlayerNumber], false)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -6018,7 +6018,7 @@ function Trig_Special4Agree_Func005C takes nothing returns boolean
 endfunction
 
 function Trig_Special4Agree_Func006Func004001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special4Agree_Func006C takes nothing returns boolean
@@ -6038,7 +6038,7 @@ function Trig_Special4Agree_Func007Func015001 takes nothing returns boolean
 endfunction
 
 function Trig_Special4Agree_Func007Func017001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special4Agree_Func007Func020002 takes nothing returns nothing
@@ -6046,7 +6046,7 @@ function Trig_Special4Agree_Func007Func020002 takes nothing returns nothing
 endfunction
 
 function Trig_Special4Agree_Func007Func021001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special4Agree_Func007C takes nothing returns boolean
@@ -6145,7 +6145,7 @@ function Trig_Special5Agree_Func005C takes nothing returns boolean
 endfunction
 
 function Trig_Special5Agree_Func006Func004001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special5Agree_Func006C takes nothing returns boolean
@@ -6169,7 +6169,7 @@ function Trig_Special5Agree_Func007Func009Func002001 takes nothing returns boole
 endfunction
 
 function Trig_Special5Agree_Func007Func010001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special5Agree_Func007Func013002 takes nothing returns nothing
@@ -6177,7 +6177,7 @@ function Trig_Special5Agree_Func007Func013002 takes nothing returns nothing
 endfunction
 
 function Trig_Special5Agree_Func007Func015001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special5Agree_Func007C takes nothing returns boolean
@@ -6247,11 +6247,11 @@ function Trig_Special5Dead_Func001Func007001001002001 takes nothing returns bool
 endfunction
 
 function Trig_Special5Dead_Func001Func007001001002002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special5Dead_Func001Func007001001002 takes nothing returns boolean
-	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(9)), (IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)) // INLINED!!
+	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(9)), (IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))) // INLINED!!
 endfunction
 
 function Trig_Special5Dead_Func001C takes nothing returns boolean
@@ -6287,7 +6287,7 @@ function Trig_Special6Agree_Func005C takes nothing returns boolean
 endfunction
 
 function Trig_Special6Agree_Func006Func003001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special6Agree_Func006C takes nothing returns boolean
@@ -6295,7 +6295,7 @@ function Trig_Special6Agree_Func006C takes nothing returns boolean
 endfunction
 
 function Trig_Special6Agree_Func007001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_SUMMONED) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_SUMMONED))
 endfunction
 
 function Trig_Special6Agree_Func007002 takes nothing returns nothing
@@ -6339,7 +6339,7 @@ function Trig_Special7Agree_Func004C takes nothing returns boolean
 endfunction
 
 function Trig_Special7Agree_Func005Func003001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Special7Agree_Func005C takes nothing returns boolean
@@ -6347,7 +6347,7 @@ function Trig_Special7Agree_Func005C takes nothing returns boolean
 endfunction
 
 function Trig_Special7Agree_Func006001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_SUMMONED) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_SUMMONED))
 endfunction
 
 function Trig_Special7Agree_Func006002 takes nothing returns nothing
@@ -6491,8 +6491,8 @@ function Trig_Special8Start_Actions takes nothing returns nothing
 	call PlaySoundAtPointBJ(udg_sound13, 'd', GetRectCenter(udg_rect31), 0)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30., "|c00FFFFFF这里您无法打败穆拉丁，只要坚持到限定时间将获得|cFFFFFFCC50000|c00FFFFFF金币
 	|cFF990099PS:QQ群也散了贴吧也荒了，经典就原汁原味的保留吧，极限都通关不了就别老玩变版改版图了")
-	call StartTimerBJ(udg_timer03, false, 120.)
-	call CreateTimerDialogBJ(udg_timer03, "倒计时:")
+	call StartTimerBJ(udg_CountdownTimer, false, 120.)
+	call CreateTimerDialogBJ(udg_CountdownTimer, "倒计时:")
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	set udg_timerdialog02 = bj_lastCreatedTimerDialog
 	call TriggerSleepAction(5.)
@@ -6888,7 +6888,7 @@ endfunction
 
 function Trig_Boss1Dead_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了黑暗领主：") + GetHeroProperName(GetTriggerUnit()) ))
 	loop
 	exitwhen( (IsUnitGroupEmptyBJ(YDWEGetUnitsInRectOfPlayerNull(udg_rect02 , Player(9)))) ) // INLINED!!
@@ -6897,7 +6897,7 @@ function Trig_Boss1Dead_Actions takes nothing returns nothing
 	call EndThematicMusicBJ()
 	call StopMusic(false)
 	call RemoveWeatherEffect(bj_lastCreatedWeatherEffect)
-	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 750)
+	set udg_integers10[udg_PlayerNumber]=(udg_integers10[udg_PlayerNumber] + 750)
 	call ModifyGateBJ(1, udg_destructable10)
 	call QuestSetCompleted(udg_quests01[2], true)
 	call EnableTrigger(udg_trigger54)
@@ -6906,8 +6906,8 @@ endfunction
 
 function Trig_Boss2Dead_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
-	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 500)
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_integers10[udg_PlayerNumber]=(udg_integers10[udg_PlayerNumber] + 500)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了将领：") + GetHeroProperName(GetTriggerUnit()) ))
 	call ModifyHeroStat(0, udg_unit43, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(1, udg_unit43, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
@@ -6922,8 +6922,8 @@ endfunction
 
 function Trig_Boss3Dead_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
-	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 500)
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_integers10[udg_PlayerNumber]=(udg_integers10[udg_PlayerNumber] + 500)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了将领：") + GetHeroProperName(GetTriggerUnit()) ))
 	call ModifyHeroStat(0, udg_unit46, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(1, udg_unit46, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
@@ -6938,8 +6938,8 @@ endfunction
 
 function Trig_Boss4Dead_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
-	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 500)
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_integers10[udg_PlayerNumber]=(udg_integers10[udg_PlayerNumber] + 500)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了将领：") + GetHeroProperName(GetTriggerUnit()) ))
 	call ModifyHeroStat(0, udg_unit45, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
 	call ModifyHeroStat(1, udg_unit45, 2, (2500 + (udg_Difficulty * (udg_PlayerCount * 200) ) ))
@@ -6951,8 +6951,8 @@ endfunction
 
 function Trig_Boss5Dead_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
-	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 500)
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_integers10[udg_PlayerNumber]=(udg_integers10[udg_PlayerNumber] + 500)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了将领：") + GetHeroProperName(GetTriggerUnit()) ))
 	call ModifyGateBJ(1, udg_destructable12)
 	call EnableTrigger(udg_trigger56)
@@ -7009,7 +7009,7 @@ function Trig_Boss6Dead_Func029002 takes nothing returns nothing
 endfunction
 
 function Trig_Boss6Dead_Func031002 takes nothing returns nothing
-	call PanCameraToTimedLocForPlayer(GetEnumPlayer(), GetUnitLoc(udg_Heroes[udg_integer04]), 1.)
+	call PanCameraToTimedLocForPlayer(GetEnumPlayer(), GetUnitLoc(udg_Heroes[udg_PlayerNumber]), 1.)
 endfunction
 
 function Trig_Boss6Dead_Func033002 takes nothing returns nothing
@@ -7060,8 +7060,8 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	call SetUserControlForceOff(bj_FORCE_ALL_PLAYERS)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "阿尔塞斯：不可能，人类居然有这么强大的力量，是谁？")
 	call TriggerSleepAction(5.)
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
-	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 750)
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_integers10[udg_PlayerNumber]=(udg_integers10[udg_PlayerNumber] + 750)
 	set udg_TempPoint = GetRectCenter(udg_rect38)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
@@ -7076,11 +7076,11 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	set udg_unit01 = bj_lastCreatedUnit
 	call TriggerSleepAction(1.)
 	set udg_TempPoint = GetRectCenter(udg_rect12)
-	call IssueImmediateOrderById(udg_Heroes[udg_integer04], 851972)
-	call SetUnitPositionLocFacingLocBJ(udg_Heroes[udg_integer04], OffsetLocation(udg_TempPoint, -800., -800.), udg_TempPoint)
-	call SetUnitLifePercentBJ(udg_Heroes[udg_integer04], 'd')
-	call SetUnitManaPercentBJ(udg_Heroes[udg_integer04], 'd')
-	call PauseUnit(udg_Heroes[udg_integer04], false)
+	call IssueImmediateOrderById(udg_Heroes[udg_PlayerNumber], 851972)
+	call SetUnitPositionLocFacingLocBJ(udg_Heroes[udg_PlayerNumber], OffsetLocation(udg_TempPoint, -800., -800.), udg_TempPoint)
+	call SetUnitLifePercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call SetUnitManaPercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call PauseUnit(udg_Heroes[udg_PlayerNumber], false)
 	call SetCineModeVolumeGroupsBJ()
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
@@ -7101,7 +7101,7 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func033002)
 	call TriggerSleepAction(2)
 	call IssuePointOrderByIdLoc(udg_unit01, 851986, OffsetLocation(udg_TempPoint, 50., 50.))
-	call IssuePointOrderByIdLoc(udg_Heroes[udg_integer04], 851986, OffsetLocation(udg_TempPoint, -50., -50.))
+	call IssuePointOrderByIdLoc(udg_Heroes[udg_PlayerNumber], 851986, OffsetLocation(udg_TempPoint, -50., -50.))
 	call TriggerSleepAction(2)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func038002)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func039002)
@@ -7117,13 +7117,13 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	call SetSoundOffsetBJ(36.5, bj_lastPlayedSound)
 	call TriggerSleepAction(2.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func051002)
-	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_integer04], udg_TempPoint, 270.)
-	call SetUnitAnimation(udg_Heroes[udg_integer04], "ready")
-	call SetUnitLifePercentBJ(udg_Heroes[udg_integer04], 'd')
-	call SetUnitManaPercentBJ(udg_Heroes[udg_integer04], 'd')
-	call PauseUnit(udg_Heroes[udg_integer04], true)
+	call SetUnitPositionLocFacingBJ(udg_Heroes[udg_PlayerNumber], udg_TempPoint, 270.)
+	call SetUnitAnimation(udg_Heroes[udg_PlayerNumber], "ready")
+	call SetUnitLifePercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call SetUnitManaPercentBJ(udg_Heroes[udg_PlayerNumber], 'd')
+	call PauseUnit(udg_Heroes[udg_PlayerNumber], true)
 	call TriggerSleepAction(5.)
-	call SetUnitAnimation(udg_Heroes[udg_integer04], "stand")
+	call SetUnitAnimation(udg_Heroes[udg_PlayerNumber], "stand")
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func059002)
 	call TriggerSleepAction(19.)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Boss6Dead_Func061002)
@@ -7368,8 +7368,8 @@ endfunction
 
 function Trig_Boss7Dead_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
-	set udg_integers10[udg_integer04]=(udg_integers10[udg_integer04] + 1500)
+	set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetKillingUnit())) )
+	set udg_integers10[udg_PlayerNumber]=(udg_integers10[udg_PlayerNumber] + 1500)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., ( (GetPlayerName(GetOwningPlayer(GetKillingUnit())) + " 打败了最终魔王：") + GetHeroProperName(GetTriggerUnit()) ))
 	call QuestSetCompleted(udg_quests01[3], true)
 	call RemoveWeatherEffect(bj_lastCreatedWeatherEffect)
@@ -7379,8 +7379,8 @@ function Trig_Boss7Dead_Actions takes nothing returns nothing
 	if( (IsTriggerEnabled(udg_trigger59)) ) then // INLINED!!
 		call DestroyTimerDialog(udg_timerdialog02)
 	endif
-	call StartTimerBJ(udg_timer03, false, 180.)
-	call CreateTimerDialogBJ(udg_timer03, "游戏结束:")
+	call StartTimerBJ(udg_CountdownTimer, false, 180.)
+	call CreateTimerDialogBJ(udg_CountdownTimer, "游戏结束:")
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	call EnableTrigger(udg_trigger133)
 	call TriggerExecute(udg_trigger132)
@@ -8162,7 +8162,7 @@ function Trig_Teleport_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Victory_Func007001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_SUMMONED) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_SUMMONED))
 endfunction
 
 function Trig_Victory_Func007002 takes nothing returns nothing
@@ -8174,7 +8174,7 @@ function Trig_Victory_Func019002 takes nothing returns nothing
 endfunction
 
 function Trig_Victory_Func021001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Victory_Func021Func002001 takes nothing returns boolean
@@ -8511,7 +8511,7 @@ function Trig_Repick_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_Repick_Func003003001 takes nothing returns boolean
-	return(GetUnitTypeId(udg_Heroes[udg_integer04]) == udg_HeroesType[bj_forLoopAIndex] )
+	return(GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == udg_HeroesType[bj_forLoopAIndex] )
 endfunction
 
 function Trig_Repick_Func004Func001C takes nothing returns boolean
@@ -8564,12 +8564,12 @@ endfunction
 
 function Trig_Repick_Actions takes nothing returns nothing
 	set udg_TempPoint = GetRectCenter(gg_rct_SelectArea)
-	set udg_integer04 =(1 + GetPlayerId(GetTriggerPlayer()) )
+	set udg_PlayerNumber =(1 + GetPlayerId(GetTriggerPlayer()) )
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 26
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		if( (GetUnitTypeId(udg_Heroes[udg_integer04]) == udg_HeroesType[bj_forLoopAIndex]) ) then // INLINED!!
+		if( (GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == udg_HeroesType[bj_forLoopAIndex]) ) then // INLINED!!
 			set udg_TempNumber = bj_forLoopAIndex
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -8625,15 +8625,15 @@ function Trig_Random_Func004002002001 takes nothing returns boolean
 endfunction
 
 function Trig_Random_Func004002002002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Random_Func004002002 takes nothing returns boolean
-	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(8)), (IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)) // INLINED!!
+	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(8)), (IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))) // INLINED!!
 endfunction
 
 function Trig_Random_Func007001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_Random_Func007002 takes nothing returns nothing
@@ -8769,7 +8769,7 @@ function Trig_RepickRandom_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_RepickRandom_Func004003001 takes nothing returns boolean
-	return(GetUnitTypeId(udg_Heroes[udg_integer04]) == udg_HeroesType[bj_forLoopAIndex] )
+	return(GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == udg_HeroesType[bj_forLoopAIndex] )
 endfunction
 
 function Trig_RepickRandom_Func005Func001C takes nothing returns boolean
@@ -8793,19 +8793,19 @@ function Trig_RepickRandom_Func009002002001 takes nothing returns boolean
 endfunction
 
 function Trig_RepickRandom_Func009002002002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_RepickRandom_Func009002002 takes nothing returns boolean
-	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(8)), (IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)) // INLINED!!
+	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(8)), (IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))) // INLINED!!
 endfunction
 
 function Trig_RepickRandom_Func011001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) != null)
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
 endfunction
 
 function Trig_RepickRandom_Func011002 takes nothing returns nothing
-	set udg_Heroes[udg_integer04]= GetEnumUnit()
+	set udg_Heroes[udg_PlayerNumber]= GetEnumUnit()
 endfunction
 
 function Trig_RepickRandom_Func013002002001 takes nothing returns boolean
@@ -8813,11 +8813,11 @@ function Trig_RepickRandom_Func013002002001 takes nothing returns boolean
 endfunction
 
 function Trig_RepickRandom_Func013002002002 takes nothing returns boolean
-	return(GetUnitTypeId(GetFilterUnit()) == GetUnitTypeId(udg_Heroes[udg_integer04]) )
+	return(GetUnitTypeId(GetFilterUnit()) == GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) )
 endfunction
 
 function Trig_RepickRandom_Func013002002 takes nothing returns boolean
-	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(8)), (GetUnitTypeId(GetFilterUnit()) == GetUnitTypeId(udg_Heroes[udg_integer04]))) // INLINED!!
+	return GetBooleanAnd((GetOwningPlayer(GetFilterUnit()) == Player(8)), (GetUnitTypeId(GetFilterUnit()) == GetUnitTypeId(udg_Heroes[udg_PlayerNumber]))) // INLINED!!
 endfunction
 
 function Trig_RepickRandom_Func014001 takes nothing returns boolean
@@ -8833,14 +8833,14 @@ function Trig_RepickRandom_Func022001 takes nothing returns boolean
 endfunction
 
 function Trig_RepickRandom_Actions takes nothing returns nothing
-	set udg_integer04 =(1 + GetPlayerId(GetTriggerPlayer()) )
-	set udg_integers16[udg_integer04]= 2
+	set udg_PlayerNumber =(1 + GetPlayerId(GetTriggerPlayer()) )
+	set udg_integers16[udg_PlayerNumber]= 2
 	set udg_TempPoint = GetRectCenter(gg_rct_SelectArea)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 26
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		if( (GetUnitTypeId(udg_Heroes[udg_integer04]) == udg_HeroesType[bj_forLoopAIndex]) ) then // INLINED!!
+		if( (GetUnitTypeId(udg_Heroes[udg_PlayerNumber]) == udg_HeroesType[bj_forLoopAIndex]) ) then // INLINED!!
 			set udg_TempNumber = bj_forLoopAIndex
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -8870,15 +8870,15 @@ function Trig_RepickRandom_Actions takes nothing returns nothing
 	endif
 	call RemoveLocation(udg_TempPoint)
 	call DestroyGroup(udg_TempGroup)
-	call SelectUnitForPlayerSingle(udg_Heroes[udg_integer04], GetTriggerPlayer())
-	call UnitAddItemByIdSwapped('stwp', udg_Heroes[udg_integer04])
-	call UnitAddItemByIdSwapped('ankh', udg_Heroes[udg_integer04])
-	call UnitAddItemByIdSwapped('pghe', udg_Heroes[udg_integer04])
+	call SelectUnitForPlayerSingle(udg_Heroes[udg_PlayerNumber], GetTriggerPlayer())
+	call UnitAddItemByIdSwapped('stwp', udg_Heroes[udg_PlayerNumber])
+	call UnitAddItemByIdSwapped('ankh', udg_Heroes[udg_PlayerNumber])
+	call UnitAddItemByIdSwapped('pghe', udg_Heroes[udg_PlayerNumber])
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = udg_TomesCount
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call UnitAddItemByIdSwapped('tpow', udg_Heroes[udg_integer04])
+		call UnitAddItemByIdSwapped('tpow', udg_Heroes[udg_PlayerNumber])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	if( (udg_ModeEasy) ) then // INLINED!!
@@ -9445,7 +9445,7 @@ function Trig_Level20Abilities_Func025Func002C takes nothing returns boolean
 endfunction
 
 function Trig_Level20Abilities_Func025Func016C takes nothing returns boolean
-	return(udg_Heroes[udg_integer04] == udg_Heroes[( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) + 8)] )
+	return(udg_Heroes[udg_PlayerNumber] == udg_Heroes[( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) + 8)] )
 endfunction
 
 function Trig_Level20Abilities_Func025C takes nothing returns boolean
@@ -9570,16 +9570,16 @@ function Trig_Level20Abilities_Actions takes nothing returns nothing
 	if( (GetUnitTypeId(GetTriggerUnit()) == 'H008') ) then // INLINED!!
 		call TriggerSleepAction(.02)
 		if( (GetTriggerUnit() == udg_Heroes[( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) + 8)]) ) then // INLINED!!
-			set udg_integer04 =( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) + 8)
+			set udg_PlayerNumber =( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) + 8)
 		else
-			set udg_integer04 =(1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )
+			set udg_PlayerNumber =(1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )
 		endif
-		call YDWEReplaceUnitBJNull(udg_Heroes[udg_integer04] , 'H00A' , 1)
-		call ModifyHeroStat(0, bj_lastReplacedUnit, 2, GetHeroStatBJ(0, udg_Heroes[udg_integer04], false))
-		call ModifyHeroStat(1, bj_lastReplacedUnit, 2, GetHeroStatBJ(1, udg_Heroes[udg_integer04], false))
-		call ModifyHeroStat(2, bj_lastReplacedUnit, 2, GetHeroStatBJ(2, udg_Heroes[udg_integer04], false))
+		call YDWEReplaceUnitBJNull(udg_Heroes[udg_PlayerNumber] , 'H00A' , 1)
+		call ModifyHeroStat(0, bj_lastReplacedUnit, 2, GetHeroStatBJ(0, udg_Heroes[udg_PlayerNumber], false))
+		call ModifyHeroStat(1, bj_lastReplacedUnit, 2, GetHeroStatBJ(1, udg_Heroes[udg_PlayerNumber], false))
+		call ModifyHeroStat(2, bj_lastReplacedUnit, 2, GetHeroStatBJ(2, udg_Heroes[udg_PlayerNumber], false))
 		call SetHeroLevel(bj_lastReplacedUnit, 20, false)
-		set udg_Heroes[udg_integer04]= bj_lastReplacedUnit
+		set udg_Heroes[udg_PlayerNumber]= bj_lastReplacedUnit
 		call TriggerSleepAction(.02)
 		call SelectHeroSkill(bj_lastReplacedUnit, 'A03B')
 		call SelectHeroSkill(bj_lastReplacedUnit, 'A03C')
@@ -9600,7 +9600,7 @@ function Trig_Level20Abilities_Actions takes nothing returns nothing
 		endloop
 		call TriggerSleepAction(.02)
 		call UnitAddAbility(bj_lastReplacedUnit, 'A039')
-		if( (udg_Heroes[udg_integer04] == udg_Heroes[( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) + 8)]) ) then // INLINED!!
+		if( (udg_Heroes[udg_PlayerNumber] == udg_Heroes[( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) + 8)]) ) then // INLINED!!
 			call PauseUnit(udg_Heroes[( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) + 8)], true)
 		else
 			call SelectUnitForPlayerSingle(bj_lastReplacedUnit, Player(-1 + ( (1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) ) )))
@@ -12303,7 +12303,7 @@ function main2 takes nothing returns nothing
 	call TriggerRegisterTimerEventPeriodic(udg_trigger61, 10.)
 	call TriggerAddAction(udg_trigger61, function Trig_Special1Corpse_Actions)
 	call DisableTrigger(udg_trigger62)
-	call TriggerRegisterTimerExpireEvent(udg_trigger62, udg_timer03)
+	call TriggerRegisterTimerExpireEvent(udg_trigger62, udg_CountdownTimer)
 	call TriggerAddAction(udg_trigger62, function Trig_Special1Stop_Actions)
 	call DisableTrigger(udg_trigger63)
 	call TriggerRegisterPlayerUnitEventSimple(udg_trigger63, Player(0), EVENT_PLAYER_UNIT_DEATH)
@@ -12328,7 +12328,7 @@ function main2 takes nothing returns nothing
 	call TriggerAddCondition(udg_trigger66, Condition(function Trig_Special2Dead_Conditions))
 	call TriggerAddAction(udg_trigger66, function Trig_Special2Dead_Actions)
 	call DisableTrigger(udg_trigger67)
-	call TriggerRegisterTimerExpireEvent(udg_trigger67, udg_timer03)
+	call TriggerRegisterTimerExpireEvent(udg_trigger67, udg_CountdownTimer)
 	call TriggerAddAction(udg_trigger67, function Trig_Special2TimeOut_Actions)
 	call DisableTrigger(udg_trigger68)
 	call TriggerRegisterAnyUnitEventBJ(udg_trigger68, EVENT_PLAYER_UNIT_PICKUP_ITEM)
@@ -12350,7 +12350,7 @@ function main2 takes nothing returns nothing
 	call TriggerAddCondition(udg_trigger72, Condition(function Trig_Special3Dead_Conditions))
 	call TriggerAddAction(udg_trigger72, function Trig_Special3Dead_Actions)
 	call DisableTrigger(udg_trigger73)
-	call TriggerRegisterTimerExpireEvent(udg_trigger73, udg_timer03)
+	call TriggerRegisterTimerExpireEvent(udg_trigger73, udg_CountdownTimer)
 	call TriggerAddAction(udg_trigger73, function Trig_Special3TimeOut_Actions)
 	call DisableTrigger(udg_trigger74)
 	call TriggerRegisterAnyUnitEventBJ(udg_trigger74, EVENT_PLAYER_UNIT_PICKUP_ITEM)
@@ -12409,7 +12409,7 @@ function main2 takes nothing returns nothing
 	call DisableTrigger(udg_trigger89)
 	call TriggerAddAction(udg_trigger89, function Trig_Special8Attack_Actions)
 	call DisableTrigger(udg_trigger90)
-	call TriggerRegisterTimerExpireEvent(udg_trigger90, udg_timer03)
+	call TriggerRegisterTimerExpireEvent(udg_trigger90, udg_CountdownTimer)
 	call TriggerAddAction(udg_trigger90, function Trig_Special8Stop_Actions)
 	call DisableTrigger(udg_trigger91)
 	call TriggerRegisterPlayerUnitEventSimple(udg_trigger91, Player(0), EVENT_PLAYER_UNIT_DEATH)
@@ -12572,7 +12572,7 @@ function main2 takes nothing returns nothing
 	call DisableTrigger(udg_trigger132)
 	call TriggerAddAction(udg_trigger132, function Trig_Victory_Actions)
 	call DisableTrigger(udg_trigger133)
-	call TriggerRegisterTimerExpireEvent(udg_trigger133, udg_timer03)
+	call TriggerRegisterTimerExpireEvent(udg_trigger133, udg_CountdownTimer)
 	call TriggerAddAction(udg_trigger133, function Trig_EndGame_Actions)
 	call TriggerRegisterTimerEventPeriodic(udg_trigger134, 300.)
 	call TriggerAddAction(udg_trigger134, function Trig_Rune_Actions)
