@@ -91,11 +91,11 @@ globals
 	integer udg_integer05 = 0
 	integer array udg_Kills
 	integer array udg_HeroesType
-	dialog udg_dialog01 = null
-	button udg_button01 = null
-	dialog udg_dialog02 = null
-	button udg_button02 = null
-	button udg_button03 = null
+	dialog udg_SpecialsDialog = null
+	button udg_SpecialsExit = null
+	dialog udg_YesOrNo = null
+	button udg_SpecialsYes = null
+	button udg_SpecialsNo = null
 	group udg_group01 = null
 	boolean array udg_Specials04Check
 	boolean array udg_booleans03
@@ -137,7 +137,7 @@ globals
 	player udg_TempPlayer = null
 	button array udg_buttons01
 	button array udg_buttons02
-	button array udg_buttons03
+	button array udg_SpecialsButton
 	force udg_TempForce = null
 	integer udg_TempNumber = 0
 	boolean udg_ModeEasy = false
@@ -232,6 +232,7 @@ globals
 	trigger gg_trg_CheckLeak = null
 	trigger gg_trg_GiveDebugItems = null
 	trigger gg_trg_ItemStacking = null
+	trigger gg_trg_TankAttackedSkill = null
 	trigger udg_trigger01 = null
 	trigger udg_trigger02 = null
 	trigger udg_trigger03 = null
@@ -306,7 +307,7 @@ globals
 	trigger udg_trigger72 = null
 	trigger udg_trigger73 = null
 	trigger udg_trigger74 = null
-	trigger udg_trigger75 = null
+	trigger gg_trg_SpecialXDialog = null
 	trigger gg_trg_SpecialXStart = null
 	trigger udg_trigger77 = null
 	trigger gg_trg_SpecialXDisagree = null
@@ -993,8 +994,8 @@ function InitGlobals takes nothing returns nothing
 		set i = i + 1
 	endloop
 	
-	set udg_dialog01 = DialogCreate()
-	set udg_dialog02 = DialogCreate()
+	set udg_SpecialsDialog = DialogCreate()
+	set udg_YesOrNo = DialogCreate()
 	set udg_group01 = CreateGroup()
 	set i = 0
 	loop
@@ -1761,16 +1762,16 @@ function Trig_OptionsDifficulty_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
 	if( (GetClickedButton() == udg_buttons01[2]) ) then // INLINED!!
 		call EnableTrigger(udg_trigger11)
-		call DialogSetMessage(udg_dialog01, "极限级别")
-		call DialogAddButtonBJ(udg_dialog01, "难度1 进阶")
-		set udg_buttons03[1]= bj_lastCreatedButton
-		call DialogAddButtonBJ(udg_dialog01, "难度2 疯狂")
-		set udg_buttons03[2]= bj_lastCreatedButton
-		call DialogAddButtonBJ(udg_dialog01, "难度3 痛苦")
-		set udg_buttons03[3]= bj_lastCreatedButton
-		call DialogAddButtonBJ(udg_dialog01, "难度4 炼狱")
-		set udg_buttons03[4]= bj_lastCreatedButton
-		call DialogDisplayBJ(true, udg_dialog01, Player(0))
+		call DialogSetMessage(udg_SpecialsDialog, "极限级别")
+		call DialogAddButtonBJ(udg_SpecialsDialog, "难度1 进阶")
+		set udg_SpecialsButton[1]= bj_lastCreatedButton
+		call DialogAddButtonBJ(udg_SpecialsDialog, "难度2 疯狂")
+		set udg_SpecialsButton[2]= bj_lastCreatedButton
+		call DialogAddButtonBJ(udg_SpecialsDialog, "难度3 痛苦")
+		set udg_SpecialsButton[3]= bj_lastCreatedButton
+		call DialogAddButtonBJ(udg_SpecialsDialog, "难度4 炼狱")
+		set udg_SpecialsButton[4]= bj_lastCreatedButton
+		call DialogDisplayBJ(true, udg_SpecialsDialog, Player(0))
 	endif
 	if( (GetBooleanOr((GetClickedButton() == udg_buttons01[1]), (GetClickedButton() == udg_buttons01[3]))) ) then // INLINED!!
 		call TriggerExecute(udg_trigger11)
@@ -1779,33 +1780,33 @@ function Trig_OptionsDifficulty_Actions takes nothing returns nothing
 endfunction
 
 function Trig_OptionsHeroes_Func002001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons03[1] )
+	return(GetClickedButton() == udg_SpecialsButton[1] )
 endfunction
 
 function Trig_OptionsHeroes_Func003001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons03[2] )
+	return(GetClickedButton() == udg_SpecialsButton[2] )
 endfunction
 
 function Trig_OptionsHeroes_Func004001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons03[3] )
+	return(GetClickedButton() == udg_SpecialsButton[3] )
 endfunction
 
 function Trig_OptionsHeroes_Func005001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons03[4] )
+	return(GetClickedButton() == udg_SpecialsButton[4] )
 endfunction
 
 function Trig_OptionsHeroes_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	if( (GetClickedButton() == udg_buttons03[1]) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsButton[1]) ) then // INLINED!!
 		set udg_Difficulty = 2
 	endif
-	if( (GetClickedButton() == udg_buttons03[2]) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsButton[2]) ) then // INLINED!!
 		set udg_Difficulty = 3
 	endif
-	if( (GetClickedButton() == udg_buttons03[3]) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsButton[3]) ) then // INLINED!!
 		set udg_Difficulty = 4
 	endif
-	if( (GetClickedButton() == udg_buttons03[4]) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsButton[4]) ) then // INLINED!!
 		set udg_Difficulty = 5
 	endif
 	call DialogSetMessage(udg_dialog04, "英雄选择模式")
@@ -1828,7 +1829,7 @@ endfunction
 function Trig_OptionsTimeOut_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
 	call DialogDisplayBJ(false, udg_dialog03, Player(0))
-	call DialogDisplayBJ(false, udg_dialog01, Player(0))
+	call DialogDisplayBJ(false, udg_SpecialsDialog, Player(0))
 	call DialogDisplayBJ(false, udg_dialog04, Player(0))
 	call ConditionalTriggerExecute(udg_trigger15)
 	call TriggerExecute(udg_trigger14)
@@ -5858,73 +5859,72 @@ function Trig_SpecialXDialog_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
 	call EnableTrigger(gg_trg_SpecialXStart)
 	call EnableTrigger(gg_trg_SpecialXDisagree)
-	call DialogClear(udg_dialog01)
-	call DialogSetMessage(udg_dialog01, "探险活动")
-	call DialogAddButtonBJ(udg_dialog01, "挑战镜像")
-	set udg_buttons03[1]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog01, "所有镜像")
-	set udg_buttons03[2]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog01, "地狱魔犬")
-	set udg_buttons03[3]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog01, "寒冰魔兽")
-	set udg_buttons03[4]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog01, "取消")
-	set udg_button01 = bj_lastCreatedButton
-	call DialogDisplayBJ(true, udg_dialog01, GetOwningPlayer(GetTriggerUnit()))
-	call EnableTrigger(GetTriggeringTrigger())
+	call DialogClear(udg_SpecialsDialog)
+	call DialogSetMessage(udg_SpecialsDialog, "探险活动")
+	call DialogAddButtonBJ(udg_SpecialsDialog, "挑战镜像")
+	set udg_SpecialsButton[1]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_SpecialsDialog, "所有镜像")
+	set udg_SpecialsButton[2]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_SpecialsDialog, "地狱魔犬")
+	set udg_SpecialsButton[3]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_SpecialsDialog, "寒冰魔兽")
+	set udg_SpecialsButton[4]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_SpecialsDialog, "取消")
+	set udg_SpecialsExit = bj_lastCreatedButton
+	call DialogDisplayBJ(true, udg_SpecialsDialog, GetOwningPlayer(GetTriggerUnit()))
+	// call EnableTrigger(GetTriggeringTrigger())
 endfunction
 
 function Trig_SpecialXStart_Func002001 takes nothing returns boolean
-	return(GetClickedButton() == udg_button01)
+	return(GetClickedButton() == udg_SpecialsExit)
 endfunction
 
 function Trig_SpecialXStart_Func003001 takes nothing returns boolean
-	return(GetClickedButton() == udg_button01)
+	return(GetClickedButton() == udg_SpecialsExit)
 endfunction
 
 function Trig_SpecialXStart_Func004001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons03[1] )
+	return(GetClickedButton() == udg_SpecialsButton[1] )
 endfunction
 
 function Trig_SpecialXStart_Func005001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons03[2] )
+	return(GetClickedButton() == udg_SpecialsButton[2] )
 endfunction
 
 function Trig_SpecialXStart_Func006001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons03[3] )
+	return(GetClickedButton() == udg_SpecialsButton[3] )
 endfunction
 
 function Trig_SpecialXStart_Func007001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons03[4] )
+	return(GetClickedButton() == udg_SpecialsButton[4] )
 endfunction
 
 function Trig_SpecialXStart_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	if( (GetClickedButton() == udg_button01) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsExit) ) then // INLINED!!
 		call DisableTrigger(gg_trg_SpecialXDisagree)
-	endif
-	if( (GetClickedButton() == udg_button01) ) then // INLINED!!
+		call EnableTrigger(gg_trg_SpecialXDialog)
 		return
 	endif
-	if( (GetClickedButton() == udg_buttons03[1]) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsButton[1]) ) then // INLINED!!
 		call EnableTrigger(udg_trigger81)
 	endif
-	if( (GetClickedButton() == udg_buttons03[2]) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsButton[2]) ) then // INLINED!!
 		call EnableTrigger(udg_trigger83)
 	endif
-	if( (GetClickedButton() == udg_buttons03[3]) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsButton[3]) ) then // INLINED!!
 		call EnableTrigger(udg_trigger85)
 	endif
-	if( (GetClickedButton() == udg_buttons03[4]) ) then // INLINED!!
+	if( (GetClickedButton() == udg_SpecialsButton[4]) ) then // INLINED!!
 		call EnableTrigger(udg_trigger86)
 	endif
-	call DialogClear(udg_dialog02)
-	call DialogSetMessage(udg_dialog02, "确定进入?")
-	call DialogAddButtonBJ(udg_dialog02, "确定")
-	set udg_button02 = bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog02, "取消")
-	set udg_button03 = bj_lastCreatedButton
-	call DialogDisplayBJ(true, udg_dialog02, GetTriggerPlayer())
+	call DialogClear(udg_YesOrNo)
+	call DialogSetMessage(udg_YesOrNo, "确定进入?")
+	call DialogAddButtonBJ(udg_YesOrNo, "确定")
+	set udg_SpecialsYes = bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_YesOrNo, "取消")
+	set udg_SpecialsNo = bj_lastCreatedButton
+	call DialogDisplayBJ(true, udg_YesOrNo, GetTriggerPlayer())
 endfunction
 
 function Trig_SpecialXExit_Func006001 takes nothing returns boolean
@@ -5952,7 +5952,7 @@ function Trig_SpecialXExit_Actions takes nothing returns nothing
 endfunction
 
 function Trig_SpecialXDisagree_Conditions takes nothing returns boolean
-	return(GetClickedButton() == udg_button03)
+	return(GetClickedButton() == udg_SpecialsNo)
 endfunction
 
 function Trig_SpecialXDisagree_Actions takes nothing returns nothing
@@ -5962,19 +5962,19 @@ function Trig_SpecialXDisagree_Actions takes nothing returns nothing
 	call DisableTrigger(udg_trigger85)
 	call DisableTrigger(udg_trigger86)
 	call EnableTrigger(gg_trg_SpecialXStart)
-	call DialogClear(udg_dialog01)
-	call DialogSetMessage(udg_dialog01, "探险活动")
-	call DialogAddButtonBJ(udg_dialog01, "挑战镜像")
-	set udg_buttons03[1]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog01, "全体镜像")
-	set udg_buttons03[2]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog01, "地狱魔犬")
-	set udg_buttons03[3]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog01, "寒冰魔兽")
-	set udg_buttons03[4]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog01, "取消")
-	set udg_button01 = bj_lastCreatedButton
-	call DialogDisplayBJ(true, udg_dialog01, GetTriggerPlayer())
+	call DialogClear(udg_SpecialsDialog)
+	call DialogSetMessage(udg_SpecialsDialog, "探险活动")
+	call DialogAddButtonBJ(udg_SpecialsDialog, "挑战镜像")
+	set udg_SpecialsButton[1]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_SpecialsDialog, "全体镜像")
+	set udg_SpecialsButton[2]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_SpecialsDialog, "地狱魔犬")
+	set udg_SpecialsButton[3]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_SpecialsDialog, "寒冰魔兽")
+	set udg_SpecialsButton[4]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_SpecialsDialog, "取消")
+	set udg_SpecialsExit = bj_lastCreatedButton
+	call DialogDisplayBJ(true, udg_SpecialsDialog, GetTriggerPlayer())
 	call EnableTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -6024,7 +6024,7 @@ function Trig_SpecialXRevive_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special4Agree_Conditions takes nothing returns boolean
-	return(GetClickedButton() == udg_button02)
+	return(GetClickedButton() == udg_SpecialsYes)
 endfunction
 
 function Trig_Special4Agree_Func005C takes nothing returns boolean
@@ -6069,10 +6069,10 @@ endfunction
 
 function Trig_Special4Agree_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
+	call EnableTrigger(gg_trg_SpecialXDialog)
 	call DisableTrigger(gg_trg_SpecialXStart)
 	call DisableTrigger(gg_trg_SpecialXDisagree)
-	set udg_ChallengerPlayerIndex = (1 + GetPlayerId(GetTriggerPlayer()) )
-	if( (udg_Specials04Check[udg_ChallengerPlayerIndex]) ) then // INLINED!!
+	if( (udg_Specials04Check[(1 + GetPlayerId(GetTriggerPlayer()) )]) ) then // INLINED!!
 		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 10., "对不起，所有人只能参加一次该活动")
 		return
 	endif
@@ -6080,7 +6080,9 @@ function Trig_Special4Agree_Actions takes nothing returns nothing
 		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 10., "请稍等，该探险活动场地正在被其它玩家使用")
 		return
 	endif
-	if( ((IsUnitGroupEmptyBJ(YDWEGetUnitsInRectMatchingNull(udg_rect23 , Condition(function Trig_Special4Agree_Func007Func021001001002))) ) and(udg_Specials04Check[udg_ChallengerPlayerIndex] == false)) ) then // INLINED!!
+	
+	if( ((IsUnitGroupEmptyBJ(YDWEGetUnitsInRectMatchingNull(udg_rect23 , Condition(function Trig_Special4Agree_Func007Func021001001002))) ) and(udg_Specials04Check[(1 + GetPlayerId(GetTriggerPlayer()) )] == false)) ) then // INLINED!!
+		set udg_ChallengerPlayerIndex = (1 + GetPlayerId(GetTriggerPlayer()) )
 		call EnableTrigger(gg_trg_Special4Dead)
 		call ForGroupBJ(YDWEGetUnitsInRectMatchingNull(udg_rect23 , Condition(function Trig_Special4Agree_Func007Func003001002)), function Trig_Special4Agree_Func007Func003002)
 		call GroupClear(udg_Special4Group)
@@ -6156,7 +6158,7 @@ function Trig_Special4Dead_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special5Agree_Conditions takes nothing returns boolean
-	return(GetClickedButton() == udg_button02)
+	return(GetClickedButton() == udg_SpecialsYes)
 endfunction
 
 function Trig_Special5Agree_Func005C takes nothing returns boolean
@@ -6205,6 +6207,7 @@ endfunction
 
 function Trig_Special5Agree_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
+	call EnableTrigger(gg_trg_SpecialXDialog)
 	call DisableTrigger(gg_trg_SpecialXStart)
 	call DisableTrigger(gg_trg_SpecialXDisagree)
 	if( (udg_booleans03[(1 + GetPlayerId(GetTriggerPlayer()) )]) ) then // INLINED!!
@@ -6304,7 +6307,7 @@ function Trig_Special5Dead_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special6Agree_Conditions takes nothing returns boolean
-	return(GetClickedButton() == udg_button02)
+	return(GetClickedButton() == udg_SpecialsYes)
 endfunction
 
 function Trig_Special6Agree_Func005C takes nothing returns boolean
@@ -6333,10 +6336,11 @@ endfunction
 
 function Trig_Special6Agree_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
+	call EnableTrigger(gg_trg_SpecialXDialog)
 	call DisableTrigger(gg_trg_SpecialXStart)
 	call DisableTrigger(gg_trg_SpecialXDisagree)
 	if( (IsUnitDeadBJ(udg_unit03)) ) then // INLINED!!
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 10., "该探险活动已被您的队友成完挑战")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 10., "该探险活动已被您的队友挑战完成")
 		return
 	endif
 	if( (CountUnitsInGroup(YDWEGetUnitsInRectMatchingNull(udg_rect27 , Condition(function Trig_Special6Agree_Func006Func003001001002))) >= 2) ) then // INLINED!!
@@ -6356,7 +6360,7 @@ function Trig_Special6Agree_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special7Agree_Conditions takes nothing returns boolean
-	return(GetClickedButton() == udg_button02)
+	return(GetClickedButton() == udg_SpecialsYes)
 endfunction
 
 function Trig_Special7Agree_Func004C takes nothing returns boolean
@@ -6385,10 +6389,11 @@ endfunction
 
 function Trig_Special7Agree_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
+	call EnableTrigger(gg_trg_SpecialXDialog)
 	call DisableTrigger(gg_trg_SpecialXStart)
 	call DisableTrigger(gg_trg_SpecialXDisagree)
 	if( (IsUnitDeadBJ(udg_unit55)) ) then // INLINED!!
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 10., "该探险活动已被您的队友成完挑战")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 10., "该探险活动已被您的队友挑战完成")
 		return
 	endif
 	if( (CountUnitsInGroup(YDWEGetUnitsInRectMatchingNull(udg_rect29 , Condition(function Trig_Special7Agree_Func005Func003001001002))) >= 2) ) then // INLINED!!
@@ -9606,7 +9611,7 @@ function Trig_Level20Abilities_Actions takes nothing returns nothing
 		call SetHeroLevel(bj_lastReplacedUnit, 20, false)
 		set udg_Heroes[udg_PlayerNumber]= bj_lastReplacedUnit
 		call TriggerSleepAction(.02)
-		call SelectHeroSkill(bj_lastReplacedUnit, 'ANbb')
+		call SelectHeroSkill(bj_lastReplacedUnit, 'AHbj')
 		call SelectHeroSkill(bj_lastReplacedUnit, 'Abog')
 		call SelectHeroSkill(bj_lastReplacedUnit, 'A03A')
 		set bj_forLoopAIndex = 1
@@ -10500,6 +10505,29 @@ function Trig_ItemStacking_Actions takes nothing returns nothing
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
+endfunction
+
+function Trig_TankAttackedSkill_Conditions takes nothing returns boolean
+	return(GetUnitAbilityLevel(GetTriggerUnit(), 'AUtt') >= 1) and(IsUnitEnemy(GetAttacker(), Player(0)))
+endfunction
+
+function Trig_TankAttackedSkill_FilterEnemy takes nothing returns boolean
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE) == false) and(IsUnitEnemy(GetFilterUnit(), Player(0)))
+endfunction
+
+function Trig_TankAttackedSkill_Damage takes nothing returns nothing
+	call UnitDamageTargetBJ(GetTriggerUnit(), GetEnumUnit(), (150.00 * I2R(GetUnitAbilityLevel(GetTriggerUnit(), 'AUtt'))), ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL)
+endfunction
+
+function Trig_TankAttackedSkill_Actions takes nothing returns nothing
+	local location unitLoc
+	if(10 >= (GetRandomInt(1, 100))) then
+		set unitLoc = GetUnitLoc(GetTriggerUnit())
+		set udg_TempGroup = YDWEGetUnitsInRangeOfLocMatchingNull(400.00, unitLoc, Condition(function Trig_TankAttackedSkill_FilterEnemy))
+		call ForGroupBJ(udg_TempGroup, function Trig_TankAttackedSkill_Damage)
+		call DestroyGroup(udg_TempGroup)
+		call RemoveLocation(unitLoc)
+	endif
 endfunction
 
 function main2 takes nothing returns nothing
@@ -12136,8 +12164,8 @@ function main2 takes nothing returns nothing
 		set udg_timers01[i]= CreateTimer()
 		set i = i + 1
 	endloop
-	set udg_dialog01 = DialogCreate()
-	set udg_dialog02 = DialogCreate()
+	set udg_SpecialsDialog = DialogCreate()
+	set udg_YesOrNo = DialogCreate()
 	set udg_dialog03 = DialogCreate()
 	set udg_dialog04 = DialogCreate()
 	call TriggerAddAction(udg_trigger01, function Trig_Units_Actions)
@@ -12154,7 +12182,7 @@ function main2 takes nothing returns nothing
 	call TriggerRegisterDialogEvent(udg_trigger10, udg_dialog03)
 	call TriggerAddAction(udg_trigger10, function Trig_OptionsDifficulty_Actions)
 	call DisableTrigger(udg_trigger11)
-	call TriggerRegisterDialogEvent(udg_trigger11, udg_dialog01)
+	call TriggerRegisterDialogEvent(udg_trigger11, udg_SpecialsDialog)
 	call TriggerAddAction(udg_trigger11, function Trig_OptionsHeroes_Actions)
 	call TriggerRegisterTimerEventSingle(udg_trigger12, 15.)
 	call TriggerAddCondition(udg_trigger12, Condition(function Trig_OptionsTimeOut_Conditions))
@@ -12423,15 +12451,15 @@ function main2 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(udg_trigger74, EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(udg_trigger74, Condition(function Trig_Special3Teleport_Conditions))
 	call TriggerAddAction(udg_trigger74, function Trig_Special3Teleport_Actions)
-	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger75 , udg_rect32)
-	call TriggerAddCondition(udg_trigger75, Condition(function Trig_SpecialXDialog_Conditions))
-	call TriggerAddAction(udg_trigger75, function Trig_SpecialXDialog_Actions)
+	call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_SpecialXDialog , udg_rect32)
+	call TriggerAddCondition(gg_trg_SpecialXDialog, Condition(function Trig_SpecialXDialog_Conditions))
+	call TriggerAddAction(gg_trg_SpecialXDialog, function Trig_SpecialXDialog_Actions)
 	call DisableTrigger(gg_trg_SpecialXStart)
-	call TriggerRegisterDialogEvent(gg_trg_SpecialXStart, udg_dialog01)
+	call TriggerRegisterDialogEvent(gg_trg_SpecialXStart, udg_SpecialsDialog)
 	call TriggerAddAction(gg_trg_SpecialXStart, function Trig_SpecialXStart_Actions)
 	call TriggerAddAction(udg_trigger77, function Trig_SpecialXExit_Actions)
 	call DisableTrigger(gg_trg_SpecialXDisagree)
-	call TriggerRegisterDialogEvent(gg_trg_SpecialXDisagree, udg_dialog02)
+	call TriggerRegisterDialogEvent(gg_trg_SpecialXDisagree, udg_YesOrNo)
 	call TriggerAddCondition(gg_trg_SpecialXDisagree, Condition(function Trig_SpecialXDisagree_Conditions))
 	call TriggerAddAction(gg_trg_SpecialXDisagree, function Trig_SpecialXDisagree_Actions)
 	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger79 , udg_rect24)
@@ -12443,7 +12471,7 @@ function main2 takes nothing returns nothing
 	call DisableTrigger(udg_trigger80)
 	call TriggerAddAction(udg_trigger80, function Trig_SpecialXRevive_Actions)
 	call DisableTrigger(udg_trigger81)
-	call TriggerRegisterDialogEvent(udg_trigger81, udg_dialog02)
+	call TriggerRegisterDialogEvent(udg_trigger81, udg_YesOrNo)
 	call TriggerAddCondition(udg_trigger81, Condition(function Trig_Special4Agree_Conditions))
 	call TriggerAddAction(udg_trigger81, function Trig_Special4Agree_Actions)
 	call DisableTrigger(gg_trg_Special4Dead)
@@ -12452,7 +12480,7 @@ function main2 takes nothing returns nothing
 	call TriggerAddCondition(gg_trg_Special4Dead, Condition(function Trig_Special4Dead_Conditions))
 	call TriggerAddAction(gg_trg_Special4Dead, function Trig_Special4Dead_Actions)
 	call DisableTrigger(udg_trigger83)
-	call TriggerRegisterDialogEvent(udg_trigger83, udg_dialog02)
+	call TriggerRegisterDialogEvent(udg_trigger83, udg_YesOrNo)
 	call TriggerAddCondition(udg_trigger83, Condition(function Trig_Special5Agree_Conditions))
 	call TriggerAddAction(udg_trigger83, function Trig_Special5Agree_Actions)
 	call DisableTrigger(udg_trigger84)
@@ -12461,11 +12489,11 @@ function main2 takes nothing returns nothing
 	call TriggerAddCondition(udg_trigger84, Condition(function Trig_Special5Dead_Conditions))
 	call TriggerAddAction(udg_trigger84, function Trig_Special5Dead_Actions)
 	call DisableTrigger(udg_trigger85)
-	call TriggerRegisterDialogEvent(udg_trigger85, udg_dialog02)
+	call TriggerRegisterDialogEvent(udg_trigger85, udg_YesOrNo)
 	call TriggerAddCondition(udg_trigger85, Condition(function Trig_Special6Agree_Conditions))
 	call TriggerAddAction(udg_trigger85, function Trig_Special6Agree_Actions)
 	call DisableTrigger(udg_trigger86)
-	call TriggerRegisterDialogEvent(udg_trigger86, udg_dialog02)
+	call TriggerRegisterDialogEvent(udg_trigger86, udg_YesOrNo)
 	call TriggerAddCondition(udg_trigger86, Condition(function Trig_Special7Agree_Conditions))
 	call TriggerAddAction(udg_trigger86, function Trig_Special7Agree_Actions)
 	call DisableTrigger(udg_trigger87)
@@ -12874,6 +12902,10 @@ function main2 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(gg_trg_ItemStacking, EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(gg_trg_ItemStacking, Condition(function Trig_ItemStacking_Conditions))
 	call TriggerAddAction(gg_trg_ItemStacking, function Trig_ItemStacking_Actions)
+	// === Hero Skills ===
+	call TriggerRegisterAnyUnitEventBJ(gg_trg_TankAttackedSkill, EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(gg_trg_TankAttackedSkill, Condition(function Trig_TankAttackedSkill_Conditions))
+	call TriggerAddAction(gg_trg_TankAttackedSkill, function Trig_TankAttackedSkill_Actions)
 endfunction
 
 function InitTrig_init takes nothing returns nothing
@@ -12956,7 +12988,7 @@ function InitTrig_init takes nothing returns nothing
 	set udg_trigger72 = CreateTrigger()
 	set udg_trigger73 = CreateTrigger()
 	set udg_trigger74 = CreateTrigger()
-	set udg_trigger75 = CreateTrigger()
+	set gg_trg_SpecialXDialog = CreateTrigger()
 	set gg_trg_SpecialXStart = CreateTrigger()
 	set udg_trigger77 = CreateTrigger()
 	set gg_trg_SpecialXDisagree = CreateTrigger()
@@ -13059,6 +13091,8 @@ function InitTrig_init takes nothing returns nothing
 	set gg_trg_CheckLeak = CreateTrigger()
 	set gg_trg_GiveDebugItems = CreateTrigger()
 	set gg_trg_ItemStacking = CreateTrigger()
+	set gg_trg_TankAttackedSkill = CreateTrigger()
+	
 	
 	call ExecuteFunc("main2")
 endfunction

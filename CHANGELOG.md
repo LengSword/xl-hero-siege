@@ -1,19 +1,57 @@
-未发布版本:
-- [ ] 支持 -random 双英雄
-- [ ] 解决堵怪问题 => Trig_AttackCheck_Actions
-- [ ] 火枪 游侠 恶魔 石头人 恐惧大招 平衡性优化
-- [ ] 圣骑 20级大招 可对召唤释放
-- [ ] 主城 物品 剔除 优化 血棒
-- [ ] 术士变身 隐藏减伤 神圣护甲类型
-- [ ] 地穴领主 地刺 对暂停单位 会导致无敌
-- [ ] 娜迦 20大招 一个范围内的 又能给队友回血 又能给伤害的?
-- [ ] 游侠 火焰箭改为AOE 大招改为超级buff?
-- [ ] 一开始 电影可选择跳过 (跳过过场电影)
-- [ ] 火枪手 激光 优化
-- [ ] 基地另外两角出龙
-- [ ] 激光陷阱 光环
+## v3.48
 
----
+### [更改]
+
+- 全英雄光环范围 200 => 300
+- 物品调整
+  - 火焰之球 => 医疗宝石
+    - 价格 75000
+    - 增加50000点的生命值和200点的生命回复
+  - 野性护身符
+    - 开局购买CD 10s => 60s
+- 英雄技能调整
+  - 石头人
+    - 投石 => 反伤外壳
+      - 使得坦克被攻击时有一定的几率对周围敌人造成混乱伤害
+      - 具体效果可进游戏里体验
+    - 硬化皮肤
+      - 减少伤害几率 100% => 75%/80%/85%/90%
+      - 最小伤害 10/30/40/60 => 10/10/10/10
+      - 忽略伤害 40/75/100/150 => 80/120/160/200
+  - 火枪手
+    - 黑暗弹 => 炮击
+      - 相当于山丘的『重击』技能
+      - 具体效果可进游戏里体验
+    - 燃烧弹
+      - 范围 175/200/225/250(/300) => 100/125/150/175(/225)
+      - 强化后全伤害/半伤害 750/375 => 500/250
+      - 伤害持续时间 2s => 1s
+    - 激光
+      - 只为攻击增加伤害 => 为攻击增加伤害并减少目标单位移速和攻速
+      - 伤害 2500/5000 => 1500/3000
+      - 强化后伤害 7500 => 5000
+  - 鬼
+    - 献祭 => 永久献祭
+      - 原汉化者把永久献祭修改成了主动的, 因此现在改回来
+      - 具体效果可进游戏里体验
+
+### [修复]
+
+- 自身镜像进去太快会导致属性增加错误的问题
+- 多人站到挑战镜像/BOSS的圈时可能导致的对话框卡死问题
+- 火枪手
+  - 武器升级
+    - 修正其技能描述
+- 剑圣
+  - 战鼓
+    - 修复会增加额外护甲的问题
+- 女猎手
+  - 命令光环
+    - 技能描述修正并汉化
+    - 修复会增加额外护甲的问题
+- 机枪
+  - 再生光环
+    - 修复还会增加回魔速度的问题
 
 ## v3.47
 
@@ -110,16 +148,11 @@
 
 ## v3.46
 
-### [新增]
-
 ### [更改]
 
-- 优化了『2000杀敌数特殊事件』和『80特殊怪杀敌数特殊事件』的死亡判定机制, 防止非挑战英雄死亡而导致意外结束事件### [更改]
-
+- 优化了『2000杀敌数特殊事件』和『80特殊怪杀敌数特殊事件』的死亡判定机制, 防止非挑战英雄死亡而导致意外结束事件
 
 ## v3.45
-
-### [新增]
 
 ### [更改]
 
@@ -152,12 +185,7 @@
 - 因经验获取可能出现问题, 经验获取范围从1900 => 1200
 - 最高等级英雄不会消耗经验值了
 
-### [修复]
-
-
 ## v3.44
-
-### [新增]
 
 ### [更改]
 
@@ -178,8 +206,6 @@
 - 修正了机枪的『克隆』技能描述
 
 ## v3.43
-
-### [新增]
 
 ### [更改]
 
@@ -203,20 +229,13 @@
 
 ## v3.42
 
-### [新增]
-
 ### [更改]
 
 - 优化了 -bt 命令, 现在会一次性买够书, 避免多人使用时可能会阻塞的问题
 - 优化了双英雄模式选取英雄的流畅性, 现在切换英雄很流畅了
 - 双英雄模式非当前英雄会无敌, 避免双英雄嘲讽卡怪的问题
 
-### [修复]
-
-
 ## v3.41
-
-### [新增]
 
 ### [更改]
 
@@ -241,12 +260,7 @@
 - 隐形单位也能共享神器的光环了(此处主要针对守望20级终极技能进行优化)
 - 变形/变身后的单位也能共享神器的光环了
 
-### [修复]
-
-
 ## v3.40
-
-### [新增]
 
 ### [更改]
 
@@ -274,17 +288,11 @@
 
 ## v3.38
 
-### [新增]
-
-### [更改]
-
 ### [修复]
 
 - 修复了特殊事件无法触发的bug
 
 ## v3.37
-
-### [新增]
 
 ### [更改]
 
@@ -297,8 +305,6 @@
 - 修复了部分英雄的食物一开始会占用5人口的问题(应该)
 
 ## v3.36
-
-### [新增]
 
 ### [更改]
 
@@ -330,8 +336,6 @@
 
 ## v3.34
 
-### [新增]
-
 ### [更改]
 
 - 部分平衡性调整
@@ -340,11 +344,7 @@
     - 10级大招: 更换了技能模板, 修复无技能图标的问题, 同时添加了技能描述文本
       - 技能效果: 降低周围敌人55%移速和25%攻速 => 降低周围敌人25%/45%移速和20%/35%攻速
 
-### [修复]
-
 ## v3.33
-
-### [新增]
 
 ### [更改]
 
@@ -364,29 +364,3 @@
 ### [修复]
 
 - 修复了100W特殊事件无怪物刷新的bug
-
----
-
-## Sogat v3.33
-
-- [x] Added a new item "Scepter of Mastery" with "Banish" to increase spell damage on single targets.
-- Added "Storm", "Earth" and "Fire" as alternative models for "Sorceress", "Tauren Chieftain" and "Blood Mage" (selection: one-click 1 of the 3 heroes then press the down-arrow on keyboard).
-- [x] Fixed bug: Level 20 Ability is not added to "Druid of the Clow" in "Bear Form".
-
-## Sogat v3.32
-
-- Added the commands -random and -repick for "Dual Hero Mode".
-- New hero "Druid of the Claw".
-- [x] Own "Wave Kills" and "Wave Kills" of current leadder are displayed in "food counter".
-- [x] Significantly improved map loading.
-- Added the command "-random 100".
-- Retriggerd hero selection system.
-- Improved the abilities of some dark heroes.
-- Removed "Blink" from "Boots of Speed" because of abuse.
-- Removed the pausing of player units that attacks castle.
-- [x] Fixed bug: Arthas teleport bug in "Dual Hero Mode".
-- [x] Fixed bug: Invulnerable units after "Final Wave" in "Extreme Mode".
-- [x] Fixed bug: Player without a hero cannot select a hero after game level 1.
-- [x] Fixed bug: Used "Tome of Knowledge" are not removed from game (tiny item model visible on map).
-- [x] Fixed bug: Some ability icons displayed twice for "Mountain King" and "Tauren Chieftain".
-- [x] Fixed bug: Sometimes heroes of some players are not revived.
