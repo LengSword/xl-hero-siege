@@ -8,6 +8,5 @@ tools/*
 w3x2lni/*
 
 *.w3x
-*.j
-deploy.bat
-魔兽ID.htm
+bak/*
+temp/*
