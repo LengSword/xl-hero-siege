@@ -2,8 +2,7 @@
 - [ ] 支持 -random 双英雄
 - [ ] 解决堵怪问题 => Trig_AttackCheck_Actions
 - [ ] 火枪 游侠 恶魔 石头人 恐惧大招 平衡性优化
-- [ ] 主城 旁边 维修工
-- [ ] 主城 翻页 利用另一个单位 重叠堆放?
+- [ ] 主城 旁边 维修工?强化?
 - [ ] 小英雄BOSS 可释放技能
 - [ ] 术士变身 隐藏减伤 神圣护甲类型
 - [ ] 娜迦 20大招 一个范围内的 又能给队友回血 又能给伤害的喷泉
@@ -12,13 +11,12 @@
 - [ ] 游侠 火焰箭改为AOE 大招改为超级buff?
 - [ ] 一开始 电影可选择跳过 (跳过过场电影)
 - [ ] 基地另外两角出龙
-- [ ] 激光陷阱 光环
 - [ ] 新增 黑暗游侠 穿刺黑箭
 - [ ] 石头人 10级技能 触发 +护盾
-- [ ] 石头人 5级 专注 => 加血物品技能
+- [ ] 石头人 反击 尝试 => 被攻击100次反伤?
+- [ ] 小Y 10级技能 激光陷阱 光环 CD加长
 - [ ] 深渊 分裂 优化
 - [ ] 伤害系统?
-- [ ] Ane2 选择单位
 
 ---
 
@@ -40,12 +38,12 @@
 
 ## Sogat v3.32
 
-- Added the commands -random and -repick for "Dual Hero Mode".
-- New hero "Druid of the Claw".
+- [x] Added the commands -random and -repick for "Dual Hero Mode".
+- [x] New hero "Druid of the Claw".
 - [x] Own "Wave Kills" and "Wave Kills" of current leadder are displayed in "food counter".
 - [x] Significantly improved map loading.
 - Added the command "-random 100".
-- Retriggerd hero selection system.
+- [x] Retriggerd hero selection system.
 - Improved the abilities of some dark heroes.
 - Removed "Blink" from "Boots of Speed" because of abuse.
 - Removed the pausing of player units that attacks castle.

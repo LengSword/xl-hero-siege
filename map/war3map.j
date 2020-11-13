@@ -189,8 +189,8 @@ globals
 	rect gg_rct_StartRegion = null
 	rect udg_rect34 = null
 	rect udg_rect35 = null
-	rect udg_rect36 = null
-	rect udg_rect37 = null
+	rect gg_rct_Survival1Start1 = null
+	rect gg_rct_Survival1Start2 = null
 	rect udg_rect38 = null
 	rect udg_rect39 = null
 	rect udg_rect40 = null
@@ -242,6 +242,7 @@ globals
 	trigger gg_trg_CheckLeak = null
 	trigger gg_trg_GiveDebugItems = null
 	trigger gg_trg_ItemStacking = null
+	trigger gg_trg_SelectSecondCastle = null
 	trigger gg_trg_LightningSwordSkill = null
 	trigger gg_trg_TankAttackedSkill = null
 	trigger gg_trg_KillHeroExtraGold = null
@@ -1571,6 +1572,11 @@ function Trig_Heroes_Actions takes nothing returns nothing
 		set tempPoint = PolarProjectionBJ(udg_TempPoint, 715., ( -18.95 + (I2R(bj_forLoopAIndex) * 18.95) ))
 		call CreateNUnitsAtLocFacingLocBJ(1, 'e007', Player(8), tempPoint, udg_TempPoint)
 		call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[bj_forLoopAIndex], Player(8), tempPoint, udg_TempPoint)
+		call UnitAddAbility(bj_lastCreatedUnit, 'Ane2')
+		call UnitAddAbility(bj_lastCreatedUnit, 'A058')
+		call UnitRemoveAbility(bj_lastCreatedUnit, 'A058')
+		call SuspendHeroXP(bj_lastCreatedUnit, true)
+		call ModifyHeroSkillPoints(bj_lastCreatedUnit, bj_MODIFYMETHOD_SUB, 1)
 		set udg_HeroToSelect[bj_forLoopAIndex]= bj_lastCreatedUnit
 		call RemoveLocation(tempPoint)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -1582,6 +1588,11 @@ function Trig_Heroes_Actions takes nothing returns nothing
 		set tempPoint = PolarProjectionBJ(udg_TempPoint, 410., ( -36. + (I2R(bj_forLoopAIndex) * 36.) ))
 		call CreateNUnitsAtLocFacingLocBJ(1, 'e007', Player(8), tempPoint, udg_TempPoint)
 		call CreateNUnitsAtLocFacingLocBJ(1, udg_HeroesType[(bj_forLoopAIndex + 19)], Player(8), tempPoint, udg_TempPoint)
+		call UnitAddAbility(bj_lastCreatedUnit, 'Ane2')
+		call UnitAddAbility(bj_lastCreatedUnit, 'A058')
+		call UnitRemoveAbility(bj_lastCreatedUnit, 'A058')
+		call SuspendHeroXP(bj_lastCreatedUnit, true)
+		call ModifyHeroSkillPoints(bj_lastCreatedUnit, bj_MODIFYMETHOD_SUB, 1)
 		set udg_HeroToSelect[(bj_forLoopAIndex + 19)]= bj_lastCreatedUnit
 		call RemoveLocation(tempPoint)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -4870,7 +4881,7 @@ function Trig_Special1Timer_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
 	call TriggerSleepAction(1.)
 	call StartTimerBJ(udg_timer02, false, 750.)
-	call CreateTimerDialogBJ(udg_timer02, "特殊事件:")
+	call CreateTimerDialogBJ(udg_timer02, "特殊事��:")
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	set udg_timerdialog02 = bj_lastCreatedTimerDialog
 	call EnableTrigger(udg_trigger87)
@@ -10186,6 +10197,9 @@ function Trig_Tomes_Func001C takes nothing returns boolean
 	if((GetItemTypeId(GetManipulatedItem())=='I00C')) then
 		return true
 	endif
+	if((GetItemTypeId(GetManipulatedItem())=='tstr')) then
+		return true
+	endif
 	return false
 endfunction
 function Trig_Tomes_Conditions takes nothing returns boolean
@@ -10760,10 +10774,8 @@ function Trig_CheckLeak_Actions takes nothing returns nothing
 endfunction
 
 function Trig_GiveDebugItems_Actions takes nothing returns nothing
-	call UnitAddItemByIdSwapped('I001', bj_lastCreatedUnit)
-	call UnitAddItemByIdSwapped('I00B', bj_lastCreatedUnit)
-	call UnitAddItemByIdSwapped('I005', bj_lastCreatedUnit)
-	call UnitAddItemByIdSwapped('I007', bj_lastCreatedUnit)
+	call UnitAddItemByIdSwapped('I000', udg_Heroes[GetConvertedPlayerId(GetTriggerPlayer())])
+	call UnitAddItemByIdSwapped('I003', udg_Heroes[GetConvertedPlayerId(GetTriggerPlayer())])
 endfunction
 
 // --- Item ---
@@ -10789,12 +10801,18 @@ function Trig_ItemStacking_Actions takes nothing returns nothing
 	endloop
 endfunction
 
+function Trig_SelectSecondCastle_Actions takes nothing returns nothing
+	if(GetItemTypeId(GetSoldItem()) == 'tstr') then
+		call SelectUnitForPlayerSingle(udg_Castle2, GetOwningPlayer(GetBuyingUnit()))
+	endif
+endfunction
+
 function Trig_LightningSwordSkill_Conditions takes nothing returns boolean
 	return( (YDWEUnitHasItemOfTypeBJNull(GetAttacker() , 'I003')) and(IsUnitIllusionBJ(GetAttacker()) == false) and(IsUnitEnemy(GetTriggerUnit(), Player(0))) )
 endfunction
 
 function Trig_LightningSwordSkill_Actions takes nothing returns nothing
-	call UnitDamageTargetBJ(GetAttacker(), GetTriggerUnit(), (GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) * 0.03), ATTACK_TYPE_CHAOS, DAMAGE_TYPE_NORMAL)
+	call UnitDamageTargetBJ(GetAttacker(), GetTriggerUnit(), (GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetTriggerUnit()) * 0.02), ATTACK_TYPE_CHAOS, DAMAGE_TYPE_NORMAL)
 endfunction
 
 // --- Hero Skills ---
@@ -10813,9 +10831,9 @@ endfunction
 
 function Trig_TankAttackedSkill_Actions takes nothing returns nothing
 	local location unitLoc
-	if((GetRandomInt(1, 4)) >= (GetRandomInt(1, 100))) then
+	if((GetRandomInt(1, 100)) <= 2) then
 		set unitLoc = GetUnitLoc(GetTriggerUnit())
-		set udg_TempGroup = YDWEGetUnitsInRangeOfLocMatchingNull(400.00, unitLoc, Condition(function Trig_TankAttackedSkill_FilterEnemy))
+		set udg_TempGroup = YDWEGetUnitsInRangeOfLocMatchingNull(250.00, unitLoc, Condition(function Trig_TankAttackedSkill_FilterEnemy))
 		call ForGroupBJ(udg_TempGroup, function Trig_TankAttackedSkill_Damage)
 		call DestroyGroup(udg_TempGroup)
 		call RemoveLocation(unitLoc)
@@ -10829,12 +10847,14 @@ function Trig_KillHeroExtraGold_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_KillHeroExtraGold_Actions takes nothing returns nothing
+	local integer stat
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 4
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
 		if(GetUnitTypeId(GetTriggerUnit()) == udg_DarkHero[bj_forLoopAIndex] ) then
-			call AdjustPlayerStateBJ(udg_Difficulty * 100, GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_GOLD)
+			set stat = GetHeroStatBJ(bj_HEROSTAT_STR, GetTriggerUnit(), false)
+			call AdjustPlayerStateBJ((stat / 50) * 150, GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_GOLD)
 			call DoNothing()
 		exitwhen true //()
 		endif
@@ -10971,8 +10991,8 @@ function main2 takes nothing returns nothing
 	set gg_rct_StartRegion = Rect(-512., -9184., -96., -8864.)
 	set udg_rect34 = Rect(-2592., -5120., -1504., -4608.)
 	set udg_rect35 = Rect(1504., -5120., 2592., -4608.)
-	set udg_rect36 = Rect(-2592., -6688., -1504., -6496.)
-	set udg_rect37 = Rect(1504., -6688., 2592., -6496.)
+	set gg_rct_Survival1Start1 = Rect(-2592., -7104., -1504., -5728.)
+	set gg_rct_Survival1Start2 = Rect(1504., -7104., 2592., -5728.)
 	set udg_rect38 = Rect(-768., 3328., 768., 4864.)
 	set udg_rect39 = Rect(-2048., 3744., -1536., 4448.)
 	set udg_rect40 = Rect(-384., 5632., 384., 6144.)
@@ -12137,8 +12157,7 @@ function main2 takes nothing returns nothing
 	set u = CreateUnit(p, 'nfoh', 3776., -11584., 270.)
 	set p = Player(8)
 	set udg_Castle = CreateUnit(p, 'hcas', .0, -8704., 270.)
-	//set udg_Castle2 = CreateUnit(p, 'hcas', .0, -8704., 270.)
-	//call SetUnitInvulnerable(udg_Castle2, true)
+	set udg_Castle2 = CreateUnit(p, 'h00d', .0, 15704., 270.)
 	set u = CreateUnit(p, 'hgtw', -512., -8640., 270.)
 	set u = CreateUnit(p, 'hgtw', -512., -8768., 270.)
 	set u = CreateUnit(p, 'hgtw', -64., -9216., 270.)
@@ -12682,8 +12701,8 @@ function main2 takes nothing returns nothing
 	call TriggerRegisterTimerExpireEvent(udg_trigger51, udg_timer01)
 	call TriggerAddAction(udg_trigger51, function Trig_ExtremePowerUp_Actions)
 	call DisableTrigger(udg_trigger52)
-	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger52 , udg_rect36)
-	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger52 , udg_rect37)
+	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger52 , gg_rct_Survival1Start1)
+	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger52 , gg_rct_Survival1Start2)
 	call TriggerAddCondition(udg_trigger52, Condition(function Trig_Survival1Start_Conditions))
 	call TriggerAddAction(udg_trigger52, function Trig_Survival1Start_Actions)
 	call DisableTrigger(udg_trigger53)
@@ -13222,6 +13241,9 @@ function main2 takes nothing returns nothing
 	call TriggerAddCondition(gg_trg_ItemStacking, Condition(function Trig_ItemStacking_Conditions))
 	call TriggerAddAction(gg_trg_ItemStacking, function Trig_ItemStacking_Actions)
 	
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_SelectSecondCastle, Player(8), EVENT_PLAYER_UNIT_SELL_ITEM)
+	call TriggerAddAction(gg_trg_SelectSecondCastle, function Trig_SelectSecondCastle_Actions)
+	
 	call TriggerRegisterAnyUnitEventBJ(gg_trg_LightningSwordSkill, EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(gg_trg_LightningSwordSkill, Condition(function Trig_LightningSwordSkill_Conditions))
 	call TriggerAddAction(gg_trg_LightningSwordSkill, function Trig_LightningSwordSkill_Actions)
@@ -13423,6 +13445,7 @@ function InitTrig_init takes nothing returns nothing
 	set gg_trg_CheckLeak = CreateTrigger()
 	set gg_trg_GiveDebugItems = CreateTrigger()
 	set gg_trg_ItemStacking = CreateTrigger()
+	set gg_trg_SelectSecondCastle = CreateTrigger()
 	set gg_trg_LightningSwordSkill = CreateTrigger()
 	set gg_trg_TankAttackedSkill = CreateTrigger()
 	set gg_trg_KillHeroExtraGold = CreateTrigger()
