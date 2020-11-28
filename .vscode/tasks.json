@@ -6,7 +6,7 @@
     "tasks": [
         {
             "label": "部署",
-            "command": "@echo off && del X_Hero_Siege_3.30.w3x 2>nul && rename SlkMap.w3x X_Hero_Siege_3.30.w3x",
+            "command": "${workspaceFolder}/tools/deploy.py",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
@@ -118,7 +118,7 @@
             "args": [
                 "slk",
                 "${workspaceRoot}",
-                "${workspaceRoot}/SlkMap.w3x"
+                "${workspaceRoot}/releases/SlkMap.w3x"
             ],
             "problemMatcher": []
         },

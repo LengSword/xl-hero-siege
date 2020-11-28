@@ -25,7 +25,7 @@
 5. 安装VSCode扩展 `jass.jass`
 6. 已配置好各项`运行任务`
    1. 运行`Release-运行`/`Debug-运行` --> 调试运行地图
-   2. 部署`部署` > 会使用 `slk` 优化地图后改名成 `X_Hero_Siege_3.30.w3x`
+   2. 部署`部署` --> 会使用 `slk` 优化地图后自动改名成 `X_Hero_Siege_{当前版本号}.w3x`
 7. 编辑触发请修改 `war3map.j` 文件, 改物编数据则修改 `table` 目录下的文件
 
 ## 项目基本结构
@@ -44,6 +44,7 @@ X Hero Siege 3.30 修正重制版
  │   ├── war3map.wts
  │   ├── war3mapskin.txt
  │   └── war3mapUnits.doo
+ ├── releases               // 地图部署发布目录
  ├── resource               // 资源目录
  ├── table                  // 数据相关文件(物编/导入/地图信息等)
  └── tools                  // 工具目录(无需变动)
