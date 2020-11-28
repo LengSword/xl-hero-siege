@@ -66,6 +66,8 @@ globals
 	integer YDWETriggerEvent__DamageEventNumber = 0
 	//endglobals from YDWETriggerEvent
 	// User-defined
+	integer array udg_TankAttackedCount
+	integer udg_ChallengerPlayerIndex = 0
 	integer array udg_DarkUnit
 	integer array udg_SpecialUnit
 	rect array udg_DarkCome
@@ -97,7 +99,7 @@ globals
 	integer array udg_integers10
 	integer udg_PlayerNumber = 0
 	quest array udg_quests01
-	integer udg_integer05 = 0
+	integer udg_MusicPoint = 0
 	integer array udg_Kills
 	integer array udg_HeroesType
 	dialog udg_SpecialsDialog = null
@@ -118,14 +120,14 @@ globals
 	integer array udg_DarkHero
 	integer array udg_DarkHeroAbility
 	timer udg_AssassinTimer = null
-	group udg_group02 = null
 	group udg_ExtremeGroup = null
 	integer udg_PlayerCount = 0
 	integer udg_Difficulty = 0
 	group udg_Special4Group = null
 	group udg_group04 = null
-	dialog udg_dialog03 = null
-	dialog udg_dialog04 = null
+	dialog udg_OptionGameDialog = null
+	dialog udg_OptionHeroDialog = null
+	dialog udg_OptionSkipCinemaDialog = null
 	integer udg_TomesCount = 0
 	rect array udg_rects04
 	integer udg_HeroWay = 0
@@ -144,9 +146,11 @@ globals
 	boolean udg_ModeRandom = false
 	group udg_group06 = null
 	player udg_TempPlayer = null
-	button array udg_buttons01
+	button array udg_OptionGameButton
 	button array udg_OptionHeroButton
+	button array udg_OptionSkipCinemaButton
 	button array udg_SpecialsButton
+	boolean udg_SkipCinema = false
 	force udg_TempForce = null
 	integer udg_TempNumber = 0
 	boolean udg_ModeEasy = false
@@ -255,8 +259,9 @@ globals
 	trigger udg_trigger07 = null
 	trigger udg_trigger08 = null
 	trigger udg_trigger09 = null
-	trigger udg_trigger10 = null
-	trigger udg_trigger11 = null
+	trigger gg_trg_OptionsDifficulty = null
+	trigger gg_trg_OptionsHeroes = null
+	trigger gg_trg_OptionsSkipCinema = null
 	trigger gg_trg_OptionsTimeOut = null
 	trigger gg_trg_ModeRandom = null
 	trigger gg_trg_ModeNormal = null
@@ -340,32 +345,32 @@ globals
 	trigger udg_trigger91 = null
 	trigger udg_trigger92 = null
 	trigger udg_trigger93 = null
-	trigger udg_trigger94 = null
+	trigger gg_trg_Boss1Teleport = null
 	trigger gg_trg_Boss1Dead = null
 	trigger gg_trg_Boss2Dead = null
 	trigger gg_trg_Boss3Dead = null
 	trigger gg_trg_Boss4Dead = null
 	trigger gg_trg_Boss5Dead = null
-	trigger udg_trigger100 = null
-	trigger udg_trigger101 = null
-	trigger udg_trigger102 = null
-	trigger udg_trigger103 = null
-	trigger udg_trigger104 = null
-	trigger udg_trigger105 = null
-	trigger udg_trigger106 = null
-	trigger udg_trigger107 = null
-	trigger udg_trigger108 = null
-	trigger udg_trigger109 = null
-	trigger udg_trigger110 = null
-	trigger udg_trigger111 = null
-	trigger udg_trigger112 = null
-	trigger udg_trigger113 = null
-	trigger udg_trigger114 = null
-	trigger udg_trigger115 = null
-	trigger udg_trigger116 = null
-	trigger udg_trigger117 = null
-	trigger udg_trigger118 = null
-	trigger udg_trigger119 = null
+	trigger gg_trg_OptionsDifficulty0 = null
+	trigger gg_trg_OptionsDifficulty1 = null
+	trigger gg_trg_OptionsDifficulty2 = null
+	trigger gg_trg_OptionsDifficulty3 = null
+	trigger gg_trg_OptionsDifficulty4 = null
+	trigger gg_trg_OptionsDifficulty5 = null
+	trigger gg_trg_OptionsDifficulty6 = null
+	trigger gg_trg_OptionsDifficulty7 = null
+	trigger gg_trg_OptionsDifficulty8 = null
+	trigger gg_trg_OptionsDifficulty9 = null
+	trigger gg_trg_OptionsHeroes0 = null
+	trigger gg_trg_OptionsHeroes1 = null
+	trigger gg_trg_OptionsHeroes2 = null
+	trigger gg_trg_OptionsHeroes3 = null
+	trigger gg_trg_OptionsHeroes4 = null
+	trigger gg_trg_OptionsHeroes5 = null
+	trigger gg_trg_OptionsHeroes6 = null
+	trigger gg_trg_OptionsHeroes7 = null
+	trigger gg_trg_OptionsHeroes8 = null
+	trigger gg_trg_OptionsHeroes9 = null
 	trigger udg_trigger120 = null
 	trigger gg_trg_EasyPowerUp = null
 	trigger gg_trg_HeroDead = null
@@ -373,7 +378,7 @@ globals
 	trigger udg_trigger124 = null
 	trigger udg_trigger125 = null
 	trigger udg_trigger126 = null
-	trigger udg_trigger127 = null
+	trigger gg_trg_Music = null
 	trigger udg_trigger128 = null
 	trigger udg_trigger129 = null
 	trigger udg_trigger130 = null
@@ -478,7 +483,6 @@ globals
 	unit udg_unit55 = null
 	unit udg_unit56 = null
 	unit udg_unit57 = null
-	integer udg_ChallengerPlayerIndex = 0
 	destructable udg_destructable01 = null
 	destructable udg_destructable02 = null
 	destructable udg_destructable03 = null
@@ -938,6 +942,14 @@ endfunction
 
 function InitGlobals takes nothing returns nothing
 	local integer i = 0
+	
+	set i = 0
+	loop
+	exitwhen(i > 16)
+		set udg_TankAttackedCount[i]= 0
+		set i = i + 1
+	endloop
+	
 	set i = 0
 	loop
 	exitwhen(i > 1)
@@ -1037,7 +1049,7 @@ function InitGlobals takes nothing returns nothing
 	endloop
 	
 	set udg_PlayerNumber = 0
-	set udg_integer05 = 0
+	set udg_MusicPoint = 0
 	set i = 0
 	loop
 	exitwhen(i > 1)
@@ -1093,14 +1105,13 @@ function InitGlobals takes nothing returns nothing
 	endloop
 	
 	set udg_AssassinTimer = CreateTimer()
-	set udg_group02 = CreateGroup()
 	set udg_ExtremeGroup = CreateGroup()
 	set udg_PlayerCount = 0
 	set udg_Difficulty = 1
 	set udg_Special4Group = CreateGroup()
 	set udg_group04 = CreateGroup()
-	set udg_dialog03 = DialogCreate()
-	set udg_dialog04 = DialogCreate()
+	set udg_OptionGameDialog = DialogCreate()
+	set udg_OptionHeroDialog = DialogCreate()
 	set udg_TomesCount = 3
 	set udg_HeroWay = 1
 	set udg_ChallengerPlayerIndex = 0
@@ -1126,6 +1137,7 @@ function InitGlobals takes nothing returns nothing
 	set udg_TempForce = CreateForce()
 	set udg_TempNumber = 0
 	set udg_ModeEasy = false
+	set udg_SkipCinema = false
 	set udg_real01 = 0
 	set udg_PTR = 0
 	set udg_string01 = "Sound\\\\Music\\\\mp3Music\\\\Doom.mp3"
@@ -1796,64 +1808,74 @@ function Trig_OptionsGame_Actions takes nothing returns nothing
 	if( (GetBooleanAnd((udg_PlayerCount == 1), (GetPlayerName(Player(0)) == "WorldEdit"))) ) then // INLINED!!
 		call CustomVictoryBJ(Player(0), false, false)
 	endif
-	set udg_integer05 = 1
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 1
+	call TriggerExecute(gg_trg_Music)
 	set bj_wantDestroyGroup = true
 	call ForGroupBJ((YDWEGetUnitsOfPlayerMatchingNull((Player(11)) , null)), function Trig_OptionsGame_Func006002) // INLINED!!
 	if( ((GetPlayerController(Player(0)) == MAP_CONTROL_USER) and(GetPlayerSlotState(Player(0)) == PLAYER_SLOT_STATE_PLAYING)) ) then // INLINED!!
-		call EnableTrigger(udg_trigger10)
+		call EnableTrigger(gg_trg_OptionsDifficulty)
 		call DisplayTimedTextToForce(YDWEGetPlayersMatchingNull(Condition(function Trig_OptionsGame_Func007Func002001001)), 10., "主机在选择游戏模式，请耐心等待15秒左右")
-		call DialogSetMessage(udg_dialog03, "选择模式")
-		call DialogAddButtonBJ(udg_dialog03, "经典模式")
-		set udg_buttons01[1]= bj_lastCreatedButton
-		call DialogAddButtonBJ(udg_dialog03, "极限模式")
-		set udg_buttons01[2]= bj_lastCreatedButton
-		call DialogAddButtonBJ(udg_dialog03, "简易模式")
-		set udg_buttons01[3]= bj_lastCreatedButton
-		call DialogDisplayBJ(true, udg_dialog03, Player(0))
+		call DialogSetMessage(udg_OptionGameDialog, "选择模式")
+		call DialogAddButtonBJ(udg_OptionGameDialog, "经典模式")
+		set udg_OptionGameButton[1]= bj_lastCreatedButton
+		call DialogAddButtonBJ(udg_OptionGameDialog, "极限模式")
+		set udg_OptionGameButton[2]= bj_lastCreatedButton
+		call DialogAddButtonBJ(udg_OptionGameDialog, "简易模式")
+		set udg_OptionGameButton[3]= bj_lastCreatedButton
+		call DialogDisplayBJ(true, udg_OptionGameDialog, Player(0))
 	else
 		call TriggerExecute(gg_trg_ModeNormal)
-		call DestroyTrigger(udg_trigger10)
-		call DestroyTrigger(udg_trigger11)
+		call DestroyTrigger(gg_trg_OptionsDifficulty)
+		call DestroyTrigger(gg_trg_OptionsHeroes)
 	endif
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
 function Trig_OptionsDifficulty_Func002C takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons01[2] )
+	return(GetClickedButton() == udg_OptionGameButton[2] )
 endfunction
 
 function Trig_OptionsDifficulty_Func003Func001001 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons01[1] )
+	return(GetClickedButton() == udg_OptionGameButton[1] )
 endfunction
 
 function Trig_OptionsDifficulty_Func003Func001002 takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons01[3] )
+	return(GetClickedButton() == udg_OptionGameButton[3] )
 endfunction
 
 function Trig_OptionsDifficulty_Func003C takes nothing returns boolean
-	return(GetBooleanOr((GetClickedButton() == udg_buttons01[1]), (GetClickedButton() == udg_buttons01[3])) ) // INLINED!!
+	return(GetBooleanOr((GetClickedButton() == udg_OptionGameButton[1]), (GetClickedButton() == udg_OptionGameButton[3])) ) // INLINED!!
 endfunction
 
 function Trig_OptionsDifficulty_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	if( (GetClickedButton() == udg_buttons01[2]) ) then // INLINED!!
-		call EnableTrigger(udg_trigger11)
+	if( (GetClickedButton() == udg_OptionGameButton[2]) ) then // INLINED!!
+		call EnableTrigger(gg_trg_OptionsHeroes)
 		call DialogSetMessage(udg_SpecialsDialog, "极限级别")
-		call DialogAddButtonBJ(udg_SpecialsDialog, "难度1 进阶")
+		call DialogAddButtonBJ(udg_SpecialsDialog, "难度1 极端")
 		set udg_SpecialsButton[1]= bj_lastCreatedButton
 		call DialogAddButtonBJ(udg_SpecialsDialog, "难度2 疯狂")
 		set udg_SpecialsButton[2]= bj_lastCreatedButton
-		call DialogAddButtonBJ(udg_SpecialsDialog, "难度3 痛苦")
+		call DialogAddButtonBJ(udg_SpecialsDialog, "难度3 狂怒")
 		set udg_SpecialsButton[3]= bj_lastCreatedButton
-		call DialogAddButtonBJ(udg_SpecialsDialog, "难度4 炼狱")
+		call DialogAddButtonBJ(udg_SpecialsDialog, "难度4 不可能")
 		set udg_SpecialsButton[4]= bj_lastCreatedButton
 		call DialogDisplayBJ(true, udg_SpecialsDialog, Player(0))
 	endif
-	if( (GetBooleanOr((GetClickedButton() == udg_buttons01[1]), (GetClickedButton() == udg_buttons01[3]))) ) then // INLINED!!
-		call TriggerExecute(udg_trigger11)
+	if( (GetBooleanOr((GetClickedButton() == udg_OptionGameButton[1]), (GetClickedButton() == udg_OptionGameButton[3]))) ) then // INLINED!!
+		call TriggerExecute(gg_trg_OptionsHeroes)
 	endif
 	call DestroyTrigger(GetTriggeringTrigger())
+endfunction
+
+function Trig_OptionsSkipCinema_Actions takes nothing returns nothing
+	call DisableTrigger(GetTriggeringTrigger())
+	if( (GetClickedButton() == udg_OptionSkipCinemaButton[1]) ) then // INLINED!!
+		set udg_SkipCinema = true
+	endif
+	if( (GetClickedButton() == udg_OptionSkipCinemaButton[2]) ) then // INLINED!!
+		set udg_SkipCinema = false
+	endif
 endfunction
 
 function Trig_OptionsHeroes_Func002001 takes nothing returns boolean
@@ -1886,16 +1908,16 @@ function Trig_OptionsHeroes_Actions takes nothing returns nothing
 	if( (GetClickedButton() == udg_SpecialsButton[4]) ) then // INLINED!!
 		set udg_Difficulty = 5
 	endif
-	call DialogSetMessage(udg_dialog04, "英雄选择模式")
-	call DialogAddButtonBJ(udg_dialog04, "普通模式")
+	call DialogSetMessage(udg_OptionHeroDialog, "英雄选择模式")
+	call DialogAddButtonBJ(udg_OptionHeroDialog, "普通模式")
 	set udg_OptionHeroButton[1]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog04, "允许相同英雄")
+	call DialogAddButtonBJ(udg_OptionHeroDialog, "允许相同英雄")
 	set udg_OptionHeroButton[2]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog04, "全体随机")
+	call DialogAddButtonBJ(udg_OptionHeroDialog, "全体随机")
 	set udg_OptionHeroButton[3]= bj_lastCreatedButton
-	call DialogAddButtonBJ(udg_dialog04, "双英雄")
+	call DialogAddButtonBJ(udg_OptionHeroDialog, "双英雄")
 	set udg_OptionHeroButton[4]= bj_lastCreatedButton
-	call DialogDisplayBJ(true, udg_dialog04, Player(0))
+	call DialogDisplayBJ(true, udg_OptionHeroDialog, Player(0))
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -1905,9 +1927,9 @@ endfunction
 
 function Trig_OptionsTimeOut_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	call DialogDisplayBJ(false, udg_dialog03, Player(0))
+	call DialogDisplayBJ(false, udg_OptionGameDialog, Player(0))
 	call DialogDisplayBJ(false, udg_SpecialsDialog, Player(0))
-	call DialogDisplayBJ(false, udg_dialog04, Player(0))
+	call DialogDisplayBJ(false, udg_OptionHeroDialog, Player(0))
 	call ConditionalTriggerExecute(gg_trg_ModeExtreme)
 	call TriggerExecute(gg_trg_ModeNormal)
 	call DestroyTrigger(GetTriggeringTrigger())
@@ -2371,12 +2393,12 @@ function Trig_ModeExtreme_Actions takes nothing returns nothing
 	call ModifyHeroStat(0, udg_unit55, 0, ( (udg_Difficulty - 1) * 500))
 	call ModifyHeroStat(1, udg_unit55, 0, ( (udg_Difficulty - 1) * 500))
 	call ModifyHeroStat(2, udg_unit55, 0, ( (udg_Difficulty - 1) * 500))
-	call GroupClear(udg_group02)
-	call GroupAddUnit(udg_group02, udg_unit49)
-	call GroupAddUnit(udg_group02, udg_unit52)
-	call GroupAddUnit(udg_group02, udg_unit53)
-	call GroupAddUnit(udg_group02, udg_unit44)
-	call ForGroupBJ(udg_group02, function Trig_ModeExtreme_Func055A)
+	call GroupClear(udg_ExtremeGroup)
+	call GroupAddUnit(udg_ExtremeGroup, udg_unit49)
+	call GroupAddUnit(udg_ExtremeGroup, udg_unit52)
+	call GroupAddUnit(udg_ExtremeGroup, udg_unit53)
+	call GroupAddUnit(udg_ExtremeGroup, udg_unit44)
+	call ForGroupBJ(udg_ExtremeGroup, function Trig_ModeExtreme_Func055A)
 	// call UnitAddAbility(udg_unit43, 'A016')
 	if( (udg_Difficulty >= 3) ) then // INLINED!!
 		call SelectHeroSkill(udg_unit51, 'AHhb')
@@ -2402,7 +2424,7 @@ function Trig_ModeExtreme_Actions takes nothing returns nothing
 endfunction
 
 function Trig_ModeEasy_Conditions takes nothing returns boolean
-	return(GetClickedButton() == udg_buttons01[3] )
+	return(GetClickedButton() == udg_OptionGameButton[3] )
 endfunction
 
 function Trig_ModeEasy_Func005002 takes nothing returns boolean
@@ -3353,8 +3375,8 @@ function Trig_AttackNecropolis_Actions takes nothing returns nothing
 		call DisableTrigger(gg_trg_CloseAllWays)
 		call DisableTrigger(udg_trigger42)
 		call DisableTrigger(gg_trg_AttackCome)
-		call DisableTrigger(udg_trigger118)
-		call DisableTrigger(udg_trigger119)
+		call DisableTrigger(gg_trg_OptionsHeroes8)
+		call DisableTrigger(gg_trg_OptionsHeroes9)
 		call DisableTrigger(udg_trigger120)
 		call EnableTrigger(udg_trigger52)
 		call DestroyTrigger(gg_trg_OpenWay)
@@ -3770,10 +3792,10 @@ function Trig_FinalWaveTimer_Actions takes nothing returns nothing
 	call DestroyTrigger(udg_trigger43)
 	call DestroyTrigger(udg_trigger47)
 	call DestroyTrigger(udg_trigger134)
-	call DestroyTrigger(udg_trigger113)
-	call DestroyTrigger(udg_trigger114)
-	call DestroyTrigger(udg_trigger115)
-	call DestroyTrigger(udg_trigger116)
+	call DestroyTrigger(gg_trg_OptionsHeroes3)
+	call DestroyTrigger(gg_trg_OptionsHeroes4)
+	call DestroyTrigger(gg_trg_OptionsHeroes5)
+	call DestroyTrigger(gg_trg_OptionsHeroes6)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -3913,6 +3935,30 @@ function Trig_FinalWaveStart_Func126A takes nothing returns nothing
 	call IssuePointOrderByIdLoc(GetEnumUnit(), 851983, udg_DefensePoint)
 endfunction
 
+function Trig_FinalWaveStart_Func042003002 takes nothing returns nothing
+	call SetUnitInvulnerable(GetEnumUnit(), true)
+endfunction
+
+function Trig_FinalWaveStart_Func043001002 takes nothing returns boolean
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE))
+endfunction
+
+function Trig_FinalWaveStart_Func043002 takes nothing returns nothing
+	call SetUnitInvulnerable(GetEnumUnit(), true)
+endfunction
+
+function Trig_FinalWaveStart_Func104003002 takes nothing returns nothing
+	call SetUnitInvulnerable(GetEnumUnit(), false)
+endfunction
+
+function Trig_FinalWaveStart_Func105001002 takes nothing returns boolean
+	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE))
+endfunction
+
+function Trig_FinalWaveStart_Func105002 takes nothing returns nothing
+	call SetUnitInvulnerable(GetEnumUnit(), false)
+endfunction
+
 function Trig_FinalWaveStart_Actions takes nothing returns nothing
 	call YDWEPauseAllUnitsBJNull(true)
 	call DestroyTimerDialog(udg_timerdialog03)
@@ -3929,25 +3975,28 @@ function Trig_FinalWaveStart_Actions takes nothing returns nothing
 	set bj_forLoopAIndexEnd = 8
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+		set udg_TempPoint = OffsetLocation(GetRectCenter(gg_rct_StartRegion), 75.00, 75.00)
 		call UnitRemoveBuffsBJ(2, udg_Heroes[bj_forLoopAIndex])
-		set bj_forLoopAIndex = bj_forLoopAIndex + 1
-	endloop
-	set bj_forLoopAIndex = 1
-	set bj_forLoopAIndexEnd = 8
-	loop
-	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
 		call UnitResetCooldown(udg_Heroes[bj_forLoopAIndex])
-		set bj_forLoopAIndex = bj_forLoopAIndex + 1
-	endloop
-	set bj_forLoopAIndex = 1
-	set bj_forLoopAIndexEnd = 8
-	loop
-	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
 		call SetUnitPositionLoc(udg_Heroes[bj_forLoopAIndex], GetRectCenter(gg_rct_StartRegion))
+		call PanCameraToTimedLocForPlayer(GetOwningPlayer(udg_Heroes[bj_forLoopAIndex]), udg_TempPoint, 0.)
+		if( (GetUnitTypeId(udg_Heroes[bj_forLoopAIndex]) == 'Edmm') ) then // INLINED!!
+			call UnitRemoveAbility(udg_Heroes[bj_forLoopAIndex], 'BEme')
+		endif
+		call RemoveLocation(udg_TempPoint)
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func016002)
 	call TriggerSleepAction(2)
+	
+	call EnableTrigger(gg_trg_OptionsSkipCinema)
+	call DialogSetMessage(udg_OptionSkipCinemaDialog, "是否需要跳过后续电影(默认不跳过)")
+	call DialogAddButtonBJ(udg_OptionSkipCinemaDialog, "是")
+	set udg_OptionSkipCinemaButton[1]= bj_lastCreatedButton
+	call DialogAddButtonBJ(udg_OptionSkipCinemaDialog, "否")
+	set udg_OptionSkipCinemaButton[2]= bj_lastCreatedButton
+	call DialogDisplayBJ(true, udg_OptionSkipCinemaDialog, Player(0))
+	
 	call CinematicFadeBJ(1, 5., "ReplaceableTextures\\CameraMasks\\Scope_Mask.blp", 0, 0, 0, 0)
 	call TriggerSleepAction(5.)
 	set bj_forLoopAIndex = 1
@@ -4057,100 +4106,103 @@ function Trig_FinalWaveStart_Actions takes nothing returns nothing
 	call SetUnitPositionLocFacingLocBJ(udg_unit44, OffsetLocation(GetRectCenter(udg_rects03[4]), 0, -1050.), udg_DefensePoint)
 	call CinematicFadeBJ(0, 5., "ReplaceableTextures\\CameraMasks\\Scope_Mask.blp", 0, 0, 0, 0)
 	call TriggerSleepAction(1.)
-	set udg_integer05 = 12
-	call TriggerExecute(udg_trigger127)
-	call SetUserControlForceOff(bj_FORCE_ALL_PLAYERS)
-	set bj_forLoopAIndex = 1
-	set bj_forLoopAIndexEnd = 8
-	loop
-	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		if( (GetUnitTypeId(udg_Heroes[bj_forLoopAIndex]) == 'Edmm') ) then // INLINED!!
-			call UnitRemoveAbility(udg_Heroes[bj_forLoopAIndex], 'BEme')
-		endif
-		set bj_forLoopAIndex = bj_forLoopAIndex + 1
-	endloop
-	call TriggerSleepAction(2)
-	call GroupClear(udg_group02)
-	set bj_forLoopAIndex = 1
-	set bj_forLoopAIndexEnd = 9
-	loop
-	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call GroupAddGroup((YDWEGetUnitsOfPlayerMatchingNull((Player(-1 + (bj_forLoopAIndex))) , null)), udg_group02) // INLINED!!
-		set bj_forLoopAIndex = bj_forLoopAIndex + 1
-	endloop
-	call GroupRemoveGroup(YDWEGetUnitsInRectOfPlayerNull(gg_rct_SelectArea , Player(8)), udg_group02)
-	call TriggerSleepAction(1.)
-	call ForGroupBJ(udg_group02, function Trig_FinalWaveStart_Func052002)
-	call TriggerSleepAction(3.)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func055002)
-	call TriggerSleepAction(4.)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func058002)
-	call TriggerSleepAction(5.)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func060002)
-	call TriggerSleepAction(2)
-	call SetUnitAnimation(udg_unit49, "third")
-	call TriggerSleepAction(2)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func064002)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'u003'), function Trig_FinalWaveStart_Func065002)
-	call TriggerSleepAction(3.)
-	call ResetUnitAnimation(udg_unit49)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'u003'), function Trig_FinalWaveStart_Func068002)
-	call TriggerSleepAction(2)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'u003'), function Trig_FinalWaveStart_Func070002)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func072002)
-	call TriggerSleepAction(5.)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func074002)
-	call TriggerSleepAction(2)
-	call SetUnitAnimation(udg_unit52, "victory")
-	call TriggerSleepAction(2)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func078002)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'o002'), function Trig_FinalWaveStart_Func079002)
-	call TriggerSleepAction(3.)
-	call ResetUnitAnimation(udg_unit52)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'o002'), function Trig_FinalWaveStart_Func082002)
-	call TriggerSleepAction(2)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'o002'), function Trig_FinalWaveStart_Func084002)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func086002)
-	call TriggerSleepAction(5.)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func088002)
-	call TriggerSleepAction(2.)
-	call SetUnitAnimation(udg_unit53, "channel")
-	call TriggerSleepAction(2)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func092002)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'e002'), function Trig_FinalWaveStart_Func093002)
-	call TriggerSleepAction(3.)
-	call ResetUnitAnimation(udg_unit53)
-	call GroupImmediateOrderById(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'e002'), 852164)
-	call TriggerSleepAction(2)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'e002'), function Trig_FinalWaveStart_Func098002)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func100002)
-	call TriggerSleepAction(5.)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func102002)
-	call TriggerSleepAction(2)
-	call SetUnitAnimation(udg_unit44, "victory")
-	call TriggerSleepAction(2)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func106002)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'h005'), function Trig_FinalWaveStart_Func107002)
-	call TriggerSleepAction(2)
-	call ResetUnitAnimation(udg_unit44)
-	call GroupImmediateOrderById(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'h005'), 852055)
-	call TriggerSleepAction(2)
-	call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'h005'), function Trig_FinalWaveStart_Func112002)
-	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func114002)
-	call TriggerSleepAction(4.)
-	set bj_forLoopAIndex = 1
-	set bj_forLoopAIndexEnd = 8
-	loop
-	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call PanCameraToTimedLocForPlayer(GetOwningPlayer(udg_Heroes[bj_forLoopAIndex]), GetRectCenter(gg_rct_StartRegion), 2.)
-		set bj_forLoopAIndex = bj_forLoopAIndex + 1
-	endloop
-	call EnableTrigger(udg_trigger94)
-	call TriggerSleepAction(2)
-	call ForGroupBJ(udg_group02, function Trig_FinalWaveStart_Func119002)
-	call TriggerSleepAction(1.)
-	call GroupClear(udg_group02)
-	call SetUserControlForceOn(bj_FORCE_ALL_PLAYERS)
+	set udg_MusicPoint = 12
+	call TriggerExecute(gg_trg_Music)
+	call DialogDisplayBJ(false, udg_OptionHeroDialog, Player(0))
+	if(udg_SkipCinema) then
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'u003'), function Trig_FinalWaveStart_Func068002)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'o002'), function Trig_FinalWaveStart_Func082002)
+		call GroupImmediateOrderById(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'e002'), 852164)
+		call GroupImmediateOrderById(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'h005'), 852055)
+		call EnableTrigger(gg_trg_Boss1Teleport)
+	else
+		call SetUserControlForceOff(bj_FORCE_ALL_PLAYERS)
+		call TriggerSleepAction(2)
+		set bj_forLoopAIndex = 1
+		set bj_forLoopAIndexEnd = 8
+		loop
+		exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+			call ForGroupBJ(YDWEGetUnitsOfPlayerAllNull(ConvertedPlayer(bj_forLoopAIndex)), function Trig_FinalWaveStart_Func042003002)
+			set bj_forLoopAIndex = bj_forLoopAIndex + 1
+		endloop
+		call ForGroupBJ(YDWEGetUnitsOfPlayerMatchingNull(Player(8), Condition(function Trig_FinalWaveStart_Func105001002)), function Trig_FinalWaveStart_Func105002)
+		call TriggerSleepAction(4.)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func055002)
+		call TriggerSleepAction(4.)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func058002)
+		call TriggerSleepAction(5.)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func060002)
+		call TriggerSleepAction(2)
+		call SetUnitAnimation(udg_unit49, "third")
+		call TriggerSleepAction(2)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func064002)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'u003'), function Trig_FinalWaveStart_Func065002)
+		call TriggerSleepAction(3.)
+		call ResetUnitAnimation(udg_unit49)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'u003'), function Trig_FinalWaveStart_Func068002)
+		call TriggerSleepAction(2)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'u003'), function Trig_FinalWaveStart_Func070002)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func072002)
+		call TriggerSleepAction(5.)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func074002)
+		call TriggerSleepAction(2)
+		call SetUnitAnimation(udg_unit52, "victory")
+		call TriggerSleepAction(2)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func078002)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'o002'), function Trig_FinalWaveStart_Func079002)
+		call TriggerSleepAction(3.)
+		call ResetUnitAnimation(udg_unit52)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'o002'), function Trig_FinalWaveStart_Func082002)
+		call TriggerSleepAction(2)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'o002'), function Trig_FinalWaveStart_Func084002)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func086002)
+		call TriggerSleepAction(5.)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func088002)
+		call TriggerSleepAction(2.)
+		call SetUnitAnimation(udg_unit53, "channel")
+		call TriggerSleepAction(2)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func092002)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'e002'), function Trig_FinalWaveStart_Func093002)
+		call TriggerSleepAction(3.)
+		call ResetUnitAnimation(udg_unit53)
+		call GroupImmediateOrderById(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'e002'), 852164)
+		call TriggerSleepAction(2)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'e002'), function Trig_FinalWaveStart_Func098002)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func100002)
+		call TriggerSleepAction(5.)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func102002)
+		call TriggerSleepAction(2)
+		call SetUnitAnimation(udg_unit44, "victory")
+		call TriggerSleepAction(2)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func106002)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'h005'), function Trig_FinalWaveStart_Func107002)
+		call TriggerSleepAction(2)
+		call ResetUnitAnimation(udg_unit44)
+		call GroupImmediateOrderById(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'h005'), 852055)
+		call TriggerSleepAction(2)
+		call ForGroupBJ(YDWEGetUnitsOfPlayerAndTypeIdNull(Player(11) , 'h005'), function Trig_FinalWaveStart_Func112002)
+		call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_FinalWaveStart_Func114002)
+		call TriggerSleepAction(4.)
+		set bj_forLoopAIndex = 1
+		set bj_forLoopAIndexEnd = 8
+		loop
+		exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+			call PanCameraToTimedLocForPlayer(GetOwningPlayer(udg_Heroes[bj_forLoopAIndex]), GetRectCenter(gg_rct_StartRegion), 2.)
+			set bj_forLoopAIndex = bj_forLoopAIndex + 1
+		endloop
+		call EnableTrigger(gg_trg_Boss1Teleport)
+		call TriggerSleepAction(2)
+		set bj_forLoopAIndex = 1
+		set bj_forLoopAIndexEnd = 8
+		loop
+		exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+			call ForGroupBJ(YDWEGetUnitsOfPlayerAllNull(ConvertedPlayer(bj_forLoopAIndex)), function Trig_FinalWaveStart_Func104003002)
+			set bj_forLoopAIndex = bj_forLoopAIndex + 1
+		endloop
+		call ForGroupBJ(YDWEGetUnitsOfPlayerMatchingNull(Player(8), Condition(function Trig_FinalWaveStart_Func043001002)), function Trig_FinalWaveStart_Func043002)
+		call TriggerSleepAction(1.)
+		call SetUserControlForceOn(bj_FORCE_ALL_PLAYERS)
+	endif
 	call TriggerSleepAction(3.)
 	call YDWEPauseAllUnitsBJNull(false)
 	call ForGroupBJ(YDWEGetUnitsInRectOfPlayerNull(bj_mapInitialPlayableArea , Player(11)), function Trig_FinalWaveStart_Func126A)
@@ -4163,7 +4215,7 @@ function Trig_FinalWaveStart_Actions takes nothing returns nothing
 		call DestroyFogModifier(udg_fogmodifiers01[bj_forLoopAIndex])
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	call TriggerSleepAction(20.)
+	call TriggerSleepAction(25.)
 	call IssuePointOrderByIdLoc(udg_unit49, 851983, udg_DefensePoint)
 	call IssuePointOrderByIdLoc(udg_unit52, 851983, udg_DefensePoint)
 	call IssuePointOrderByIdLoc(udg_unit53, 851983, udg_DefensePoint)
@@ -4355,45 +4407,21 @@ function Trig_LightningAttack_Actions takes nothing returns nothing
 	endif
 	call TriggerSleepAction(1.)
 	call IssueTargetOrderById(udg_unit57, 852119, GroupPickRandomUnit(udg_ExtremeGroup))
-	call AddSpecialEffectLocBJ(GetUnitLoc(udg_unit57), "Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl")
-	if( (udg_Difficulty == 2) ) then // INLINED!!
-		call GroupClear(udg_ExtremeGroup)
-	endif
 	if( (udg_Difficulty == 2) ) then // INLINED!!
 		return
 	endif
-	call TriggerSleepAction(1.)
-	call DestroyEffect(bj_lastCreatedEffect)
-	call UnitResetCooldown(udg_unit57)
-	call TriggerSleepAction(1.)
+	call TriggerSleepAction(2.)
 	call IssueTargetOrderById(udg_unit57, 852119, GroupPickRandomUnit(udg_ExtremeGroup))
-	call AddSpecialEffectLocBJ(GetUnitLoc(udg_unit57), "Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl")
-	if( (udg_Difficulty == 3) ) then // INLINED!!
-		call GroupClear(udg_ExtremeGroup)
-	endif
 	if( (udg_Difficulty == 3) ) then // INLINED!!
 		return
 	endif
-	call TriggerSleepAction(1.)
-	call DestroyEffect(bj_lastCreatedEffect)
-	call UnitResetCooldown(udg_unit57)
-	call TriggerSleepAction(1.)
+	call TriggerSleepAction(2.)
 	call IssueTargetOrderById(udg_unit57, 852119, GroupPickRandomUnit(udg_ExtremeGroup))
-	call AddSpecialEffectLocBJ(GetUnitLoc(udg_unit57), "Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl")
-	if( (udg_Difficulty == 4) ) then // INLINED!!
-		call GroupClear(udg_ExtremeGroup)
-	endif
 	if( (udg_Difficulty == 4) ) then // INLINED!!
 		return
 	endif
-	call TriggerSleepAction(1.)
-	call DestroyEffect(bj_lastCreatedEffect)
-	call UnitResetCooldown(udg_unit57)
-	call TriggerSleepAction(1.)
+	call TriggerSleepAction(2.)
 	call IssueTargetOrderById(udg_unit57, 852119, GroupPickRandomUnit(udg_ExtremeGroup))
-	call AddSpecialEffectLocBJ(GetUnitLoc(udg_unit57), "Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl")
-	call TriggerSleepAction(1.)
-	call DestroyEffect(bj_lastCreatedEffect)
 endfunction
 
 function Trig_SilentAssassin_Func002Func001C takes nothing returns boolean
@@ -4405,7 +4433,7 @@ function Trig_SilentAssassin_Func003Func003002 takes nothing returns nothing
 endfunction
 
 function Trig_SilentAssassin_Func003C takes nothing returns boolean
-	return(IsUnitGroupEmptyBJ(udg_group02) )
+	return(IsUnitGroupEmptyBJ(udg_ExtremeGroup) )
 endfunction
 
 function Trig_SilentAssassin_Func004C takes nothing returns boolean
@@ -4429,21 +4457,21 @@ function Trig_SilentAssassin_Func008C takes nothing returns boolean
 endfunction
 
 function Trig_SilentAssassin_Actions takes nothing returns nothing
-	call GroupClear(udg_group02)
+	call GroupClear(udg_ExtremeGroup)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
 	loop
 	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
 		if( ((IsUnitDeadBJ(udg_Heroes[bj_forLoopAIndex]) == false) and(RectContainsUnit(gg_rct_Special04, udg_Heroes[bj_forLoopAIndex]) == false) and(RectContainsUnit(gg_rct_Special05, udg_Heroes[bj_forLoopAIndex]) == false) and(RectContainsUnit(udg_rect27, udg_Heroes[bj_forLoopAIndex]) == false) and(RectContainsUnit(udg_rect29, udg_Heroes[bj_forLoopAIndex]) == false)) ) then // INLINED!!
-			call GroupAddUnit(udg_group02, udg_Heroes[bj_forLoopAIndex])
+			call GroupAddUnit(udg_ExtremeGroup, udg_Heroes[bj_forLoopAIndex])
 		endif
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	if( (IsUnitGroupEmptyBJ(udg_group02)) ) then // INLINED!!
+	if( (IsUnitGroupEmptyBJ(udg_ExtremeGroup)) ) then // INLINED!!
 		set udg_unit01 = udg_Castle
 	else
-		call ForGroupBJ(GetRandomSubGroup(1 , udg_group02), function Trig_SilentAssassin_Func003Func003002)
-		call GroupClear(udg_group02)
+		call ForGroupBJ(GetRandomSubGroup(1 , udg_ExtremeGroup), function Trig_SilentAssassin_Func003Func003002)
+		call GroupClear(udg_ExtremeGroup)
 	endif
 	if( (GetTriggerExecCount(GetTriggeringTrigger()) == 1) ) then // INLINED!!
 		call CreateNUnitsAtLocFacingLocBJ((5 * udg_ExtremeUnits), 'n00V', Player(11), GetUnitLoc(udg_unit01), GetUnitLoc(udg_unit01))
@@ -4532,8 +4560,8 @@ endfunction
 
 function Trig_Survival1Start_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	set udg_integer05 = 6
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 6
+	call TriggerExecute(gg_trg_Music)
 	call SetUnitInvulnerable(udg_unit47, false)
 	call SetUnitInvulnerable(udg_unit48, false)
 	call EnableTrigger(udg_trigger45)
@@ -4635,8 +4663,8 @@ function Trig_Survival2Start_Actions takes nothing returns nothing
 		call SetUnitPositionLoc(udg_Heroes[bj_forLoopAIndex], GetRectCenter(udg_rect38))
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
-	set udg_integer05 = 7
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 7
+	call TriggerExecute(gg_trg_Music)
 	call YDWEPauseAllUnitsBJNull(true)
 	call ForForce(bj_FORCE_ALL_PLAYERS, function Trig_Survival2Start_Func006002)
 	call TriggerSleepAction(5.)
@@ -4855,9 +4883,9 @@ function Trig_Survival3Attack_Actions takes nothing returns nothing
 		call ModifyGateBJ(1, udg_destructable11)
 		call ModifyGateBJ(1, udg_destructable12)
 		call ModifyGateBJ(1, udg_destructable15)
-		call EnableTrigger(udg_trigger102)
-		call EnableTrigger(udg_trigger100)
-		call EnableTrigger(udg_trigger101)
+		call EnableTrigger(gg_trg_OptionsDifficulty2)
+		call EnableTrigger(gg_trg_OptionsDifficulty0)
+		call EnableTrigger(gg_trg_OptionsDifficulty1)
 		call TriggerSleepAction(1.)
 		call EndThematicMusicBJ()
 		call StopMusic(false)
@@ -4881,7 +4909,7 @@ function Trig_Special1Timer_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
 	call TriggerSleepAction(1.)
 	call StartTimerBJ(udg_timer02, false, 750.)
-	call CreateTimerDialogBJ(udg_timer02, "特殊事��:")
+	call CreateTimerDialogBJ(udg_timer02, "特殊事件:")
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	set udg_timerdialog02 = bj_lastCreatedTimerDialog
 	call EnableTrigger(udg_trigger87)
@@ -4896,7 +4924,7 @@ function Trig_Special1Start_Actions takes nothing returns nothing
 	call DisableTrigger(gg_trg_AttackCome)
 	call DisableTrigger(udg_trigger40)
 	call DisableTrigger(gg_trg_HeroDead)
-	call DisableTrigger(udg_trigger108)
+	call DisableTrigger(gg_trg_OptionsDifficulty8)
 	call DisableTrigger(udg_trigger71)
 	call TriggerExecute(udg_trigger80)
 	call PauseTimerBJ(true, udg_DragonTimer)
@@ -4924,8 +4952,8 @@ function Trig_Special1Start_Actions takes nothing returns nothing
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	call LeaderboardSetLabelBJ(bj_lastCreatedLeaderboard, "杀敌数量")
-	set udg_integer05 = 13
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 13
+	call TriggerExecute(gg_trg_Music)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c00FFFFFF限时3分钟")
 	call TriggerSleepAction(6.)
 	call TriggerAddCondition(udg_trigger136, Condition(function Trig_Special1Start_BuyTomes))
@@ -5115,7 +5143,7 @@ function Trig_Special1Stop_Actions takes nothing returns nothing
 		set bj_forLoopAIndex = bj_forLoopAIndex + 1
 	endloop
 	call LeaderboardSortItemsBJ(bj_lastCreatedLeaderboard, 0, false)
-	call EnableTrigger(udg_trigger108)
+	call EnableTrigger(gg_trg_OptionsDifficulty8)
 	call EnableTrigger(udg_trigger71)
 	call TriggerSleepAction(5.)
 	call YDWEPauseAllUnitsBJNull(false)
@@ -5156,11 +5184,11 @@ function Trig_Special2Start_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_Special2Start_Func009001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special2Start_Func010001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special2Start_Func011001 takes nothing returns boolean
@@ -5203,10 +5231,10 @@ function Trig_Special2Start_Actions takes nothing returns nothing
 	call DisableTrigger(udg_trigger53)
 	call PauseTimerBJ(true, udg_DragonTimer)
 	call PauseTimerBJ(true, udg_AssassinTimer)
-	if( (IsTriggerEnabled(udg_trigger118)) ) then // INLINED!!
+	if( (IsTriggerEnabled(gg_trg_OptionsHeroes8)) ) then // INLINED!!
 		call PauseTimerBJ(true, udg_timer01)
 	endif
-	if( (IsTriggerEnabled(udg_trigger119)) ) then // INLINED!!
+	if( (IsTriggerEnabled(gg_trg_OptionsHeroes9)) ) then // INLINED!!
 		call PauseTimerBJ(true, udg_timer01)
 	endif
 	if( (IsTriggerEnabled(udg_trigger120)) ) then // INLINED!!
@@ -5298,11 +5326,11 @@ function Trig_Special2Stop_Func018C takes nothing returns boolean
 endfunction
 
 function Trig_Special2Stop_Func019Func001001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special2Stop_Func019Func002001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special2Stop_Func019Func003001 takes nothing returns boolean
@@ -5310,15 +5338,15 @@ function Trig_Special2Stop_Func019Func003001 takes nothing returns boolean
 endfunction
 
 function Trig_Special2Stop_Func019Func004001001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special2Stop_Func019Func004001002 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special2Stop_Func019Func004001 takes nothing returns boolean
-	return GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119))) // INLINED!!
+	return GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9))) // INLINED!!
 endfunction
 
 function Trig_Special2Stop_Func019Func004002 takes nothing returns boolean
@@ -5326,7 +5354,7 @@ function Trig_Special2Stop_Func019Func004002 takes nothing returns boolean
 endfunction
 
 function Trig_Special2Stop_Func019C takes nothing returns boolean
-	return(GetBooleanOr((GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119)))), (IsTriggerEnabled(udg_trigger120))) ) // INLINED!!
+	return(GetBooleanOr((GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9)))), (IsTriggerEnabled(udg_trigger120))) ) // INLINED!!
 endfunction
 
 function Trig_Special2Stop_Func020C takes nothing returns boolean
@@ -5374,11 +5402,11 @@ function Trig_Special2Stop_Actions takes nothing returns nothing
 		set udg_timerdialog02 = bj_lastCreatedTimerDialog
 		call PauseTimerBJ(false, udg_timer02)
 	endif
-	if( (GetBooleanOr((GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119)))), (IsTriggerEnabled(udg_trigger120)))) ) then // INLINED!!
-		if( (IsTriggerEnabled(udg_trigger118)) ) then // INLINED!!
+	if( (GetBooleanOr((GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9)))), (IsTriggerEnabled(udg_trigger120)))) ) then // INLINED!!
+		if( (IsTriggerEnabled(gg_trg_OptionsHeroes8)) ) then // INLINED!!
 			call CreateTimerDialogBJ(udg_timer01, "强度提升Lv2")
 		endif
-		if( (IsTriggerEnabled(udg_trigger119)) ) then // INLINED!!
+		if( (IsTriggerEnabled(gg_trg_OptionsHeroes9)) ) then // INLINED!!
 			call CreateTimerDialogBJ(udg_timer01, "强度提升Lv3")
 		endif
 		if( (IsTriggerEnabled(udg_trigger120)) ) then // INLINED!!
@@ -5492,11 +5520,11 @@ function Trig_Special3Start_Conditions takes nothing returns boolean
 endfunction
 
 function Trig_Special3Start_Func009001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special3Start_Func010001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special3Start_Func011001 takes nothing returns boolean
@@ -5538,10 +5566,10 @@ function Trig_Special3Start_Actions takes nothing returns nothing
 	call DisableTrigger(udg_trigger53)
 	call PauseTimerBJ(true, udg_DragonTimer)
 	call PauseTimerBJ(true, udg_AssassinTimer)
-	if( (IsTriggerEnabled(udg_trigger118)) ) then // INLINED!!
+	if( (IsTriggerEnabled(gg_trg_OptionsHeroes8)) ) then // INLINED!!
 		call PauseTimerBJ(true, udg_timer01)
 	endif
-	if( (IsTriggerEnabled(udg_trigger119)) ) then // INLINED!!
+	if( (IsTriggerEnabled(gg_trg_OptionsHeroes9)) ) then // INLINED!!
 		call PauseTimerBJ(true, udg_timer01)
 	endif
 	if( (IsTriggerEnabled(udg_trigger120)) ) then // INLINED!!
@@ -5639,11 +5667,11 @@ function Trig_Special3Stop_Func019C takes nothing returns boolean
 endfunction
 
 function Trig_Special3Stop_Func020Func001001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special3Stop_Func020Func002001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special3Stop_Func020Func003001 takes nothing returns boolean
@@ -5651,15 +5679,15 @@ function Trig_Special3Stop_Func020Func003001 takes nothing returns boolean
 endfunction
 
 function Trig_Special3Stop_Func020Func004001001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special3Stop_Func020Func004001002 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special3Stop_Func020Func004001 takes nothing returns boolean
-	return GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119))) // INLINED!!
+	return GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9))) // INLINED!!
 endfunction
 
 function Trig_Special3Stop_Func020Func004002 takes nothing returns boolean
@@ -5667,7 +5695,7 @@ function Trig_Special3Stop_Func020Func004002 takes nothing returns boolean
 endfunction
 
 function Trig_Special3Stop_Func020C takes nothing returns boolean
-	return(GetBooleanOr((GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119)))), (IsTriggerEnabled(udg_trigger120))) ) // INLINED!!
+	return(GetBooleanOr((GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9)))), (IsTriggerEnabled(udg_trigger120))) ) // INLINED!!
 endfunction
 
 function Trig_Special3Stop_Func021C takes nothing returns boolean
@@ -5721,11 +5749,11 @@ function Trig_Special3Stop_Actions takes nothing returns nothing
 		set udg_timerdialog02 = bj_lastCreatedTimerDialog
 		call PauseTimerBJ(false, udg_timer02)
 	endif
-	if( (GetBooleanOr((GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119)))), (IsTriggerEnabled(udg_trigger120)))) ) then // INLINED!!
-		if( (IsTriggerEnabled(udg_trigger118)) ) then // INLINED!!
+	if( (GetBooleanOr((GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9)))), (IsTriggerEnabled(udg_trigger120)))) ) then // INLINED!!
+		if( (IsTriggerEnabled(gg_trg_OptionsHeroes8)) ) then // INLINED!!
 			call CreateTimerDialogBJ(udg_timer01, "强度提升Lv2")
 		endif
-		if( (IsTriggerEnabled(udg_trigger119)) ) then // INLINED!!
+		if( (IsTriggerEnabled(gg_trg_OptionsHeroes9)) ) then // INLINED!!
 			call CreateTimerDialogBJ(udg_timer01, "强度提升Lv3")
 		endif
 		if( (IsTriggerEnabled(udg_trigger120)) ) then // INLINED!!
@@ -5976,7 +6004,7 @@ function Trig_SpecialXExit_Actions takes nothing returns nothing
 	// endif
 	// if( (CountUnitsInGroup((YDWEGetUnitsInRectMatchingNull((GetWorldBounds()) , null))) == 144) ) then // INLINED!!
 	// else
-	// 	call DestroyTrigger(udg_trigger118)
+	// 	call DestroyTrigger(gg_trg_OptionsHeroes8)
 	// endif
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
@@ -6443,11 +6471,11 @@ function Trig_Special7Agree_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Special8Start_Func010001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special8Start_Func011001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special8Start_Func012001 takes nothing returns boolean
@@ -6480,10 +6508,10 @@ function Trig_Special8Start_Actions takes nothing returns nothing
 	call TriggerExecute(udg_trigger80)
 	call PauseTimerBJ(true, udg_DragonTimer)
 	call PauseTimerBJ(true, udg_AssassinTimer)
-	if( (IsTriggerEnabled(udg_trigger118)) ) then // INLINED!!
+	if( (IsTriggerEnabled(gg_trg_OptionsHeroes8)) ) then // INLINED!!
 		call PauseTimerBJ(true, udg_timer01)
 	endif
-	if( (IsTriggerEnabled(udg_trigger119)) ) then // INLINED!!
+	if( (IsTriggerEnabled(gg_trg_OptionsHeroes9)) ) then // INLINED!!
 		call PauseTimerBJ(true, udg_timer01)
 	endif
 	if( (IsTriggerEnabled(udg_trigger120)) ) then // INLINED!!
@@ -6534,8 +6562,8 @@ function Trig_Special8Start_Actions takes nothing returns nothing
 	call PauseUnit(bj_lastCreatedUnit, true)
 	call TriggerSleepAction(3.)
 	call TriggerExecute(udg_trigger88)
-	set udg_integer05 = 13
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 13
+	call TriggerExecute(gg_trg_Music)
 	if( (IsTriggerEnabled(gg_trg_DualHeroChange)) ) then // INLINED!!
 		set bj_forLoopAIndex = 9
 		set bj_forLoopAIndexEnd = 16
@@ -6633,11 +6661,11 @@ function Trig_Special8Stop_Func028001 takes nothing returns boolean
 endfunction
 
 function Trig_Special8Stop_Func029Func001001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special8Stop_Func029Func002001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special8Stop_Func029Func003001 takes nothing returns boolean
@@ -6645,15 +6673,15 @@ function Trig_Special8Stop_Func029Func003001 takes nothing returns boolean
 endfunction
 
 function Trig_Special8Stop_Func029Func004001001 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Special8Stop_Func029Func004001002 takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Special8Stop_Func029Func004001 takes nothing returns boolean
-	return GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119))) // INLINED!!
+	return GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9))) // INLINED!!
 endfunction
 
 function Trig_Special8Stop_Func029Func004002 takes nothing returns boolean
@@ -6661,7 +6689,7 @@ function Trig_Special8Stop_Func029Func004002 takes nothing returns boolean
 endfunction
 
 function Trig_Special8Stop_Func029C takes nothing returns boolean
-	return(GetBooleanOr((GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119)))), (IsTriggerEnabled(udg_trigger120))) ) // INLINED!!
+	return(GetBooleanOr((GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9)))), (IsTriggerEnabled(udg_trigger120))) ) // INLINED!!
 endfunction
 
 function Trig_Special8Stop_Func030C takes nothing returns boolean
@@ -6713,8 +6741,8 @@ function Trig_Special8Stop_Actions takes nothing returns nothing
 		call ForGroupBJ(udg_group01, function Trig_Special8Stop_Func014Func001A)
 	endif
 	call TriggerSleepAction(2)
-	set udg_integer05 = 2
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 2
+	call TriggerExecute(gg_trg_Music)
 	call PlaySoundAtPointBJ(gg_snd_A15Special8, 'd', GetRectCenter(gg_rct_SpecialArena), 0)
 	call TriggerSleepAction(5.)
 	set bj_forLoopAIndex = 1
@@ -6741,11 +6769,11 @@ function Trig_Special8Stop_Actions takes nothing returns nothing
 	if( (IsTriggerEnabled(udg_trigger50)) ) then // INLINED!!
 		call PauseTimerBJ(false, udg_AssassinTimer)
 	endif
-	if( (GetBooleanOr((GetBooleanOr((IsTriggerEnabled(udg_trigger118)), (IsTriggerEnabled(udg_trigger119)))), (IsTriggerEnabled(udg_trigger120)))) ) then // INLINED!!
-		if( (IsTriggerEnabled(udg_trigger118)) ) then // INLINED!!
+	if( (GetBooleanOr((GetBooleanOr((IsTriggerEnabled(gg_trg_OptionsHeroes8)), (IsTriggerEnabled(gg_trg_OptionsHeroes9)))), (IsTriggerEnabled(udg_trigger120)))) ) then // INLINED!!
+		if( (IsTriggerEnabled(gg_trg_OptionsHeroes8)) ) then // INLINED!!
 			call CreateTimerDialogBJ(udg_timer01, "强度提升Lv2")
 		endif
-		if( (IsTriggerEnabled(udg_trigger119)) ) then // INLINED!!
+		if( (IsTriggerEnabled(gg_trg_OptionsHeroes9)) ) then // INLINED!!
 			call CreateTimerDialogBJ(udg_timer01, "强度提升Lv3")
 		endif
 		if( (IsTriggerEnabled(udg_trigger120)) ) then // INLINED!!
@@ -6911,8 +6939,8 @@ function Trig_Boss1Teleport_Actions takes nothing returns nothing
 	call AddWeatherEffectSaveLast(udg_rect02, 'RAhr')
 	call EnableWeatherEffect(bj_lastCreatedWeatherEffect, true)
 	call TriggerSleepAction(4.)
-	set udg_integer05 = 5
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 5
+	call TriggerExecute(gg_trg_Music)
 	call EnableTrigger(gg_trg_Boss1Dead)
 	call DisableTrigger(udg_trigger71)
 	call TriggerSleepAction(7.)
@@ -7024,8 +7052,8 @@ function Trig_Boss6Music_Actions takes nothing returns nothing
 	call ModifyHeroStat(0, udg_unit51, 2, (3000 + (udg_Difficulty * (udg_PlayerCount * 250) ) ))
 	call ModifyHeroStat(1, udg_unit51, 2, (3000 + (udg_Difficulty * (udg_PlayerCount * 250) ) ))
 	call ModifyHeroStat(2, udg_unit51, 2, (3000 + (udg_Difficulty * (udg_PlayerCount * 250) ) ))
-	set udg_integer05 = 8
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 8
+	call TriggerExecute(gg_trg_Music)
 	call AddWeatherEffectSaveLast(udg_rect12, 'SNls')
 	call EnableWeatherEffect(bj_lastCreatedWeatherEffect, true)
 	call DestroyTrigger(GetTriggeringTrigger())
@@ -7110,7 +7138,7 @@ endfunction
 
 function Trig_Boss6Dead_Actions takes nothing returns nothing
 	call DisableTrigger(GetTriggeringTrigger())
-	call DisableTrigger(udg_trigger101)
+	call DisableTrigger(gg_trg_OptionsDifficulty1)
 	call YDWEPauseAllUnitsBJNull(true)
 	call StopMusic(false)
 	call SetUserControlForceOff(bj_FORCE_ALL_PLAYERS)
@@ -7191,8 +7219,8 @@ function Trig_Boss6Dead_Actions takes nothing returns nothing
 	set udg_unit01 = null
 	call YDWEPauseAllUnitsBJNull(false)
 	call TriggerSleepAction(2)
-	call TriggerExecute(udg_trigger103)
-	call DestroyTrigger(udg_trigger101)
+	call TriggerExecute(gg_trg_OptionsDifficulty3)
+	call DestroyTrigger(gg_trg_OptionsDifficulty1)
 	call DestroyTrigger(GetTriggeringTrigger())
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "阿尔塞斯：很好，果然很强，但是。。。")
 endfunction
@@ -7219,8 +7247,8 @@ endfunction
 
 function Trig_Boss7Come_Actions takes nothing returns nothing
 	call YDWEPauseAllUnitsBJNull(true)
-	set udg_integer05 = 11
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 11
+	call TriggerExecute(gg_trg_Music)
 	call TriggerSleepAction(10.)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
@@ -7313,14 +7341,14 @@ function Trig_Boss7Come_Actions takes nothing returns nothing
 	call TriggerSleepAction(1.)
 	call PlaySoundBJ(udg_sound08)
 	call TriggerSleepAction(7.)
-	set udg_integer05 = 9
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 9
+	call TriggerExecute(gg_trg_Music)
 	call YDWEPauseAllUnitsBJNull(false)
 	call TriggerSleepAction(.01)
 	call ForGroupBJ(YDWEGetUnitsInRectMatchingNull(udg_rect12 , Condition(function Trig_Boss7Come_Func051001002)), function Trig_Boss7Come_Func051A)
-	call EnableTrigger(udg_trigger106)
-	call EnableTrigger(udg_trigger105)
-	call EnableTrigger(udg_trigger104)
+	call EnableTrigger(gg_trg_OptionsDifficulty6)
+	call EnableTrigger(gg_trg_OptionsDifficulty5)
+	call EnableTrigger(gg_trg_OptionsDifficulty4)
 	call TriggerSleepAction(2)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = 8
@@ -7440,7 +7468,7 @@ function Trig_Boss7Dead_Actions takes nothing returns nothing
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	call EnableTrigger(udg_trigger133)
 	call TriggerExecute(udg_trigger132)
-	call DestroyTrigger(udg_trigger104)
+	call DestroyTrigger(gg_trg_OptionsDifficulty4)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
@@ -7470,7 +7498,7 @@ function Trig_LeaderBoard_Actions takes nothing returns nothing
 	call LeaderboardDisplayBJ(true, bj_lastCreatedLeaderboard)
 	call DestroyForce(udg_TempForce)
 	call EnableTrigger(udg_trigger128)
-	call EnableTrigger(udg_trigger108)
+	call EnableTrigger(gg_trg_OptionsDifficulty8)
 	call EnableTrigger(udg_trigger71)
 	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
@@ -7690,10 +7718,10 @@ function Trig_GameLevel2_Actions takes nothing returns nothing
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	set udg_timerdialog01 = bj_lastCreatedTimerDialog
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c0061FFFF强度提升Lv2")
-	set udg_integer05 = 2
+	set udg_MusicPoint = 2
 	call TriggerSleepAction(2.)
-	call TriggerExecute(udg_trigger127)
-	call EnableTrigger(udg_trigger119)
+	call TriggerExecute(gg_trg_Music)
+	call EnableTrigger(gg_trg_OptionsHeroes9)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = udg_WayCount
 	loop
@@ -7797,8 +7825,8 @@ function Trig_GameLevel3_Actions takes nothing returns nothing
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
 	set udg_timerdialog01 = bj_lastCreatedTimerDialog
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c0061FFFF强度提升Lv3")
-	set udg_integer05 = 3
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 3
+	call TriggerExecute(gg_trg_Music)
 	call EnableTrigger(udg_trigger120)
 	call TriggerSleepAction(1.)
 	set bj_forLoopAIndex = 1
@@ -7843,8 +7871,8 @@ function Trig_GameLevel4_Actions takes nothing returns nothing
 	endloop
 	call TriggerSleepAction(.1)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10., "|c0061FFFF强度提升Lv4")
-	set udg_integer05 = 4
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 4
+	call TriggerExecute(gg_trg_Music)
 	call TriggerSleepAction(1.)
 	set bj_forLoopAIndex = 1
 	set bj_forLoopAIndexEnd = udg_WayCount
@@ -8051,96 +8079,96 @@ function Trig_YouLose_Actions takes nothing returns nothing
 endfunction
 
 function Trig_Music_Func002001 takes nothing returns boolean
-	return(udg_integer05 == 1)
+	return(udg_MusicPoint == 1)
 endfunction
 
 function Trig_Music_Func003001 takes nothing returns boolean
-	return(udg_integer05 == 2)
+	return(udg_MusicPoint == 2)
 endfunction
 
 function Trig_Music_Func004001 takes nothing returns boolean
-	return(udg_integer05 == 3)
+	return(udg_MusicPoint == 3)
 endfunction
 
 function Trig_Music_Func005001 takes nothing returns boolean
-	return(udg_integer05 == 4)
+	return(udg_MusicPoint == 4)
 endfunction
 
 function Trig_Music_Func006001 takes nothing returns boolean
-	return(udg_integer05 == 5)
+	return(udg_MusicPoint == 5)
 endfunction
 
 function Trig_Music_Func007001 takes nothing returns boolean
-	return(udg_integer05 == 6)
+	return(udg_MusicPoint == 6)
 endfunction
 
 function Trig_Music_Func008001 takes nothing returns boolean
-	return(udg_integer05 == 7)
+	return(udg_MusicPoint == 7)
 endfunction
 
 function Trig_Music_Func009001 takes nothing returns boolean
-	return(udg_integer05 == 8)
+	return(udg_MusicPoint == 8)
 endfunction
 
 function Trig_Music_Func010001 takes nothing returns boolean
-	return(udg_integer05 == 9)
+	return(udg_MusicPoint == 9)
 endfunction
 
 function Trig_Music_Func011001 takes nothing returns boolean
-	return(udg_integer05 == 10)
+	return(udg_MusicPoint == 10)
 endfunction
 
 function Trig_Music_Func012001 takes nothing returns boolean
-	return(udg_integer05 == 11)
+	return(udg_MusicPoint == 11)
 endfunction
 
 function Trig_Music_Func013001 takes nothing returns boolean
-	return(udg_integer05 == 12)
+	return(udg_MusicPoint == 12)
 endfunction
 
 function Trig_Music_Func014001 takes nothing returns boolean
-	return(udg_integer05 == 13)
+	return(udg_MusicPoint == 13)
 endfunction
 
 function Trig_Music_Actions takes nothing returns nothing
 	call StopMusic(false)
-	if( (udg_integer05 == 1) ) then // INLINED!!
+	if( (udg_MusicPoint == 1) ) then // INLINED!!
 		call PlayMusicBJ(udg_string06)
 	endif
-	if( (udg_integer05 == 2) ) then // INLINED!!
+	if( (udg_MusicPoint == 2) ) then // INLINED!!
 		call PlayMusicBJ(udg_string07)
 	endif
-	if( (udg_integer05 == 3) ) then // INLINED!!
+	if( (udg_MusicPoint == 3) ) then // INLINED!!
 		call PlayMusicBJ(udg_string08)
 	endif
-	if( (udg_integer05 == 4) ) then // INLINED!!
+	if( (udg_MusicPoint == 4) ) then // INLINED!!
 		call PlayMusicBJ(udg_string09)
 	endif
-	if( (udg_integer05 == 5) ) then // INLINED!!
+	if( (udg_MusicPoint == 5) ) then // INLINED!!
 		call PlayMusicBJ(udg_string01)
 	endif
-	if( (udg_integer05 == 6) ) then // INLINED!!
+	if( (udg_MusicPoint == 6) ) then // INLINED!!
 		call PlayMusicBJ(udg_string11)
 	endif
-	if( (udg_integer05 == 7) ) then // INLINED!!
+	if( (udg_MusicPoint == 7) ) then // INLINED!!
 		call PlayMusicBJ(udg_string12)
 	endif
-	if( (udg_integer05 == 8) ) then // INLINED!!
+	if( (udg_MusicPoint == 8) ) then // INLINED!!
 		call PlayMusicBJ(udg_string02)
 	endif
-	if( (udg_integer05 == 9) ) then // INLINED!!
+	if( (udg_MusicPoint == 9) ) then // INLINED!!
 		call PlayMusicBJ(udg_string03)
 	endif
-	if( (udg_integer05 == 10) ) then // INLINED!!
+	if( (udg_MusicPoint == 10) ) then // INLINED!!
 		call PlayMusicBJ(udg_string13)
 	endif
-	if( (udg_integer05 == 11) ) then // INLINED!!
+	if( (udg_MusicPoint == 11) ) then // INLINED!!
 		call PlayMusicBJ(udg_string04)
 	endif
-	if( (udg_integer05 == 12) ) then // INLINED!!
+	if( (udg_MusicPoint == 12) ) then // INLINED!!
 		call PlayMusicBJ(udg_string05)
 	endif
-	if( (udg_integer05 == 13) ) then // INLINED!!
+	if( (udg_MusicPoint == 13) ) then // INLINED!!
 		call PlayMusicBJ(udg_string10)
 	endif
 endfunction
@@ -8517,8 +8545,8 @@ function Trig_Victory_Actions takes nothing returns nothing
 	call TriggerSleepAction(8.)
 	call TriggerExecute(udg_trigger80)
 	call ForGroupBJ(YDWEGetUnitsInRectMatchingNull(udg_rect12 , Condition(function Trig_Victory_Func007001002)), function Trig_Victory_Func007002)
-	set udg_integer05 = 10
-	call TriggerExecute(udg_trigger127)
+	set udg_MusicPoint = 10
+	call TriggerExecute(gg_trg_Music)
 	call TriggerSleepAction(2)
 	call SetUnitPositionLocFacingBJ(udg_Heroes[(1 + GetPlayerId(LeaderboardGetIndexedPlayerBJ(1, bj_lastCreatedLeaderboard)) )], GetRectCenter(udg_rect12), 270.)
 	call SetUnitPositionLocFacingBJ(udg_Heroes[(1 + GetPlayerId(LeaderboardGetIndexedPlayerBJ(2, bj_lastCreatedLeaderboard)) )], OffsetLocation(GetRectCenter(udg_rect12), -150., 0), 270.)
@@ -9401,11 +9429,11 @@ function Trig_Info_Func003Func001Func001C takes nothing returns boolean
 endfunction
 
 function Trig_Info_Func003Func001C takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger119) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes9) )
 endfunction
 
 function Trig_Info_Func003C takes nothing returns boolean
-	return(IsTriggerEnabled(udg_trigger118) )
+	return(IsTriggerEnabled(gg_trg_OptionsHeroes8) )
 endfunction
 
 function Trig_Info_Actions takes nothing returns nothing
@@ -9431,10 +9459,10 @@ function Trig_Info_Actions takes nothing returns nothing
 			endif
 		endif
 	endif
-	if( (IsTriggerEnabled(udg_trigger118)) ) then // INLINED!!
+	if( (IsTriggerEnabled(gg_trg_OptionsHeroes8)) ) then // INLINED!!
 		call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 20., "|c0061FFFF强度等级|c00FFFFFF: 1")
 	else
-		if( (IsTriggerEnabled(udg_trigger119)) ) then // INLINED!!
+		if( (IsTriggerEnabled(gg_trg_OptionsHeroes9)) ) then // INLINED!!
 			call DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 20., "|c0061FFFF强度等级|c00FFFFFF: 2")
 		else
 			if( (IsTriggerEnabled(udg_trigger120)) ) then // INLINED!!
@@ -10826,17 +10854,19 @@ function Trig_TankAttackedSkill_FilterEnemy takes nothing returns boolean
 endfunction
 
 function Trig_TankAttackedSkill_Damage takes nothing returns nothing
-	call UnitDamageTargetBJ(GetTriggerUnit(), GetEnumUnit(), (300.00 * I2R(GetUnitAbilityLevel(GetTriggerUnit(), 'AUtt'))), ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL)
+	call UnitDamageTargetBJ(GetTriggerUnit(), GetEnumUnit(), (400.00 * I2R(GetUnitAbilityLevel(GetTriggerUnit(), 'AUtt'))), ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL)
 endfunction
 
 function Trig_TankAttackedSkill_Actions takes nothing returns nothing
 	local location unitLoc
-	if((GetRandomInt(1, 100)) <= 2) then
+	set udg_TankAttackedCount[GetConvertedPlayerId(GetTriggerPlayer())] = udg_TankAttackedCount[GetConvertedPlayerId(GetTriggerPlayer())] + 1
+	if(udg_TankAttackedCount[GetConvertedPlayerId(GetTriggerPlayer())] >= 90) then
 		set unitLoc = GetUnitLoc(GetTriggerUnit())
-		set udg_TempGroup = YDWEGetUnitsInRangeOfLocMatchingNull(250.00, unitLoc, Condition(function Trig_TankAttackedSkill_FilterEnemy))
+		set udg_TempGroup = YDWEGetUnitsInRangeOfLocMatchingNull(325.00, unitLoc, Condition(function Trig_TankAttackedSkill_FilterEnemy))
 		call ForGroupBJ(udg_TempGroup, function Trig_TankAttackedSkill_Damage)
 		call DestroyGroup(udg_TempGroup)
 		call RemoveLocation(unitLoc)
+		set udg_TankAttackedCount[GetConvertedPlayerId(GetTriggerPlayer())] = 0
 	endif
 endfunction
 
@@ -10863,11 +10893,11 @@ function Trig_KillHeroExtraGold_Actions takes nothing returns nothing
 endfunction
 
 function main2 takes nothing returns nothing
- local weathereffect we
- local trigger t
- local player p
- local unit u
- local integer i
+	local weathereffect we
+	local trigger t
+	local player p
+	local unit u
+	local integer i
 	call SetCameraBounds(-5504. + GetCameraMargin(CAMERA_MARGIN_LEFT), -13952. + GetCameraMargin(CAMERA_MARGIN_BOTTOM), 5504. - GetCameraMargin(CAMERA_MARGIN_RIGHT), 13312. - GetCameraMargin(CAMERA_MARGIN_TOP), -5504. + GetCameraMargin(CAMERA_MARGIN_LEFT), 13312. - GetCameraMargin(CAMERA_MARGIN_TOP), 5504. - GetCameraMargin(CAMERA_MARGIN_RIGHT), -13952. + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
 	call SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
 	call NewSoundEnvironment("Default")
@@ -12496,8 +12526,9 @@ function main2 takes nothing returns nothing
 	endloop
 	set udg_SpecialsDialog = DialogCreate()
 	set udg_YesOrNo = DialogCreate()
-	set udg_dialog03 = DialogCreate()
-	set udg_dialog04 = DialogCreate()
+	set udg_OptionGameDialog = DialogCreate()
+	set udg_OptionHeroDialog = DialogCreate()
+	set udg_OptionSkipCinemaDialog = DialogCreate()
 	call TriggerAddAction(udg_trigger01, function Trig_Units_Actions)
 	call TriggerAddAction(udg_trigger02, function Trig_Regions_Actions)
 	call TriggerAddAction(udg_trigger03, function Trig_Invulnerables_Actions)
@@ -12508,25 +12539,28 @@ function main2 takes nothing returns nothing
 	call TriggerAddAction(udg_trigger08, function Trig_StartGame_Actions)
 	call TriggerRegisterTimerEventSingle(udg_trigger09, .01)
 	call TriggerAddAction(udg_trigger09, function Trig_OptionsGame_Actions)
-	call DisableTrigger(udg_trigger10)
-	call TriggerRegisterDialogEvent(udg_trigger10, udg_dialog03)
-	call TriggerAddAction(udg_trigger10, function Trig_OptionsDifficulty_Actions)
-	call DisableTrigger(udg_trigger11)
-	call TriggerRegisterDialogEvent(udg_trigger11, udg_SpecialsDialog)
-	call TriggerAddAction(udg_trigger11, function Trig_OptionsHeroes_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty)
+	call TriggerRegisterDialogEvent(gg_trg_OptionsDifficulty, udg_OptionGameDialog)
+	call TriggerAddAction(gg_trg_OptionsDifficulty, function Trig_OptionsDifficulty_Actions)
+	call DisableTrigger(gg_trg_OptionsHeroes)
+	call TriggerRegisterDialogEvent(gg_trg_OptionsHeroes, udg_SpecialsDialog)
+	call TriggerAddAction(gg_trg_OptionsHeroes, function Trig_OptionsHeroes_Actions)
+	call DisableTrigger(gg_trg_OptionsSkipCinema)
+	call TriggerRegisterDialogEvent(gg_trg_OptionsSkipCinema, udg_OptionSkipCinemaDialog)
+	call TriggerAddAction(gg_trg_OptionsSkipCinema, function Trig_OptionsSkipCinema_Actions)
 	call TriggerRegisterTimerEventSingle(gg_trg_OptionsTimeOut, 15.)
 	call TriggerAddCondition(gg_trg_OptionsTimeOut, Condition(function Trig_OptionsTimeOut_Conditions))
 	call TriggerAddAction(gg_trg_OptionsTimeOut, function Trig_OptionsTimeOut_Actions)
-	call TriggerRegisterDialogEvent(gg_trg_ModeRandom, udg_dialog04)
+	call TriggerRegisterDialogEvent(gg_trg_ModeRandom, udg_OptionHeroDialog)
 	call TriggerAddCondition(gg_trg_ModeRandom, Condition(function Trig_ModeRandom_Conditions))
 	call TriggerAddAction(gg_trg_ModeRandom, function Trig_ModeRandom_Actions)
-	call TriggerRegisterDialogEvent(gg_trg_ModeNormal, udg_dialog04)
+	call TriggerRegisterDialogEvent(gg_trg_ModeNormal, udg_OptionHeroDialog)
 	call TriggerAddCondition(gg_trg_ModeNormal, Condition(function Trig_ModeNormal_Conditions))
 	call TriggerAddAction(gg_trg_ModeNormal, function Trig_ModeNormal_Actions)
-	call TriggerRegisterDialogEvent(gg_trg_ModeExtreme, udg_dialog04)
+	call TriggerRegisterDialogEvent(gg_trg_ModeExtreme, udg_OptionHeroDialog)
 	call TriggerAddCondition(gg_trg_ModeExtreme, Condition(function Trig_ModeExtreme_Conditions))
 	call TriggerAddAction(gg_trg_ModeExtreme, function Trig_ModeExtreme_Actions)
-	call TriggerRegisterDialogEvent(gg_trg_ModeEasy, udg_dialog03)
+	call TriggerRegisterDialogEvent(gg_trg_ModeEasy, udg_OptionGameDialog)
 	call TriggerAddCondition(gg_trg_ModeEasy, Condition(function Trig_ModeEasy_Conditions))
 	call TriggerAddAction(gg_trg_ModeEasy, function Trig_ModeEasy_Actions)
 	call DisableTrigger(gg_trg_HeroSelect1a)
@@ -12859,11 +12893,11 @@ function main2 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(udg_trigger93, EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(udg_trigger93, Condition(function Trig_Special8Leave_Conditions))
 	call TriggerAddAction(udg_trigger93, function Trig_Special8Leave_Actions)
-	call DisableTrigger(udg_trigger94)
-	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger94 , udg_rect43)
-	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger94 , udg_rect44)
-	call TriggerAddCondition(udg_trigger94, Condition(function Trig_Boss1Teleport_Conditions))
-	call TriggerAddAction(udg_trigger94, function Trig_Boss1Teleport_Actions)
+	call DisableTrigger(gg_trg_Boss1Teleport)
+	call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_Boss1Teleport , udg_rect43)
+	call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_Boss1Teleport , udg_rect44)
+	call TriggerAddCondition(gg_trg_Boss1Teleport, Condition(function Trig_Boss1Teleport_Conditions))
+	call TriggerAddAction(gg_trg_Boss1Teleport, function Trig_Boss1Teleport_Actions)
 	call DisableTrigger(gg_trg_Boss1Dead)
 	call TriggerRegisterUnitEvent(gg_trg_Boss1Dead, udg_unit41, EVENT_UNIT_DEATH)
 	call TriggerAddAction(gg_trg_Boss1Dead, function Trig_Boss1Dead_Actions)
@@ -12879,77 +12913,77 @@ function main2 takes nothing returns nothing
 	call DisableTrigger(gg_trg_Boss5Dead)
 	call TriggerRegisterUnitEvent(gg_trg_Boss5Dead, udg_unit45, EVENT_UNIT_DEATH)
 	call TriggerAddAction(gg_trg_Boss5Dead, function Trig_Boss5Dead_Actions)
-	call DisableTrigger(udg_trigger100)
-	call YDWETriggerRegisterEnterRectSimpleNull(udg_trigger100 , udg_rect12)
-	call TriggerAddCondition(udg_trigger100, Condition(function Trig_Boss6Music_Conditions))
-	call TriggerAddAction(udg_trigger100, function Trig_Boss6Music_Actions)
-	call DisableTrigger(udg_trigger101)
-	call TriggerRegisterTimerEventPeriodic(udg_trigger101, 30.)
-	call TriggerAddCondition(udg_trigger101, Condition(function Trig_Boss6Teleport_Conditions))
-	call TriggerAddAction(udg_trigger101, function Trig_Boss6Teleport_Actions)
-	call DisableTrigger(udg_trigger102)
-	call TriggerRegisterUnitEvent(udg_trigger102, udg_unit51, EVENT_UNIT_DEATH)
-	call TriggerAddAction(udg_trigger102, function Trig_Boss6Dead_Actions)
-	call DisableTrigger(udg_trigger103)
-	call TriggerAddAction(udg_trigger103, function Trig_Boss7Come_Actions)
-	call DisableTrigger(udg_trigger104)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger104, Player(9), EVENT_PLAYER_UNIT_ATTACKED)
-	call TriggerAddCondition(udg_trigger104, Condition(function Trig_Boss7Colour_Conditions))
-	call TriggerAddAction(udg_trigger104, function Trig_Boss7Colour_Actions)
-	call DisableTrigger(udg_trigger105)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger105, Player(9), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger105, Condition(function Trig_Boss7Power_Conditions))
-	call TriggerAddAction(udg_trigger105, function Trig_Boss7Power_Actions)
-	call DisableTrigger(udg_trigger106)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger106, Player(9), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger106, Condition(function Trig_Boss7Dead_Conditions))
-	call TriggerAddAction(udg_trigger106, function Trig_Boss7Dead_Actions)
-	call TriggerRegisterTimerEventSingle(udg_trigger107, 1.)
-	call TriggerAddAction(udg_trigger107, function Trig_LeaderBoard_Actions)
-	call DisableTrigger(udg_trigger108)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger108, Player(9), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger108, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger108, Player(11), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddAction(udg_trigger108, function Trig_LeaderBoardAdd_Actions)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger109, Player(9), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger109, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger109, Player(11), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger109, Condition(function Trig_Kills100_Conditions))
-	call TriggerAddAction(udg_trigger109, function Trig_Kills100_Actions)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger110, Player(9), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger110, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger110, Player(11), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger110, Condition(function Trig_Kills500_Conditions))
-	call TriggerAddAction(udg_trigger110, function Trig_Kills500_Actions)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger111, Player(9), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger111, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger111, Player(11), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger111, Condition(function Trig_Kills1000_Conditions))
-	call TriggerAddAction(udg_trigger111, function Trig_Kills1000_Actions)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger112, Player(9), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger112, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger112, Player(11), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger112, Condition(function Trig_Kills2000_Conditions))
-	call TriggerAddAction(udg_trigger112, function Trig_Kills2000_Actions)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger113, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger113, Condition(function Trig_WaveKills20_Conditions))
-	call TriggerAddAction(udg_trigger113, function Trig_WaveKills20_Actions)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger114, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger114, Condition(function Trig_WaveKills40_Conditions))
-	call TriggerAddAction(udg_trigger114, function Trig_WaveKills40_Actions)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger115, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger115, Condition(function Trig_WaveKills60_Conditions))
-	call TriggerAddAction(udg_trigger115, function Trig_WaveKills60_Actions)
-	call TriggerRegisterPlayerUnitEventSimple(udg_trigger116, Player(10), EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(udg_trigger116, Condition(function Trig_WaveKills80_Conditions))
-	call TriggerAddAction(udg_trigger116, function Trig_WaveKills80_Actions)
-	call TriggerRegisterTimerEventSingle(udg_trigger117, 1.5)
-	call TriggerAddAction(udg_trigger117, function Trig_GameLevel1_Actions)
-	call TriggerRegisterTimerExpireEvent(udg_trigger118, udg_timer01)
-	call TriggerAddAction(udg_trigger118, function Trig_GameLevel2_Actions)
-	call DisableTrigger(udg_trigger119)
-	call TriggerRegisterTimerExpireEvent(udg_trigger119, udg_timer01)
-	call TriggerAddAction(udg_trigger119, function Trig_GameLevel3_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty0)
+	call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_OptionsDifficulty0 , udg_rect12)
+	call TriggerAddCondition(gg_trg_OptionsDifficulty0, Condition(function Trig_Boss6Music_Conditions))
+	call TriggerAddAction(gg_trg_OptionsDifficulty0, function Trig_Boss6Music_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty1)
+	call TriggerRegisterTimerEventPeriodic(gg_trg_OptionsDifficulty1, 30.)
+	call TriggerAddCondition(gg_trg_OptionsDifficulty1, Condition(function Trig_Boss6Teleport_Conditions))
+	call TriggerAddAction(gg_trg_OptionsDifficulty1, function Trig_Boss6Teleport_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty2)
+	call TriggerRegisterUnitEvent(gg_trg_OptionsDifficulty2, udg_unit51, EVENT_UNIT_DEATH)
+	call TriggerAddAction(gg_trg_OptionsDifficulty2, function Trig_Boss6Dead_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty3)
+	call TriggerAddAction(gg_trg_OptionsDifficulty3, function Trig_Boss7Come_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty4)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty4, Player(9), EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(gg_trg_OptionsDifficulty4, Condition(function Trig_Boss7Colour_Conditions))
+	call TriggerAddAction(gg_trg_OptionsDifficulty4, function Trig_Boss7Colour_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty5)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty5, Player(9), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsDifficulty5, Condition(function Trig_Boss7Power_Conditions))
+	call TriggerAddAction(gg_trg_OptionsDifficulty5, function Trig_Boss7Power_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty6)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty6, Player(9), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsDifficulty6, Condition(function Trig_Boss7Dead_Conditions))
+	call TriggerAddAction(gg_trg_OptionsDifficulty6, function Trig_Boss7Dead_Actions)
+	call TriggerRegisterTimerEventSingle(gg_trg_OptionsDifficulty7, 1.)
+	call TriggerAddAction(gg_trg_OptionsDifficulty7, function Trig_LeaderBoard_Actions)
+	call DisableTrigger(gg_trg_OptionsDifficulty8)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty8, Player(9), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty8, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty8, Player(11), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddAction(gg_trg_OptionsDifficulty8, function Trig_LeaderBoardAdd_Actions)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty9, Player(9), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty9, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsDifficulty9, Player(11), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsDifficulty9, Condition(function Trig_Kills100_Conditions))
+	call TriggerAddAction(gg_trg_OptionsDifficulty9, function Trig_Kills100_Actions)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes0, Player(9), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes0, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes0, Player(11), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsHeroes0, Condition(function Trig_Kills500_Conditions))
+	call TriggerAddAction(gg_trg_OptionsHeroes0, function Trig_Kills500_Actions)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes1, Player(9), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes1, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes1, Player(11), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsHeroes1, Condition(function Trig_Kills1000_Conditions))
+	call TriggerAddAction(gg_trg_OptionsHeroes1, function Trig_Kills1000_Actions)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes2, Player(9), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes2, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes2, Player(11), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsHeroes2, Condition(function Trig_Kills2000_Conditions))
+	call TriggerAddAction(gg_trg_OptionsHeroes2, function Trig_Kills2000_Actions)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes3, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsHeroes3, Condition(function Trig_WaveKills20_Conditions))
+	call TriggerAddAction(gg_trg_OptionsHeroes3, function Trig_WaveKills20_Actions)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes4, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsHeroes4, Condition(function Trig_WaveKills40_Conditions))
+	call TriggerAddAction(gg_trg_OptionsHeroes4, function Trig_WaveKills40_Actions)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes5, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsHeroes5, Condition(function Trig_WaveKills60_Conditions))
+	call TriggerAddAction(gg_trg_OptionsHeroes5, function Trig_WaveKills60_Actions)
+	call TriggerRegisterPlayerUnitEventSimple(gg_trg_OptionsHeroes6, Player(10), EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(gg_trg_OptionsHeroes6, Condition(function Trig_WaveKills80_Conditions))
+	call TriggerAddAction(gg_trg_OptionsHeroes6, function Trig_WaveKills80_Actions)
+	call TriggerRegisterTimerEventSingle(gg_trg_OptionsHeroes7, 1.5)
+	call TriggerAddAction(gg_trg_OptionsHeroes7, function Trig_GameLevel1_Actions)
+	call TriggerRegisterTimerExpireEvent(gg_trg_OptionsHeroes8, udg_timer01)
+	call TriggerAddAction(gg_trg_OptionsHeroes8, function Trig_GameLevel2_Actions)
+	call DisableTrigger(gg_trg_OptionsHeroes9)
+	call TriggerRegisterTimerExpireEvent(gg_trg_OptionsHeroes9, udg_timer01)
+	call TriggerAddAction(gg_trg_OptionsHeroes9, function Trig_GameLevel3_Actions)
 	call DisableTrigger(udg_trigger120)
 	call TriggerAddAction(udg_trigger120, function Trig_GameLevel4_Actions)
 	call DisableTrigger(gg_trg_EasyPowerUp)
@@ -12976,8 +13010,8 @@ function main2 takes nothing returns nothing
 	call TriggerAddAction(udg_trigger125, function Trig_CastleUnderAttack_Actions)
 	call TriggerRegisterUnitEvent(udg_trigger126, udg_Castle, EVENT_UNIT_DEATH)
 	call TriggerAddAction(udg_trigger126, function Trig_YouLose_Actions)
-	call DisableTrigger(udg_trigger127)
-	call TriggerAddAction(udg_trigger127, function Trig_Music_Actions)
+	call DisableTrigger(gg_trg_Music)
+	call TriggerAddAction(gg_trg_Music, function Trig_Music_Actions)
 	call DisableTrigger(udg_trigger128)
 	call TriggerRegisterPlayerEventLeave(udg_trigger128, Player(0))
 	call TriggerRegisterPlayerEventLeave(udg_trigger128, Player(1))
@@ -13276,8 +13310,9 @@ function InitTrig_init takes nothing returns nothing
 	set udg_trigger07 = CreateTrigger()
 	set udg_trigger08 = CreateTrigger()
 	set udg_trigger09 = CreateTrigger()
-	set udg_trigger10 = CreateTrigger()
-	set udg_trigger11 = CreateTrigger()
+	set gg_trg_OptionsDifficulty = CreateTrigger()
+	set gg_trg_OptionsHeroes = CreateTrigger()
+	set gg_trg_OptionsSkipCinema = CreateTrigger()
 	set gg_trg_OptionsTimeOut = CreateTrigger()
 	set gg_trg_ModeRandom = CreateTrigger()
 	set gg_trg_ModeNormal = CreateTrigger()
@@ -13361,32 +13396,32 @@ function InitTrig_init takes nothing returns nothing
 	set udg_trigger91 = CreateTrigger()
 	set udg_trigger92 = CreateTrigger()
 	set udg_trigger93 = CreateTrigger()
-	set udg_trigger94 = CreateTrigger()
+	set gg_trg_Boss1Teleport = CreateTrigger()
 	set gg_trg_Boss1Dead = CreateTrigger()
 	set gg_trg_Boss2Dead = CreateTrigger()
 	set gg_trg_Boss3Dead = CreateTrigger()
 	set gg_trg_Boss4Dead = CreateTrigger()
 	set gg_trg_Boss5Dead = CreateTrigger()
-	set udg_trigger100 = CreateTrigger()
-	set udg_trigger101 = CreateTrigger()
-	set udg_trigger102 = CreateTrigger()
-	set udg_trigger103 = CreateTrigger()
-	set udg_trigger104 = CreateTrigger()
-	set udg_trigger105 = CreateTrigger()
-	set udg_trigger106 = CreateTrigger()
-	set udg_trigger107 = CreateTrigger()
-	set udg_trigger108 = CreateTrigger()
-	set udg_trigger109 = CreateTrigger()
-	set udg_trigger110 = CreateTrigger()
-	set udg_trigger111 = CreateTrigger()
-	set udg_trigger112 = CreateTrigger()
-	set udg_trigger113 = CreateTrigger()
-	set udg_trigger114 = CreateTrigger()
-	set udg_trigger115 = CreateTrigger()
-	set udg_trigger116 = CreateTrigger()
-	set udg_trigger117 = CreateTrigger()
-	set udg_trigger118 = CreateTrigger()
-	set udg_trigger119 = CreateTrigger()
+	set gg_trg_OptionsDifficulty0 = CreateTrigger()
+	set gg_trg_OptionsDifficulty1 = CreateTrigger()
+	set gg_trg_OptionsDifficulty2 = CreateTrigger()
+	set gg_trg_OptionsDifficulty3 = CreateTrigger()
+	set gg_trg_OptionsDifficulty4 = CreateTrigger()
+	set gg_trg_OptionsDifficulty5 = CreateTrigger()
+	set gg_trg_OptionsDifficulty6 = CreateTrigger()
+	set gg_trg_OptionsDifficulty7 = CreateTrigger()
+	set gg_trg_OptionsDifficulty8 = CreateTrigger()
+	set gg_trg_OptionsDifficulty9 = CreateTrigger()
+	set gg_trg_OptionsHeroes0 = CreateTrigger()
+	set gg_trg_OptionsHeroes1 = CreateTrigger()
+	set gg_trg_OptionsHeroes2 = CreateTrigger()
+	set gg_trg_OptionsHeroes3 = CreateTrigger()
+	set gg_trg_OptionsHeroes4 = CreateTrigger()
+	set gg_trg_OptionsHeroes5 = CreateTrigger()
+	set gg_trg_OptionsHeroes6 = CreateTrigger()
+	set gg_trg_OptionsHeroes7 = CreateTrigger()
+	set gg_trg_OptionsHeroes8 = CreateTrigger()
+	set gg_trg_OptionsHeroes9 = CreateTrigger()
 	set udg_trigger120 = CreateTrigger()
 	set gg_trg_EasyPowerUp = CreateTrigger()
 	set gg_trg_HeroDead = CreateTrigger()
@@ -13394,7 +13429,7 @@ function InitTrig_init takes nothing returns nothing
 	set udg_trigger124 = CreateTrigger()
 	set udg_trigger125 = CreateTrigger()
 	set udg_trigger126 = CreateTrigger()
-	set udg_trigger127 = CreateTrigger()
+	set gg_trg_Music = CreateTrigger()
 	set udg_trigger128 = CreateTrigger()
 	set udg_trigger129 = CreateTrigger()
 	set udg_trigger130 = CreateTrigger()

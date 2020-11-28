@@ -21,8 +21,8 @@ end
 ]]
 
 local root = fs.path(arg[1])
-if not fs.exists(root / 'SlkMap.w3x') then
-    print('地图不存在', root / 'SlkMap.w3x')
+if not fs.exists(root / 'releases' / 'SlkMap.w3x') then
+    print('地图不存在', root / 'releases' / 'SlkMap.w3x')
     return
 end
 --[[
@@ -34,5 +34,5 @@ end
 subprocess.spawn {
     ydwe / 'ydwe.exe',
     '-war3',
-    '-loadfile', root / 'SlkMap.w3x',
+    '-loadfile', root / 'releases' / 'SlkMap.w3x',
 }
