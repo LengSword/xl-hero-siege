@@ -14,6 +14,7 @@
 
 - [YDWE](http://www.ydwe.net/download.html)
 - [Visual Studio Code](https://code.visualstudio.com/)
+- [Python3](https://www.python.org/downloads/)
 - w3xlni(**项目已内置目前最新版2.7.2**)
 
 ### 具体步骤
@@ -24,8 +25,10 @@
 4. 使用VSCode打开此项目
 5. 安装VSCode扩展 `jass.jass`
 6. 已配置好各项`运行任务`
-   1. 运行`Release-运行`/`Debug-运行` --> 调试运行地图
-   2. 部署`部署` --> 会使用 `slk` 优化地图后自动改名成 `X_Hero_Siege_{当前版本号}.w3x`
+   1. 调试运行地图
+      - 运行`Release-运行`/`Debug-运行`任务
+   2. 打包成品地图 `X_Hero_Siege_{当前版本号}.w3x`
+      - 运行`部署`任务
 7. 编辑触发请修改 `war3map.j` 文件, 改物编数据则修改 `table` 目录下的文件
 
 ## 项目基本结构
