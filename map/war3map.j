@@ -2965,6 +2965,7 @@ function Trig_HeroSetup_Actions takes nothing returns nothing
 	call UnitAddItemByIdSwapped('stwp', GetTriggerUnit())
 	call UnitAddItemByIdSwapped('ankh', GetTriggerUnit())
 	call UnitAddItemByIdSwapped('pghe', GetTriggerUnit())
+	call UnitAddItemByIdSwapped('tpox',	GetTriggerUnit())
 	call ModifyHeroStat(bj_HEROSTAT_STR, GetTriggerUnit(), bj_MODIFYMETHOD_ADD,(udg_TomesCount * 10))
 	call ModifyHeroStat(bj_HEROSTAT_AGI, GetTriggerUnit(), bj_MODIFYMETHOD_ADD,(udg_TomesCount * 10))
 	call ModifyHeroStat(bj_HEROSTAT_INT, GetTriggerUnit(), bj_MODIFYMETHOD_ADD,(udg_TomesCount * 10))
@@ -3018,49 +3019,6 @@ function Trig_HeroSetupDual_Actions takes nothing returns nothing
 		call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), GetUnitLoc(udg_Heroes[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]), 0)
 		call SelectUnitForPlayerSingle(udg_Heroes[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))], GetOwningPlayer(GetTriggerUnit()))
 	endif
-endfunction
-
-function Trig_DualHeroSelect_Func014001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
-endfunction
-
-function Trig_DualHeroSelect_Conditions takes nothing returns boolean
-	return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ) and(GetOwningPlayer(GetTriggerUnit()) == Player(8) ) and(RectContainsUnit(gg_rct_SelectArea, GetTriggerUnit()) ) and(CountUnitsInGroup(YDWEGetUnitsOfPlayerMatchingNull(GetTriggerPlayer() , Condition(function Trig_DualHeroSelect_Func014001001002))) == 1) and(GetUnitTypeId(GetTriggerUnit()) != GetUnitTypeId(udg_Heroes[GetConvertedPlayerId(GetTriggerPlayer())]) ) and(GetPlayerController(GetTriggerPlayer()) == MAP_CONTROL_USER)
-endfunction
-
-function Trig_DualHeroSelect_Func009Func001Func004001001002 takes nothing returns boolean
-	return(IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO))
-endfunction
-
-function Trig_DualHeroSelect_Func009Func001C takes nothing returns boolean
-	return(GetPlayerSlotState(Player(-1 + (bj_forLoopAIndex))) == PLAYER_SLOT_STATE_PLAYING) and(GetPlayerController(Player(-1 + (bj_forLoopAIndex))) == MAP_CONTROL_USER) and(CountUnitsInGroup(YDWEGetUnitsOfPlayerMatchingNull(Player(-1 + (bj_forLoopAIndex)) , Condition(function Trig_DualHeroSelect_Func009Func001Func004001001002))) != 2)
-endfunction
-
-function Trig_DualHeroSelect_Actions takes nothing returns nothing
-	call CreateNUnitsAtLoc(1, GetUnitTypeId(GetTriggerUnit()), GetTriggerPlayer(), GetRectCenter(gg_rct_SelectArea), bj_UNIT_FACING)
-	set udg_Heroes[(GetConvertedPlayerId(GetTriggerPlayer()) + 8)]= bj_lastCreatedUnit
-	call RemoveUnit(GetTriggerUnit())
-	set bj_forLoopAIndex = 1
-	set bj_forLoopAIndexEnd = udg_TomesCount
-	loop
-	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		call UnitAddItemByIdSwapped('tpow', udg_Heroes[(GetConvertedPlayerId(GetTriggerPlayer()) + 8)])
-		set bj_forLoopAIndex = bj_forLoopAIndex + 1
-	endloop
-	call IssueImmediateOrderById(udg_Heroes[(GetConvertedPlayerId(GetTriggerPlayer()) + 8)], 851993)
-	call PanCameraToTimedLocForPlayer(GetTriggerPlayer(), GetUnitLoc(udg_Heroes[GetConvertedPlayerId(GetTriggerPlayer())]), 0)
-	call SelectUnitForPlayerSingle(udg_Heroes[GetConvertedPlayerId(GetTriggerPlayer())], GetTriggerPlayer())
-	call TriggerSleepAction(2)
-	set bj_forLoopAIndex = 1
-	set bj_forLoopAIndexEnd = 8
-	loop
-	exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-		if( ((GetPlayerSlotState(Player(-1 + (bj_forLoopAIndex))) == PLAYER_SLOT_STATE_PLAYING) and(GetPlayerController(Player(-1 + (bj_forLoopAIndex))) == MAP_CONTROL_USER) and(CountUnitsInGroup(YDWEGetUnitsOfPlayerMatchingNull(Player(-1 + (bj_forLoopAIndex)) , Condition(function Trig_DualHeroSelect_Func009Func001Func004001001002))) != 2)) ) then // INLINED!!
-			return
-		endif
-		set bj_forLoopAIndex = bj_forLoopAIndex + 1
-	endloop
-	call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 
 function Trig_DualHeroChange_Conditions takes nothing returns boolean
@@ -8687,6 +8645,7 @@ function Trig_BuyTomes_Actions takes nothing returns nothing
 	local integer buyCount
 	call AddSpecialEffectTargetUnitBJ("origin", udg_Heroes[GetConvertedPlayerId(GetTriggerPlayer())], "Abilities\\Spells\\Items\\AIlm\\AIlmTarget.mdl")
 	call DestroyEffect(bj_lastCreatedEffect)
+	call UnitAddItemByIdSwapped('tpox',	udg_Heroes[GetConvertedPlayerId(GetTriggerPlayer())])
 	set buyCount = GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_GOLD) / 50000
 	call AdjustPlayerStateBJ(R2I(-50000.00 * I2R(buyCount)), GetTriggerPlayer(), PLAYER_STATE_RESOURCE_GOLD)
 	call ModifyHeroStat(0, udg_Heroes[GetConvertedPlayerId(GetTriggerPlayer())], 0, R2I(100.00 * I2R(buyCount)))
