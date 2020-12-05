@@ -2,7 +2,6 @@
 
 <p align="center">
 <a href="./CHANGELOG.md">更新日志</a> |
-<a href="https://shimo.im/docs/JYc6w8RkwJjgHCrp/">在线更新日志(石墨文档)</a> |
 <a href="https://mubu.com/doc/47nH6XS-KsM">地图入门文档(幕布)</a>
 </p>
 
