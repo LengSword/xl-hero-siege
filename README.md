@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="./CHANGELOG.md">更新日志</a> |
-<a href="https://mubu.com/doc/47nH6XS-KsM">地图入门文档(幕布)</a>
+<a href="https://shimo.im/docs/kXjjhdkx6j636xjx">地图教程/文档集合(石墨文档)</a>
 </p>
 
 <p align="center">这是一张经典的魔兽RPG图, 此版本根据XHS吧主汉化原版3.30的基础上进行二次开发</p>
