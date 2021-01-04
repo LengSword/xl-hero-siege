@@ -10187,6 +10187,9 @@ function Trig_Tomes_Func001C takes nothing returns boolean
 	if((GetItemTypeId(GetManipulatedItem())=='tstr')) then
 		return true
 	endif
+	if((GetItemTypeId(GetManipulatedItem())=='tpox')) then
+		return true
+	endif
 	return false
 endfunction
 function Trig_Tomes_Conditions takes nothing returns boolean
