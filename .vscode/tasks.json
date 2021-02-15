@@ -20,7 +20,7 @@
         },
         {
             "label": "Debug-运行",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
+            "command": "${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe",
             "args": [
                 ".\\tools\\Debug_运行.lua",
                 "${workspaceRoot}"
@@ -32,7 +32,7 @@
         },
         {
             "label": "Release-运行",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
+            "command": "${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe",
             "args": [
                 ".\\tools\\Release_运行.lua",
                 "${workspaceRoot}"
@@ -44,7 +44,7 @@
         },
         {
             "label": "配置",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
+            "command": "${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe",
             "args": [
                 ".\\tools\\配置.lua",
                 "${workspaceRoot}"
@@ -53,7 +53,7 @@
         },
         {
             "label": "语法检查",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
+            "command": "${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe",
             "args": [
                 ".\\tools\\语法检查.lua",
                 "${workspaceRoot}"
@@ -73,7 +73,7 @@
         },
         {
             "label": "Obj",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/w2l.exe\"",
+            "command": "${workspaceRoot}/tools/w3x2lni/w2l.exe",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
@@ -89,7 +89,7 @@
         },
         {
             "label": "Lni",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/w2l.exe\"",
+            "command": "${workspaceRoot}/tools/w3x2lni/w2l.exe",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
@@ -108,7 +108,7 @@
         },
         {
             "label": "Slk",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/w2l.exe\"",
+            "command": "${workspaceRoot}/tools/w3x2lni/w2l.exe",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
@@ -124,7 +124,7 @@
         },
         {
             "label": "日志",
-            "command": "notepads ${workspaceRoot}/tools/w3x2lni/log/report.log",
+            "command": "notepad ${workspaceRoot}/tools/w3x2lni/log/report.log",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
@@ -136,7 +136,7 @@
         },
         {
             "label": "🔍",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\" -e \"package.cpath=package.cpath..';'..[[${workspaceRoot}/tools/?.dll]]\"",
+            "command": "${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe -e \"package.cpath=package.cpath..';'..[[${workspaceRoot}/tools/?.dll]]\"",
             "args": [
                 ".\\tools\\语法检查.lua",
                 "${workspaceRoot}",
