@@ -1,4 +1,4 @@
-<h1 align="center">X Hero Siege 3.30 修正重制版</h1>
+<h1 align="center">XL Hero Siege</h1>
 
 <p align="center">
 <a href="./CHANGELOG.md">更新日志</a> |
@@ -6,6 +6,7 @@
 </p>
 
 <p align="center">这是一张经典的魔兽RPG图, 此版本根据XHS吧主汉化原版3.30的基础上进行二次开发</p>
+<p align="center">目前地图在功能上已基本与原版3.33同步, 同时保留旧版本一些特性以增强可玩性</p>
 
 ## 二次开发
 
@@ -33,7 +34,7 @@
 ## 项目基本结构
 
 ```
-X Hero Siege 3.30 修正重制版
+XL Hero Siege
  ├── map
  │   ├── war3map.doo
  │   ├── war3map.j          // 触发脚本文件
