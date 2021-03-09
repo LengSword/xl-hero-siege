@@ -5,7 +5,7 @@
 <a href="https://shimo.im/docs/kXjjhdkx6j636xjx">地图教程/文档集合(石墨文档)</a>
 </p>
 
-<p align="center">这是一张经典的魔兽RPG图, 此版本根据XHS吧主汉化原版3.30的基础上进行二次开发</p>
+<p align="center">这是一张经典的魔兽RPG图, 此版本根据XHS吧主的原版3.30的基础上进行二次开发</p>
 <p align="center">目前地图在功能上已基本与原版3.33同步, 同时保留旧版本一些特性以增强可玩性</p>
 
 ## 二次开发
@@ -57,9 +57,9 @@ XL Hero Siege
 
 开发维护不易, 如果你喜欢我对这地图的更新, 可以给我赏几个钱.😀
 
-微信扫码赞赏:
+赞赏:
 
-![微信赞赏码](images/wechat_pay.jpg)
+![赞赏码](images/wechat_pay.jpg)
 
 ### 捐赠感谢名单
 
